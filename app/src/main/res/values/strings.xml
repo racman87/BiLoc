@@ -5,4 +5,11 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_list_fragment">Hello list fragment</string>
+    <string name="hello_map_fragment">Hello map fragment</string>
+    <string name="hello_from_favorites_fragment">Hello from favorites fragment</string>
+    <string name="hello_from_profile_fragment">Hello from profile fragment</string>
+
 </resources>
