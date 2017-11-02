@@ -1,9 +1,11 @@
 package com.biloc.biloc;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
@@ -16,16 +18,26 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import static com.biloc.biloc.R.id.fragment_container;
+
 public class MainActivity
         extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        MapFragment.OnFragmentInteractionListener,
+        MapViewFragment.OnFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener,
         ListFragment.OnFragmentInteractionListener,
-        FavoritesFragment.OnFragmentInteractionListener{
+        FavoritesFragment.OnFragmentInteractionListener,
+        OnMapReadyCallback{
     String TAG = "testBiloc";
     ListFragment listFragment;
-    MapFragment mapFragment;
+    MapViewFragment mapFragment;
     ProfileFragment profileFragment;
     FavoritesFragment favoritesFragment;
 
@@ -43,26 +55,36 @@ public class MainActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
-        if(findViewById(R.id.fragment_container)!= null){
+        if(findViewById(fragment_container)!= null){
             if(savedInstanceState != null){
                 return;
             }
             Log.i(TAG, "onCreate: findViewById");
 
-            //listFragment = new ListFragment();
-            mapFragment = new MapFragment();
+
+            mapFragment = MapViewFragment.newInstance("TEST1", "TEST2");
+            FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
+
+            fragmentTransaction.add(R.id.fragment_container, mapFragment);
+            fragmentTransaction.commit();
+
+            if(mapFragment == null){
+                Log.i(TAG, "onCreate: mapFragment == null");
+            } else{
+                Log.i(TAG, "onCreate: mapFragment != null");
+            }
             listFragment = new ListFragment();
             profileFragment = new ProfileFragment();
             favoritesFragment = new FavoritesFragment();
 
+            //SupportMapFragment mMapFragment = (SupportMapFragment) getSupportFragmentManager()
+            //        .findFragmentById(R.id.map);
+            //mapFragment.getMapAsync(this);
 
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, mapFragment).commit();
+            ///getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, mapFragment).commit();
 
         }
-
-
 
         //-----------------------------------------------------------------------------------
         // Toolbar / drawer / floating action button
@@ -175,7 +197,7 @@ public class MainActivity
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         // Replace whatever is in the fragment_container view with this listFragment,
         // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(R.id.fragment_container, fragmentToCall);
+        transaction.replace(fragment_container, fragmentToCall);
         transaction.addToBackStack(null);
         Log.i(TAG, "onCreate: addToBackStack");
         // Commit the transaction
@@ -184,4 +206,10 @@ public class MainActivity
         Log.i(TAG, "onCreate: listFragment!=null");
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        googleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(0,0))
+                .title("Marker"));
+    }
 }
