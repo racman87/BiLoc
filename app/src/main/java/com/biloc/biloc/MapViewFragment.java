@@ -15,6 +15,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import static android.content.ContentValues.TAG;
@@ -28,13 +29,13 @@ import static android.content.ContentValues.TAG;
  * Use the {@link MapViewFragment#newInstance} factory method to
  * create an instance of this listFragment.
  */
-public class MapViewFragment extends Fragment implements OnMapReadyCallback {
+public class MapViewFragment extends Fragment implements OnMapReadyCallback  {
     // TODO: Rename parameter arguments, choose names that match
     // the listFragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private Button mButton;
-    private GoogleMap mMap;
+   private static GoogleMap mMap;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -74,14 +75,8 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        //MapFragment mapFragment = (MapFragment) getFragmentManager()
-        //        .findFragmentById(R.id.map);
 
         Log.i(TAG, "onCreate: mapFragment");
-        //SupportMapFragment mapFragment = (SupportMapFragment) getFragmentManager()
-        //        .findFragmentById(R.id.map);
-
-        //mapFragment.getMapAsync(this);
     }
 
     @Override
@@ -91,10 +86,13 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
 
         Log.i(TAG, "onCreateView: mapFragment");
         View myView = inflater.inflate(R.layout.fragment_map, container, false);
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 
-        /*mButton = (Button) myView.findViewById(R.id.button);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
 
-        mButton.setOnClickListener(new View.OnClickListener() {
+        /*mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onButtonPressed(3);
@@ -102,7 +100,6 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         });*/
         return myView;
     }
-
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(int position) {
@@ -132,10 +129,19 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        // Add a marker in Lausanne and move the camera
+        LatLng lausanne = new LatLng(46.523026, 6.610657);
+        LatLng stImier = new LatLng(47.155150, 7.002794);
+        mMap.addMarker(new MarkerOptions().position(lausanne).title("Lausanne HES-SO"));
+        mMap.addMarker(new MarkerOptions().position(stImier).title("PTSI"));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(lausanne));
+
+        // Create a LatLngBounds that includes Australia.
+        LatLngBounds SUISSE = new LatLngBounds(lausanne,stImier);
+
+        // Set the camera to the greatest possible zoom level that includes the
+        // bounds
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SUISSE.getCenter(), 9));
 
     }
 
@@ -154,4 +160,5 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         // TODO: Update argument type and name
         void onFragmentInteraction(int position, int fragmentCaller );
     }
+
 }

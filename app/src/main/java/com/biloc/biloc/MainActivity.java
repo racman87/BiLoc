@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -40,6 +41,8 @@ public class MainActivity
     MapViewFragment mapFragment;
     ProfileFragment profileFragment;
     FavoritesFragment favoritesFragment;
+    private GoogleMap mMap;
+    public static android.app.FragmentManager fragmentManager;
 
     public static final int MAP_DRAWER = 1;
     public static final int LIST_DRAWER = 2;
@@ -61,13 +64,13 @@ public class MainActivity
             }
             Log.i(TAG, "onCreate: findViewById");
 
-
             mapFragment = MapViewFragment.newInstance("TEST1", "TEST2");
+
             FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
-
             fragmentTransaction.add(R.id.fragment_container, mapFragment);
             fragmentTransaction.commit();
+
 
             if(mapFragment == null){
                 Log.i(TAG, "onCreate: mapFragment == null");
@@ -78,18 +81,12 @@ public class MainActivity
             profileFragment = new ProfileFragment();
             favoritesFragment = new FavoritesFragment();
 
-            //SupportMapFragment mMapFragment = (SupportMapFragment) getSupportFragmentManager()
-            //        .findFragmentById(R.id.map);
-            //mapFragment.getMapAsync(this);
-
-            ///getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, mapFragment).commit();
-
         }
 
         //-----------------------------------------------------------------------------------
         // Toolbar / drawer / floating action button
         //-----------------------------------------------------------------------------------
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+       Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -205,11 +202,14 @@ public class MainActivity
         Log.i(TAG, "onCreate: commit");
         Log.i(TAG, "onCreate: listFragment!=null");
     }
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        googleMap.addMarker(new MarkerOptions()
-                .position(new LatLng(0,0))
-                .title("Marker"));
+        mMap = googleMap;
+
+        // Add a marker in Lausanne and move the camera
+        LatLng lausanne = new LatLng(46.523026, 6.610657);
+        mMap.addMarker(new MarkerOptions().position(lausanne).title("Lausanne HES-SO"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(lausanne));
+
     }
 }
