@@ -12,4 +12,7 @@
     <string name="hello_from_favorites_fragment">Hello from favorites fragment</string>
     <string name="hello_from_profile_fragment">Hello from profile fragment</string>
 
+    <string name="list_bike">Bike</string>
+    <string name="list_station">Name:</string>
+    <string name="list_distance">Distance:</string>
 </resources>
