@@ -1,30 +1,28 @@
 package com.biloc.biloc;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
 
 import static com.biloc.biloc.R.id.fragment_container;
 
@@ -43,6 +41,8 @@ public class MainActivity
     FavoritesFragment favoritesFragment;
     private GoogleMap mMap;
     public static android.app.FragmentManager fragmentManager;
+    //Décalre et instanciation d une array list d'objet de type AndroidVersion
+    public static ArrayList<StationItem> stationList = new ArrayList<StationItem>();
 
     public static final int MAP_DRAWER = 1;
     public static final int LIST_DRAWER = 2;
@@ -78,6 +78,7 @@ public class MainActivity
                 Log.i(TAG, "onCreate: mapFragment != null");
             }
             listFragment = new ListFragment();
+            initList(stationList);
             profileFragment = new ProfileFragment();
             favoritesFragment = new FavoritesFragment();
 
@@ -86,7 +87,7 @@ public class MainActivity
         //-----------------------------------------------------------------------------------
         // Toolbar / drawer / floating action button
         //-----------------------------------------------------------------------------------
-       Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -211,5 +212,32 @@ public class MainActivity
         mMap.addMarker(new MarkerOptions().position(lausanne).title("Lausanne HES-SO"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(lausanne));
 
+    }
+
+    //----------------------------------------------------------------------
+    // Peuplage de la custom list
+    // ON remplit l'array list d'androidVersion
+    //----------------------------------------------------------------------
+    public void initList(ArrayList<StationItem> stationList) {
+        StationItem version = new StationItem();
+        version.setNumberOfBike(7);
+        version.setDistance(15);
+        version.setStationName("PTSI");
+        //On passe à la liste l'objet Android Version
+        stationList.add(version);
+
+        StationItem version1 = new StationItem();
+        version1.setNumberOfBike(3);
+        version1.setDistance(8);
+        version1.setStationName("Tech");
+        //On passe à la liste l'objet Android Version
+        stationList.add(version1);
+
+        StationItem version2 = new StationItem();
+        version2.setNumberOfBike(0);
+        version2.setDistance(1);
+        version2.setStationName("Place de la gare");
+        //On passe à la liste l'objet Android Version
+        stationList.add(version2);
     }
 }

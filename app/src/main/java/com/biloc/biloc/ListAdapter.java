@@ -14,15 +14,15 @@ import java.util.ArrayList;
  * Created by manon.racine1 on 05.11.2017.
  */
 
-public class ListAdapter extends ArrayAdapter<StationList> {
-    private ArrayList<StationList> androidVersionsList;
+public class ListAdapter extends ArrayAdapter<StationItem> {
+    private ArrayList<StationItem> androidVersionsList;
     private Context context;
     private int viewRes;
     private Resources res;
 
-    public ListAdapter(Context context, int textViewResourceID, ArrayList<StationList> stationList){
-        super(context, textViewResourceID, stationList);
-        this.androidVersionsList=stationList;
+    public ListAdapter(Context context, int textViewResourceID, ArrayList<StationItem> stationItem){
+        super(context, textViewResourceID, stationItem);
+        this.androidVersionsList= stationItem;
         this.context=context;
         this.viewRes=textViewResourceID;
         this.res=context.getResources();
@@ -37,17 +37,17 @@ public class ListAdapter extends ArrayAdapter<StationList> {
             view = layoutInflater.inflate(viewRes, parent, false);
         }
 
-        final StationList androidVersion = androidVersionsList.get(position);
+        final StationItem androidVersion = androidVersionsList.get(position);
 
         if(androidVersion != null){
-            final TextView station_Name = (TextView) view.findViewById(R.id.station_name);
-            final TextView number_Bike = (TextView) view.findViewById(R.id.number_bike);
-            final TextView distance = (TextView) view.findViewById(R.id.station_distance);
+            final TextView station_Name = view.findViewById(R.id.station_name);
+            final TextView number_Bike = view.findViewById(R.id.number_bike);
+            final TextView distance = view.findViewById(R.id.station_distance);
 
             final String numberOfBike = androidVersion.getNumberOfBike() + " " + res.getString(R.string.list_bike)  ;
             number_Bike.setText(numberOfBike);
 
-            final String stationDistance = res.getString(R.string.list_distance) + " " + androidVersion.getStationDistance();
+            final String stationDistance = res.getString(R.string.list_distance) + " " + androidVersion.getDistance();
             distance.setText(stationDistance);
 
             final String stationName = res.getString(R.string.list_station) + " " + androidVersion.getStationName();

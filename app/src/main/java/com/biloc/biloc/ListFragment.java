@@ -27,8 +27,6 @@ public class ListFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     String TAG = "testBiloc";
-    //Décalre et instanciation d une array list d'objet de type AndroidVersion
-    public ArrayList<StationList> stationList = new ArrayList<StationList>();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -76,11 +74,8 @@ public class ListFragment extends Fragment {
         Log.i(TAG, "ListFragment onCreateView: ");
         View myView = inflater.inflate(R.layout.fragment_list, container, false);
 
-        //Remplissage de la liste cunstom
-        initList(stationList);
-
         //Création de la custom list
-        final ListAdapter adapter = new ListAdapter(getContext(), R.layout.cellule_list, stationList);
+        final ListAdapter adapter = new ListAdapter(getContext(), R.layout.cellule_list, MainActivity.stationList);
         final ListView list = (ListView) myView.findViewById(R.id.customlistView);
         list.setAdapter(adapter);
 
@@ -126,31 +121,6 @@ public class ListFragment extends Fragment {
         void onFragmentInteraction(int position, int fragmentCaller );
     }
 
-    //----------------------------------------------------------------------
-    // Peuplage de la custom list
-    // ON remplit l'array list d'androidVersion
-    //----------------------------------------------------------------------
-    private void initList(ArrayList<StationList> stationList) {
-        StationList version = new StationList();
-        version.setNumberOfBike("7");
-        version.setStationDistance("15km");
-        version.setStationName("PTSI");
-        //On passe à la liste l'objet Android Version
-        stationList.add(version);
 
-        StationList version1 = new StationList();
-        version1.setNumberOfBike("3");
-        version1.setStationDistance("8km");
-        version1.setStationName("Tech");
-        //On passe à la liste l'objet Android Version
-        stationList.add(version1);
-
-        StationList version2 = new StationList();
-        version2.setNumberOfBike("0");
-        version2.setStationDistance("1km");
-        version2.setStationName("Place de la gare");
-        //On passe à la liste l'objet Android Version
-        stationList.add(version2);
-    }
 
 }
