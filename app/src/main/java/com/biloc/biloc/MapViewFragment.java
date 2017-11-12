@@ -92,6 +92,8 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback  {
             mapFragment.getMapAsync(this);
         }
 
+        //LatLng toto = new LatLng(30, 20);
+        //mMap.addMarker(new MarkerOptions().position(toto).title("PTSI"));
         /*mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

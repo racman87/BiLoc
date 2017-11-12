@@ -33,12 +33,14 @@ public class MainActivity
         ProfileFragment.OnFragmentInteractionListener,
         ListFragment.OnFragmentInteractionListener,
         FavoritesFragment.OnFragmentInteractionListener,
+        DetailFragment.OnFragmentInteractionListener,
         OnMapReadyCallback{
     String TAG = "testBiloc";
     ListFragment listFragment;
     MapViewFragment mapFragment;
     ProfileFragment profileFragment;
     FavoritesFragment favoritesFragment;
+    DetailFragment detailFragment;
     private GoogleMap mMap;
     public static android.app.FragmentManager fragmentManager;
     //Décalre et instanciation d une array list d'objet de type AndroidVersion
@@ -81,6 +83,7 @@ public class MainActivity
             initList(stationList);
             profileFragment = new ProfileFragment();
             favoritesFragment = new FavoritesFragment();
+            detailFragment = new DetailFragment();
 
         }
 
@@ -90,14 +93,14 @@ public class MainActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -178,7 +181,7 @@ public class MainActivity
                 fragmentToCall = profileFragment;
                 break;
             case FAVORITES_DRAWER:
-                fragmentToCall = favoritesFragment;
+                fragmentToCall = detailFragment;//favoritesFragment;
                 break;
 /*            case MAP_FRAGMENT:
                 fragmentToCall = mapFragment;

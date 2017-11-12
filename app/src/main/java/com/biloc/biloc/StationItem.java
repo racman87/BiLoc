@@ -51,6 +51,7 @@ public class StationItem {
     }
 
     public double getDistance() {
+
         return distance;
     }
 
