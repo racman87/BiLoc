@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="505dp"
-        android:background="@color/colorblack"
+        android:background="@color/colorWhite"
         android:orientation="vertical">
 
         <TextView
@@ -19,7 +19,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center_horizontal"
             android:text="St-Imier"
-            android:textColor="@android:color/background_light"
+            android:textColor="@color/colorblack"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -30,7 +30,7 @@
             android:layout_marginBottom="20dp"
             android:gravity="center_horizontal"
             android:text="PTSI"
-            android:textColor="@android:color/background_light"
+            android:textColor="@color/colorblack"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="8 / 12"
-            android:textColor="@android:color/background_light"
+            android:textColor="@color/colorblack"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -65,7 +65,7 @@
             android:layout_marginBottom="30dp"
             android:gravity="center_horizontal"
             android:text="2 km"
-            android:textColor="@android:color/background_light"
+            android:textColor="@color/colorblack"
             android:textSize="30sp"
             android:textStyle="bold" />
 
