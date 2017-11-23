@@ -18,6 +18,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 import static android.content.ContentValues.TAG;
 
 
@@ -45,6 +47,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback  {
 
 
     String TAG = "testBiloc";
+    private ArrayList<StationItem> stationList;
 
     public MapViewFragment() {
         // Required empty public constructor
@@ -106,7 +109,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback  {
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(int position) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(position, MainActivity.MAP_FRAGMENT );
+            mListener.onMapFragmentInteraction(position, MainActivity.MAP_FRAGMENT );
         }
     }
 
@@ -132,10 +135,15 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback  {
         mMap = googleMap;
 
         // Add a marker in Lausanne and move the camera
+
         LatLng lausanne = new LatLng(46.523026, 6.610657);
         LatLng stImier = new LatLng(47.155150, 7.002794);
-        mMap.addMarker(new MarkerOptions().position(lausanne).title("Lausanne HES-SO"));
-        mMap.addMarker(new MarkerOptions().position(stImier).title("PTSI"));
+        for (StationItem station: stationList) {
+            mMap.addMarker(new MarkerOptions().position(
+                    station.getCoordinates()).title(station.getStationName()));
+        }
+        //mMap.addMarker(new MarkerOptions().position(lausanne).title("Lausanne HES-SO"));
+        //mMap.addMarker(new MarkerOptions().position(stImier).title("PTSI"));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(lausanne));
 
         // Create a LatLngBounds that includes Australia.
@@ -145,6 +153,10 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback  {
         // bounds
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SUISSE.getCenter(), 9));
 
+    }
+
+    public void setStationList(ArrayList<StationItem> stationList) {
+        this.stationList = stationList;
     }
 
 
@@ -160,7 +172,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback  {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(int position, int fragmentCaller );
+        void onMapFragmentInteraction(int position, int fragmentCaller );
     }
 
 }

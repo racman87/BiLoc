@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class ListFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private int position;
 
     public ListFragment() {
         // Required empty public constructor
@@ -63,7 +65,6 @@ public class ListFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-
         }
     }
 
@@ -76,16 +77,29 @@ public class ListFragment extends Fragment {
 
         //Création de la custom list
         final ListAdapter adapter = new ListAdapter(getContext(), R.layout.cellule_list, MainActivity.stationList);
-        final ListView list = (ListView) myView.findViewById(R.id.customlistView);
+        final ListView list = myView.findViewById(R.id.customlistView);
         list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                position = i;
+                manageItem((StationItem) adapterView.getItemAtPosition(position));
+            }
+        });
 
         return myView;
+    }
+
+    private void manageItem(StationItem itemAtPosition) {
+        if (mListener != null) {
+            mListener.onListFragmentInteraction(itemAtPosition);
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(5,MainActivity.LIST_FRAGMENT);
+            //mListener.onListFragmentInteraction(5);
         }
     }
 
@@ -118,7 +132,9 @@ public class ListFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(int position, int fragmentCaller );
+        //void onFragmentInteraction(int position, int fragmentCaller );
+
+        void onListFragmentInteraction(StationItem itemAtPosition);
     }
 
 

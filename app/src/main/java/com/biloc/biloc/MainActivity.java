@@ -81,6 +81,8 @@ public class MainActivity
             }
             listFragment = new ListFragment();
             initList(stationList);
+
+            mapFragment.setStationList(stationList);
             profileFragment = new ProfileFragment();
             favoritesFragment = new FavoritesFragment();
             detailFragment = new DetailFragment();
@@ -151,26 +153,26 @@ public class MainActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_map) {
-            onFragmentInteraction(3,MAP_DRAWER);
+            onDrawerFragmentInteraction(MAP_DRAWER);
         } else if (id == R.id.nav_list) {
-            onFragmentInteraction(3,LIST_DRAWER);
+            onDrawerFragmentInteraction(LIST_DRAWER);
         } else if (id == R.id.nav_profile) {
-            onFragmentInteraction(3,PROFILE_DRAWER);
+            onDrawerFragmentInteraction(PROFILE_DRAWER);
         } else if (id == R.id.nav_favorites) {
-            onFragmentInteraction(3, FAVORITES_DRAWER);
+            onDrawerFragmentInteraction(FAVORITES_DRAWER);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    @Override
-    public void onFragmentInteraction(int position, int fragmentCaller ) {
-
+    private void onDrawerFragmentInteraction(int fragmentIndexToCall) {
         Fragment fragmentToCall = null;
-
-        switch (fragmentCaller){
+        switch (fragmentIndexToCall){
+            /****************************
+             * Drawer list management
+             ****************************/
             case MAP_DRAWER:
                 fragmentToCall = mapFragment;
                 break;
@@ -183,17 +185,56 @@ public class MainActivity
             case FAVORITES_DRAWER:
                 fragmentToCall = detailFragment;//favoritesFragment;
                 break;
-/*            case MAP_FRAGMENT:
+        }
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        // Replace whatever is in the fragment_container view with this listFragment,
+        // and add the transaction to the back stack so the user can navigate back
+        transaction.replace(fragment_container, fragmentToCall);
+        transaction.addToBackStack(null);
+        Log.i(TAG, "onCreate: addToBackStack");
+        // Commit the transaction
+        transaction.commit();
+    }
+
+    /*
+    @Override
+    public void onFragmentInteraction(int position, int fragmentCaller ) {
+
+        Fragment fragmentToCall = null;
+
+        switch (fragmentCaller){
+        */
+            /****************************
+             * Drawer list management
+             ****************************/
+        /*    case MAP_DRAWER:
                 fragmentToCall = mapFragment;
-            case LIST_FRAGMENT:
+                break;
+            case LIST_DRAWER:
                 fragmentToCall = listFragment;
+                break;
+            case PROFILE_DRAWER:
+                fragmentToCall = profileFragment;
+                break;
+            case FAVORITES_DRAWER:
+                fragmentToCall = detailFragment;//favoritesFragment;
+                break;
+                */
+            /****************************
+             * Other lists management
+             ****************************/
+        /*
+            case LIST_FRAGMENT:
+                fragmentToCall = detailFragment;
+                break;
+            case MAP_FRAGMENT:
+                fragmentToCall = mapFragment;
             case PROFILE_FRAGMENT:
                 fragmentToCall = mapFragment;
             case FAVORITES_FRAGMENT:
-                fragmentToCall = mapFragment;*/
-
-        }
-
+                fragmentToCall = mapFragment;
+        }*/
+/*
         Log.i(TAG, "onCreate: listFragment==null");
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         // Replace whatever is in the fragment_container view with this listFragment,
@@ -206,6 +247,37 @@ public class MainActivity
         Log.i(TAG, "onCreate: commit");
         Log.i(TAG, "onCreate: listFragment!=null");
     }
+*/
+
+    @Override
+    public void onListFragmentInteraction(StationItem itemAtPosition) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        detailFragment.updateElement(itemAtPosition);
+        transaction.replace(fragment_container, detailFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    @Override
+    public void onFavoritesFragmentInteraction(int position, int fragmentCaller) {
+
+    }
+
+    @Override
+    public void onDetailFragmentInteraction(int position, int fragmentCaller) {
+
+    }
+
+    @Override
+    public void onProfileFragmentInteraction(int position, int fragmentCaller) {
+
+    }
+
+    @Override
+    public void onMapFragmentInteraction(int position, int fragmentCaller) {
+
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -222,25 +294,31 @@ public class MainActivity
     // ON remplit l'array list d'androidVersion
     //----------------------------------------------------------------------
     public void initList(ArrayList<StationItem> stationList) {
-        StationItem version = new StationItem();
-        version.setNumberOfBike(7);
-        version.setDistance(15);
-        version.setStationName("PTSI");
+        StationItem station1 = new StationItem();
+        station1.setNumberOfBike(7);
+        station1.setDistance(15);
+        station1.setStationName("PTSI");
+        station1.setStationCity("St-Imier");
+        station1.setCoordinates(new LatLng(47.154794, 7.002895));
         //On passe à la liste l'objet Android Version
-        stationList.add(version);
+        stationList.add(station1);
 
-        StationItem version1 = new StationItem();
-        version1.setNumberOfBike(3);
-        version1.setDistance(8);
-        version1.setStationName("Tech");
+        StationItem station2 = new StationItem();
+        station2.setNumberOfBike(3);
+        station2.setDistance(8);
+        station2.setStationName("Tech");
+        station2.setStationCity("St-Imier");
+        station2.setCoordinates(new LatLng(47.150236, 6.992532));
         //On passe à la liste l'objet Android Version
-        stationList.add(version1);
+        stationList.add(station2);
 
-        StationItem version2 = new StationItem();
-        version2.setNumberOfBike(0);
-        version2.setDistance(1);
-        version2.setStationName("Place de la gare");
+        StationItem station3 = new StationItem();
+        station3.setNumberOfBike(0);
+        station3.setDistance(1);
+        station3.setStationName("Place de la gare");
+        station3.setStationCity("St-Imier");
+        station3.setCoordinates(new LatLng(47.151778, 7.000812));
         //On passe à la liste l'objet Android Version
-        stationList.add(version2);
+        stationList.add(station3);
     }
 }

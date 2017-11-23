@@ -70,7 +70,7 @@ public class ProfileFragment extends Fragment {
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(7, MainActivity.PROFILE_FRAGMENT);
+            mListener.onProfileFragmentInteraction(7, MainActivity.PROFILE_FRAGMENT);
         }
     }
 
@@ -103,6 +103,6 @@ public class ProfileFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(int position, int fragmentCaller  );
+        void onProfileFragmentInteraction(int position, int fragmentCaller  );
     }
 }

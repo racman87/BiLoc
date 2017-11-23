@@ -4,9 +4,11 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
@@ -22,12 +24,19 @@ public class DetailFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    String TAG = "testBiloc";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    TextView cityText;
+    TextView stationNameText;
+    TextView numberBikeText;
+    TextView distanceText;
+    View myView;
+    StationItem currentStation;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -64,7 +73,21 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail, container, false);
+        myView = inflater.inflate(R.layout.fragment_detail, container, false);
+        Log.i(TAG, "onCreateView: RUN");
+
+
+        //myView = this.getView();
+        assert myView != null;
+        cityText = myView.findViewById(R.id.cityText);
+        stationNameText = myView.findViewById(R.id.stationNameText);
+        stationNameText.setText(currentStation.getStationName());
+        numberBikeText = myView.findViewById(R.id.numberBikeText);
+        numberBikeText.setText(String.valueOf(currentStation.getNumberOfBike()));
+        distanceText = myView.findViewById(R.id.distanceText);
+        distanceText.setText(String.valueOf(currentStation.getDistance()));
+
+        return myView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -91,6 +114,17 @@ public class DetailFragment extends Fragment {
         mListener = null;
     }
 
+    public void updateElement(StationItem itemAtPosition) {
+        Log.i(TAG, "updateElement: run");
+        currentStation = itemAtPosition;
+        /*
+        if(myView != null) {
+            Log.i(TAG, "updateElement: view != null");
+            Log.i(TAG, "updateElement: itemAtPosition.getStationName()="+ itemAtPosition.getStationName());
+            stationNameText.setText(itemAtPosition.getStationName());
+        }*/
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -103,6 +137,6 @@ public class DetailFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(int position, int fragmentCaller );
+        void onDetailFragmentInteraction(int position, int fragmentCaller );
     }
 }

@@ -70,7 +70,7 @@ public class FavoritesFragment extends Fragment {
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(3, MainActivity.FAVORITES_FRAGMENT);
+            mListener.onFavoritesFragmentInteraction(3, MainActivity.FAVORITES_FRAGMENT);
         }
     }
 
@@ -103,6 +103,6 @@ public class FavoritesFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(int position, int fragmentCaller );
+        void onFavoritesFragmentInteraction(int position, int fragmentCaller );
     }
 }
