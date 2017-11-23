@@ -19,12 +19,12 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        android:background="@color/colorblack"
+        android:background="@color/colorWhite"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer"
         app:itemIconTint="@color/colorAccent"
-        app:itemTextColor="@color/colorPrimary"
-        app:itemBackground="@color/colorblack"
+        app:itemTextColor="@color/colorblack"
+        app:itemBackground="@color/colorWhite"
 
         />
 
