@@ -38,14 +38,15 @@
             android:layout_width="320dp"
             android:layout_height="5px"
             android:layout_gravity="center_horizontal"
-            android:background="#FFFFFF" />
+            android:background="@color/colorblack" />
 
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-            android:background="@mipmap/ic_bikeicon" />
+            android:background="@mipmap/ic_bikeblue"
+            android:backgroundTint="@color/colorPrimary" />
 
 
         <TextView
@@ -62,7 +63,7 @@
             android:id="@+id/DistanceText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="35dp"
             android:gravity="center_horizontal"
             android:text="2 km"
             android:textColor="@color/colorblack"
@@ -73,50 +74,55 @@
             android:layout_width="match_parent"
             android:layout_height="5px"
             android:layout_gravity="center_horizontal"
-            android:background="#FFFFFF" />
+            android:background="@color/colorblack" />
 
         <Button
             android:id="@+id/addFavoritesButton"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorblack"
-            android:drawableLeft="@mipmap/ic_favorties2"
+            android:background="?android:attr/selectableItemBackground"
+            android:drawableLeft="@mipmap/ic_favoriteblue"
             android:gravity="center|center_vertical"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
             android:text="Add to favorites"
-            android:textColor="@android:color/background_light" />
+            android:textColor="@color/colorblack" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="5px"
             android:layout_gravity="center_horizontal"
-            android:background="#FFFFFF" />
+            android:background="@color/colorblack" />
 
         <Button
             android:id="@+id/mapButton"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorblack"
-            android:drawableLeft="@mipmap/ic_position"
+            android:background="?android:attr/selectableItemBackground"
+            android:drawableLeft="@mipmap/ic_mapblue"
             android:gravity="center|center_vertical"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
             android:text="Show station on map"
-            android:textColor="@android:color/background_light" />
+            android:textColor="@color/colorblack" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="5px"
             android:layout_gravity="center_horizontal"
-            android:background="#FFFFFF" />
+            android:background="@color/colorblack" />
 
         <Button
             android:id="@+id/navigationButton"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:background="@color/colorblack"
-            android:drawableLeft="@mipmap/ic_navigation"
+            android:background="?android:attr/selectableItemBackground"
+            android:drawableLeft="@mipmap/ic_navigationblue"
             android:gravity="center|center_vertical"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
             android:text="Navigation"
-            android:textColor="@android:color/background_light" />
+            android:textColor="@color/colorblack" />
 
     </LinearLayout>
 
