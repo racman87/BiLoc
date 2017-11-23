@@ -14,6 +14,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -139,12 +141,19 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback  {
         LatLng lausanne = new LatLng(46.523026, 6.610657);
         LatLng stImier = new LatLng(47.155150, 7.002794);
         for (StationItem station: stationList) {
-            Log.i(TAG, "onMapReady: new City= " + station.getStationCity());
+
+            float fColor = BitmapDescriptorFactory.HUE_RED;
+            if(station.getFreeSlotNumber()>0){
+                fColor = BitmapDescriptorFactory.HUE_GREEN;
+            }
+            BitmapDescriptor color = BitmapDescriptorFactory.defaultMarker(fColor);
             String marker = station.getStationName() + " " +
                     station.getFreeSlotNumber() + "/" +
                     station.getNumberOfBike();
-            mMap.addMarker(new MarkerOptions().
-                    position(station.getCoordinates()).title(marker));
+            mMap.addMarker(new MarkerOptions()
+                    .position(station.getCoordinates())
+                    .title(marker)
+                    .icon(color));
         }
         //mMap.addMarker(new MarkerOptions().position(lausanne).title("Lausanne HES-SO"));
         //mMap.addMarker(new MarkerOptions().position(stImier).title("PTSI"));
