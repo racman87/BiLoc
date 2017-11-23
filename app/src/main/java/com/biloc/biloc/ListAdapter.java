@@ -44,7 +44,9 @@ public class ListAdapter extends ArrayAdapter<StationItem> {
             final TextView number_Bike = view.findViewById(R.id.number_bike);
             final TextView distance = view.findViewById(R.id.station_distance);
 
-            final String numberOfBike = androidVersion.getNumberOfBike() + " " + res.getString(R.string.list_bike)  ;
+            final String numberOfBike = androidVersion.getFreeSlotNumber() + " / " +
+                    androidVersion.getNumberOfBike() + " " +
+                    res.getString(R.string.list_bike);
             number_Bike.setText(numberOfBike);
 
             final String stationDistance = res.getString(R.string.list_distance) + " " + androidVersion.getDistance();

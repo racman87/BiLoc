@@ -8,7 +8,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class StationItem {
     private String name;
-    private String city;
+    private String stationCity;
     private LatLng coordinates;
     private int availableBikeNumber;
     private int freeSlotNumber;
@@ -24,11 +24,11 @@ public class StationItem {
     }
 
     public String getStationCity(){
-        return city;
+        return stationCity;
     }
 
     public void setStationCity(String stationCity){
-        this.name=stationCity;
+        this.stationCity=stationCity;
     }
 
     public int getNumberOfBike(){

@@ -80,10 +80,13 @@ public class DetailFragment extends Fragment {
         //myView = this.getView();
         assert myView != null;
         cityText = myView.findViewById(R.id.cityText);
+        cityText.setText(currentStation.getStationCity());
         stationNameText = myView.findViewById(R.id.stationNameText);
         stationNameText.setText(currentStation.getStationName());
         numberBikeText = myView.findViewById(R.id.numberBikeText);
-        numberBikeText.setText(String.valueOf(currentStation.getNumberOfBike()));
+        numberBikeText.setText(String.format("%d / %d",
+                currentStation.getFreeSlotNumber(),
+                currentStation.getNumberOfBike()));
         distanceText = myView.findViewById(R.id.distanceText);
         distanceText.setText(String.valueOf(currentStation.getDistance()));
 
@@ -115,7 +118,8 @@ public class DetailFragment extends Fragment {
     }
 
     public void updateElement(StationItem itemAtPosition) {
-        Log.i(TAG, "updateElement: run");
+        Log.i(TAG, "updateElement: new city=" + itemAtPosition.getStationCity());
+        Log.i(TAG, "updateElement: new name=" + itemAtPosition.getStationName());
         currentStation = itemAtPosition;
         /*
         if(myView != null) {

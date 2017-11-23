@@ -139,19 +139,23 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback  {
         LatLng lausanne = new LatLng(46.523026, 6.610657);
         LatLng stImier = new LatLng(47.155150, 7.002794);
         for (StationItem station: stationList) {
-            mMap.addMarker(new MarkerOptions().position(
-                    station.getCoordinates()).title(station.getStationName()));
+            Log.i(TAG, "onMapReady: new City= " + station.getStationCity());
+            String marker = station.getStationName() + " " +
+                    station.getFreeSlotNumber() + "/" +
+                    station.getNumberOfBike();
+            mMap.addMarker(new MarkerOptions().
+                    position(station.getCoordinates()).title(marker));
         }
         //mMap.addMarker(new MarkerOptions().position(lausanne).title("Lausanne HES-SO"));
         //mMap.addMarker(new MarkerOptions().position(stImier).title("PTSI"));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(lausanne));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(stImier));
 
         // Create a LatLngBounds that includes Australia.
-        LatLngBounds SUISSE = new LatLngBounds(lausanne,stImier);
+        //LatLngBounds SUISSE = new LatLngBounds(lausanne,stImier);
 
         // Set the camera to the greatest possible zoom level that includes the
         // bounds
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SUISSE.getCenter(), 9));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(stImier, 13));
 
     }
 

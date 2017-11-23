@@ -253,6 +253,7 @@ public class MainActivity
     public void onListFragmentInteraction(StationItem itemAtPosition) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         detailFragment.updateElement(itemAtPosition);
+        Log.i(TAG, "onListFragmentInteraction: new City= " + itemAtPosition.getStationCity());
         transaction.replace(fragment_container, detailFragment);
         transaction.addToBackStack(null);
         transaction.commit();
@@ -296,6 +297,7 @@ public class MainActivity
     public void initList(ArrayList<StationItem> stationList) {
         StationItem station1 = new StationItem();
         station1.setNumberOfBike(7);
+        station1.setFreeSlotNumber(5);
         station1.setDistance(15);
         station1.setStationName("PTSI");
         station1.setStationCity("St-Imier");
@@ -305,6 +307,7 @@ public class MainActivity
 
         StationItem station2 = new StationItem();
         station2.setNumberOfBike(3);
+        station2.setFreeSlotNumber(3);
         station2.setDistance(8);
         station2.setStationName("Tech");
         station2.setStationCity("St-Imier");
@@ -313,7 +316,8 @@ public class MainActivity
         stationList.add(station2);
 
         StationItem station3 = new StationItem();
-        station3.setNumberOfBike(0);
+        station3.setNumberOfBike(5);
+        station3.setFreeSlotNumber(0);
         station3.setDistance(1);
         station3.setStationName("Place de la gare");
         station3.setStationCity("St-Imier");
