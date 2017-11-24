@@ -183,7 +183,7 @@ public class MainActivity
                 fragmentToCall = profileFragment;
                 break;
             case FAVORITES_DRAWER:
-                fragmentToCall = detailFragment;//favoritesFragment;
+                fragmentToCall = favoritesFragment;
                 break;
         }
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
