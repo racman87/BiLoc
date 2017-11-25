@@ -1,9 +1,8 @@
 package com.biloc.biloc;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -14,7 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -41,7 +39,6 @@ public class MainActivity
     ProfileFragment profileFragment;
     FavoritesFragment favoritesFragment;
     DetailFragment detailFragment;
-    private GoogleMap mMap;
     public static android.app.FragmentManager fragmentManager;
     //Décalre et instanciation d une array list d'objet de type AndroidVersion
     public static ArrayList<StationItem> stationList = new ArrayList<StationItem>();
@@ -92,7 +89,7 @@ public class MainActivity
         //-----------------------------------------------------------------------------------
         // Toolbar / drawer / floating action button
         //-----------------------------------------------------------------------------------
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -104,19 +101,19 @@ public class MainActivity
             }
         });*/
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -148,7 +145,7 @@ public class MainActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -196,58 +193,6 @@ public class MainActivity
         transaction.commit();
     }
 
-    /*
-    @Override
-    public void onFragmentInteraction(int position, int fragmentCaller ) {
-
-        Fragment fragmentToCall = null;
-
-        switch (fragmentCaller){
-        */
-            /****************************
-             * Drawer list management
-             ****************************/
-        /*    case MAP_DRAWER:
-                fragmentToCall = mapFragment;
-                break;
-            case LIST_DRAWER:
-                fragmentToCall = listFragment;
-                break;
-            case PROFILE_DRAWER:
-                fragmentToCall = profileFragment;
-                break;
-            case FAVORITES_DRAWER:
-                fragmentToCall = detailFragment;//favoritesFragment;
-                break;
-                */
-            /****************************
-             * Other lists management
-             ****************************/
-        /*
-            case LIST_FRAGMENT:
-                fragmentToCall = detailFragment;
-                break;
-            case MAP_FRAGMENT:
-                fragmentToCall = mapFragment;
-            case PROFILE_FRAGMENT:
-                fragmentToCall = mapFragment;
-            case FAVORITES_FRAGMENT:
-                fragmentToCall = mapFragment;
-        }*/
-/*
-        Log.i(TAG, "onCreate: listFragment==null");
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        // Replace whatever is in the fragment_container view with this listFragment,
-        // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(fragment_container, fragmentToCall);
-        transaction.addToBackStack(null);
-        Log.i(TAG, "onCreate: addToBackStack");
-        // Commit the transaction
-        transaction.commit();
-        Log.i(TAG, "onCreate: commit");
-        Log.i(TAG, "onCreate: listFragment!=null");
-    }
-*/
 
     @Override
     public void onListFragmentInteraction(StationItem itemAtPosition) {
@@ -281,13 +226,10 @@ public class MainActivity
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
         // Add a marker in Lausanne and move the camera
         LatLng lausanne = new LatLng(46.523026, 6.610657);
-        mMap.addMarker(new MarkerOptions().position(lausanne).title("Lausanne HES-SO"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(lausanne));
-
+        googleMap.addMarker(new MarkerOptions().position(lausanne).title("Lausanne HES-SO"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(lausanne));
     }
 
     //----------------------------------------------------------------------
@@ -302,7 +244,6 @@ public class MainActivity
         station1.setStationName("PTSI");
         station1.setStationCity("St-Imier");
         station1.setCoordinates(new LatLng(47.154794, 7.002895));
-        //On passe à la liste l'objet Android Version
         stationList.add(station1);
 
         StationItem station2 = new StationItem();
@@ -312,7 +253,6 @@ public class MainActivity
         station2.setStationName("Tech");
         station2.setStationCity("St-Imier");
         station2.setCoordinates(new LatLng(47.150236, 6.992532));
-        //On passe à la liste l'objet Android Version
         stationList.add(station2);
 
         StationItem station3 = new StationItem();
@@ -322,7 +262,6 @@ public class MainActivity
         station3.setStationName("Place de la gare");
         station3.setStationCity("St-Imier");
         station3.setCoordinates(new LatLng(47.151778, 7.000812));
-        //On passe à la liste l'objet Android Version
         stationList.add(station3);
     }
 }
