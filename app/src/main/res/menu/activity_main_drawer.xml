@@ -5,19 +5,19 @@
         <item
             android:id="@+id/nav_map"
             android:icon="@mipmap/ic_map"
-            android:title="Map" />
+            android:title="@string/map" />
         <item
             android:id="@+id/nav_list"
             android:icon="@mipmap/ic_list"
-            android:title="List" />
+            android:title="@string/list" />
         <item
             android:id="@+id/nav_profile"
             android:icon="@mipmap/ic_profile"
-            android:title="Profil" />
+            android:title="@string/profil" />
         <item
             android:id="@+id/nav_favorites"
             android:icon="@mipmap/ic_favorite"
-            android:title="Favoris" />
+            android:title="@string/favorites" />
     </group>
 
     <!--

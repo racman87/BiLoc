@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BiLoc</string>
+
+    <string name="navigation_drawer_open">Ouvrir le drawer</string>
+    <string name="navigation_drawer_close">Fermer le drawer</string>
+
+    <string name="action_settings">Paramètre</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_list_fragment">Salut list fragment</string>
+    <string name="hello_map_fragment">Salut map fragment</string>
+    <string name="hello_from_favorites_fragment">Salut depuis le fragment favoris</string>
+    <string name="hello_from_profile_fragment">Salut depuis le fragment profile</string>
+
+    <string name="list_bike">Vélos</string>
+    <string name="list_station">Nom:</string>
+    <string name="list_distance">Distance:</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Salut blank fragment</string>
+
+    <string name="add_favorite">Ajouter aux favoris</string>
+    <string name="show_map">Montre la station sur la carte</string>
+    <string name="navigation">Navigation</string>
+
+    <string name="map">Carte</string>
+    <string name="list">Liste</string>
+    <string name="profil">Profile</string>
+    <string name="favorites">Favoris</string>
+
+
+</resources>

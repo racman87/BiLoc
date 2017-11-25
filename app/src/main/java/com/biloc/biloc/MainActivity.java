@@ -92,7 +92,7 @@ public class MainActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -180,7 +180,7 @@ public class MainActivity
                 fragmentToCall = profileFragment;
                 break;
             case FAVORITES_DRAWER:
-                fragmentToCall = detailFragment;//favoritesFragment;
+                fragmentToCall = favoritesFragment;
                 break;
         }
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
