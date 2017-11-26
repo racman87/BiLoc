@@ -236,6 +236,14 @@ public class MainActivity
         callDetailFragment(itemAtPosition);
     }
 
+    private void callMapFragment(StationItem itemAtPosition) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        mapFragment.updateElement(itemAtPosition);
+        transaction.replace(fragment_container, mapFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
     @Override
     public void onDetailFragmentInteraction(StationItem station, int buttonPressed) {
         switch (buttonPressed) {
@@ -243,6 +251,7 @@ public class MainActivity
              * Drawer list management
              ****************************/
             case FAVORITES_BUTTON:
+                Log.i(TAG, "onDetailFragmentInteraction: ADD TO FAVORITES ");
                 if (!favoritesList.contains(station)) {
                     addStationToFavorites(station);
                 } else {
@@ -251,14 +260,19 @@ public class MainActivity
                 break;
             case MAP_BUTTON:
                 //TODO
+                Log.i(TAG, "onDetailFragmentInteraction: SHOW STATION ON MAP ");
+                callMapFragment(station);
                 break;
             case NAVIGATION_BUTTON:
+                Log.i(TAG, "onDetailFragmentInteraction: NAVIGATION ");
                 //TODO
                 break;
         }
     }
 
-    @Override
+
+
+        @Override
     public void onProfileFragmentInteraction(int position, int fragmentCaller) {
 
     }
@@ -312,3 +326,4 @@ public class MainActivity
 
     }
 }
+

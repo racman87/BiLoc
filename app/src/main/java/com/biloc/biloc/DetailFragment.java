@@ -95,7 +95,7 @@ public class DetailFragment extends Fragment {
             }
         });
 
-        Button startNavigation = myView.findViewById(R.id.mapButton);
+        Button startNavigation = myView.findViewById(R.id.navigationButton);
         startNavigation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

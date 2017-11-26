@@ -45,10 +45,15 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     private static final String ARG_PARAM2 = "param2";
     private Button mButton;
     private static GoogleMap mMap;
+    StationItem currentStation;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    LatLng currentStation_LatLng;
+    boolean zoomOnStation=false;
+    int zoomMap=13;
 
     private OnFragmentInteractionListener mListener;
 
@@ -85,7 +90,6 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
         Log.i(TAG, "onCreate: mapFragment");
     }
 
@@ -143,9 +147,18 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
 
         //mMap.setMyLocationEnabled(true);
 
+        if(!zoomOnStation)
+        {
+            zoomMap=13;
+            //LatLng lausanne = new LatLng(46.523026, 6.610657);
+            LatLng stImier = new LatLng(47.155150, 7.002794);
+            currentStation_LatLng= stImier;
+        }
+        else
+        {
+            zoomOnStation=false;
+        }
 
-        LatLng lausanne = new LatLng(46.523026, 6.610657);
-        LatLng stImier = new LatLng(47.155150, 7.002794);
         for (StationItem station: stationList) {
 
             float fColor = BitmapDescriptorFactory.HUE_RED;
@@ -163,14 +176,16 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         }
         //mMap.addMarker(new MarkerOptions().position(lausanne).title("Lausanne HES-SO"));
         //mMap.addMarker(new MarkerOptions().position(stImier).title("PTSI"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(stImier));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(stImier)); //ESSAI currentStation.getCoordinates()
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(currentStation_LatLng));
 
         // Create a LatLngBounds that includes Australia.
         //LatLngBounds SUISSE = new LatLngBounds(lausanne,stImier);
 
         // Set the camera to the greatest possible zoom level that includes the
         // bounds
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(stImier, 13));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(stImier, 13));//ESSAI
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentStation_LatLng, zoomMap));
 
         //Set the location pointer if permission accepted
         if(checkPermission()) {
@@ -227,6 +242,13 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         this.stationList = stationList;
     }
 
+    public void updateElement(StationItem itemAtPosition) {
+        currentStation = itemAtPosition;
+        currentStation_LatLng = currentStation.getCoordinates();
+        zoomOnStation=true;
+        zoomMap=20;
+
+    }
 
     /**
      * This interface must be implemented by activities that contain this
