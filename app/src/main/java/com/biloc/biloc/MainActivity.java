@@ -126,6 +126,10 @@ public class MainActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    //----------------------------------------------------------------------
+    // Drawer methods
+    //----------------------------------------------------------------------
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -134,28 +138,6 @@ public class MainActivity
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -190,6 +172,36 @@ public class MainActivity
         transaction.commit();
     }
 
+    //----------------------------------------------------------------------
+    // Action bar methods
+    //----------------------------------------------------------------------
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    //----------------------------------------------------------------------
+    // Fragment Interaction helper methods
+    //----------------------------------------------------------------------
+
     private void addStationToFavorites(StationItem stationToAdd) {
         favoritesList.add(stationToAdd);
         stationList.get(stationList.indexOf(stationToAdd)).setFavorite();
@@ -208,6 +220,17 @@ public class MainActivity
         transaction.commit();
     }
 
+    private void callMapFragment(StationItem itemAtPosition) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        mapFragment.updateElement(itemAtPosition);
+        transaction.replace(fragment_container, mapFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    //----------------------------------------------------------------------
+    // Fragment Interaction's Listeners
+    //----------------------------------------------------------------------
     @Override
     public void onListFragmentInteraction(StationItem itemAtPosition) {
         callDetailFragment(itemAtPosition);
@@ -218,20 +241,12 @@ public class MainActivity
         callDetailFragment(itemAtPosition);
     }
 
-    private void callMapFragment(StationItem itemAtPosition) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        mapFragment.updateElement(itemAtPosition);
-        transaction.replace(fragment_container, mapFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-
     @Override
     public void onDetailFragmentInteraction(StationItem station, int buttonPressed) {
         switch (buttonPressed) {
-            /****************************
-             * Drawer list management
-             ****************************/
+            /************************************
+             * DetailFragment button management
+             ************************************/
             case FAVORITES_BUTTON:
                 Log.i(TAG, "onDetailFragmentInteraction: ADD TO FAVORITES ");
                 if (!favoritesList.contains(station)) {
@@ -252,9 +267,7 @@ public class MainActivity
         }
     }
 
-
-
-        @Override
+    @Override
     public void onProfileFragmentInteraction(int position, int fragmentCaller) {
 
     }
@@ -263,6 +276,10 @@ public class MainActivity
     public void onMapFragmentInteraction(int position, int fragmentCaller) {
 
     }
+
+    //----------------------------------------------------------------------
+    // Maps method
+    //----------------------------------------------------------------------
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
