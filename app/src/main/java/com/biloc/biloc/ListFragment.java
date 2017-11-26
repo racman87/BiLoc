@@ -76,7 +76,7 @@ public class ListFragment extends Fragment {
         View myView = inflater.inflate(R.layout.fragment_list, container, false);
 
         //Création de la custom list
-        final ListAdapter adapter = new ListAdapter(getContext(), R.layout.cellule_list, MainActivity.stationList);
+        final StationListAdapter adapter = new StationListAdapter(getContext(), R.layout.cellule_list, MainActivity.getStationList());
         final ListView list = myView.findViewById(R.id.customlistView);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -86,7 +86,6 @@ public class ListFragment extends Fragment {
                 manageItem((StationItem) adapterView.getItemAtPosition(position));
             }
         });
-
         return myView;
     }
 

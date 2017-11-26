@@ -41,7 +41,8 @@ public class MainActivity
     DetailFragment detailFragment;
     public static android.app.FragmentManager fragmentManager;
     //Décalre et instanciation d une array list d'objet de type AndroidVersion
-    public static ArrayList<StationItem> stationList = new ArrayList<StationItem>();
+    private static ArrayList<StationItem> stationList = new ArrayList<StationItem>();
+    private static ArrayList<StationItem> favoritesList = new ArrayList<StationItem>();
 
     public static final int MAP_DRAWER = 1;
     public static final int LIST_DRAWER = 2;
@@ -49,8 +50,16 @@ public class MainActivity
     public static final int FAVORITES_DRAWER = 4;
     public static final int MAP_FRAGMENT = 5;
     public static final int LIST_FRAGMENT = 6;
-    public static final int PROFILE_FRAGMENT = 7;
+    public static final int PROFILE_FRAGMENT = 7;   
     public static final int FAVORITES_FRAGMENT = 8;
+
+    public static ArrayList<StationItem> getStationList() {
+        return stationList;
+    }
+
+    public static ArrayList<StationItem> getFavoritesList() {
+        return favoritesList;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,20 +79,19 @@ public class MainActivity
             fragmentTransaction.add(R.id.fragment_container, mapFragment);
             fragmentTransaction.commit();
 
-
             if(mapFragment == null){
                 Log.i(TAG, "onCreate: mapFragment == null");
             } else{
                 Log.i(TAG, "onCreate: mapFragment != null");
             }
             listFragment = new ListFragment();
-            initList(stationList);
+            initStationList();
 
-            mapFragment.setStationList(stationList);
             profileFragment = new ProfileFragment();
             favoritesFragment = new FavoritesFragment();
             detailFragment = new DetailFragment();
 
+            mapFragment.setStationList(stationList);
         }
 
         //-----------------------------------------------------------------------------------
@@ -193,25 +201,42 @@ public class MainActivity
         transaction.commit();
     }
 
+    private void addStationToFavorites(StationItem stationToAdd) {
+        favoritesList.add(stationToAdd);
+        stationList.get(stationList.indexOf(stationToAdd)).setFavorite();
+    }
 
-    @Override
-    public void onListFragmentInteraction(StationItem itemAtPosition) {
+    private void removeStationFromFavorites(StationItem stationToRemove) {
+        favoritesList.remove(stationToRemove);
+        stationList.get(stationList.indexOf(stationToRemove)).setUnFavorite();
+    }
+
+    private void callDetailFragment(StationItem itemAtPosition) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         detailFragment.updateElement(itemAtPosition);
-        Log.i(TAG, "onListFragmentInteraction: new City= " + itemAtPosition.getStationCity());
         transaction.replace(fragment_container, detailFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
 
     @Override
-    public void onFavoritesFragmentInteraction(int position, int fragmentCaller) {
-
+    public void onListFragmentInteraction(StationItem itemAtPosition) {
+        callDetailFragment(itemAtPosition);
     }
 
     @Override
-    public void onDetailFragmentInteraction(int position, int fragmentCaller) {
+    public void onFavoritesFragmentInteraction(StationItem itemAtPosition) {
+        callDetailFragment(itemAtPosition);
+    }
 
+    @Override
+    public void onDetailFragmentInteraction(StationItem station) {
+        if(!favoritesList.contains(station)) {
+            addStationToFavorites(station);
+        }
+        else{
+            removeStationFromFavorites(station);
+        }
     }
 
     @Override
@@ -236,7 +261,7 @@ public class MainActivity
     // Peuplage de la custom list
     // ON remplit l'array list d'androidVersion
     //----------------------------------------------------------------------
-    public void initList(ArrayList<StationItem> stationList) {
+    public void initStationList() {
         StationItem station1 = new StationItem();
         station1.setNumberOfBike(7);
         station1.setFreeSlotNumber(5);
@@ -263,5 +288,8 @@ public class MainActivity
         station3.setStationCity("St-Imier");
         station3.setCoordinates(new LatLng(47.151778, 7.000812));
         stationList.add(station3);
+
+        addStationToFavorites(station1);
+
     }
 }

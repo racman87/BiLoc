@@ -14,40 +14,41 @@ public class StationItem {
     private int freeSlotNumber;
     private String address;
     private double distance;
+    private boolean favorite=false;
 
-    public String getStationName(){
+    String getStationName(){
         return name;
     }
 
-    public void setStationName(String stationName){
+    void setStationName(String stationName){
         this.name=stationName;
     }
 
-    public String getStationCity(){
+    String getStationCity(){
         return stationCity;
     }
 
-    public void setStationCity(String stationCity){
+    void setStationCity(String stationCity){
         this.stationCity=stationCity;
     }
 
-    public int getNumberOfBike(){
+    int getNumberOfBike(){
         return availableBikeNumber;
     }
 
-    public void setNumberOfBike(int numberOfBike){
+    void setNumberOfBike(int numberOfBike){
         this.availableBikeNumber=numberOfBike;
     }
 
-    public LatLng getCoordinates() { return coordinates; }
+    LatLng getCoordinates() { return coordinates; }
 
-    public void setCoordinates(LatLng coordinates) { this.coordinates = coordinates; }
+    void setCoordinates(LatLng coordinates) { this.coordinates = coordinates; }
 
-    public int getFreeSlotNumber() {
+    int getFreeSlotNumber() {
         return freeSlotNumber;
     }
 
-    public void setFreeSlotNumber(int freeSlotNumber) {
+    void setFreeSlotNumber(int freeSlotNumber) {
         this.freeSlotNumber = freeSlotNumber;
     }
 
@@ -59,12 +60,19 @@ public class StationItem {
         this.address = address;
     }
 
-    public double getDistance() {
-
+    double getDistance() {
         return distance;
     }
 
-    public void setDistance(double distance) {
+    void setDistance(double distance) {
         this.distance = distance;
+    }
+
+    void setFavorite() {
+        favorite = true;
+    }
+
+    public void setUnFavorite() {
+        favorite = false;
     }
 }

@@ -4,9 +4,14 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 
 /**
@@ -28,6 +33,8 @@ public class FavoritesFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private int position;
+    String TAG = "testBiloc";
 
     public FavoritesFragment() {
         // Required empty public constructor
@@ -64,14 +71,30 @@ public class FavoritesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorites, container, false);
-    }
+        View myView = inflater.inflate(R.layout.fragment_favorites, container, false);
+        //Création de la custom list
+        final StationListAdapter adapter = new StationListAdapter(getContext(), R.layout.cellule_list, MainActivity.getFavoritesList());
+        final ListView list = myView.findViewById(R.id.customlistView);
+        if(list == null){
+            Log.i(TAG, "onCreateView: list == null");
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFavoritesFragmentInteraction(3, MainActivity.FAVORITES_FRAGMENT);
         }
+        list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                position = i;
+                manageItem((StationItem) adapterView.getItemAtPosition(position));
+            }
+
+            private void manageItem(StationItem itemAtPosition) {
+                if(mListener != null){
+                    mListener.onFavoritesFragmentInteraction(itemAtPosition);
+                }
+            }
+        });
+
+        return myView;
     }
 
     @Override
@@ -102,7 +125,6 @@ public class FavoritesFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFavoritesFragmentInteraction(int position, int fragmentCaller );
+        void onFavoritesFragmentInteraction(StationItem itemAtPosition);
     }
 }

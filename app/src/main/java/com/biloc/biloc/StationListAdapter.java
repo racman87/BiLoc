@@ -14,15 +14,15 @@ import java.util.ArrayList;
  * Created by manon.racine1 on 05.11.2017.
  */
 
-public class ListAdapter extends ArrayAdapter<StationItem> {
-    private ArrayList<StationItem> androidVersionsList;
+public class StationListAdapter extends ArrayAdapter<StationItem> {
+    private ArrayList<StationItem> stationAdapterList;
     private Context context;
     private int viewRes;
     private Resources res;
 
-    public ListAdapter(Context context, int textViewResourceID, ArrayList<StationItem> stationItem){
+    public StationListAdapter(Context context, int textViewResourceID, ArrayList<StationItem> stationItem){
         super(context, textViewResourceID, stationItem);
-        this.androidVersionsList= stationItem;
+        this.stationAdapterList = stationItem;
         this.context=context;
         this.viewRes=textViewResourceID;
         this.res=context.getResources();
@@ -37,7 +37,7 @@ public class ListAdapter extends ArrayAdapter<StationItem> {
             view = layoutInflater.inflate(viewRes, parent, false);
         }
 
-        final StationItem androidVersion = androidVersionsList.get(position);
+        final StationItem androidVersion = stationAdapterList.get(position);
 
         if(androidVersion != null){
             final TextView station_Name = view.findViewById(R.id.station_name);
