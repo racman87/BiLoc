@@ -165,13 +165,13 @@ public class MainActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_map) {
-            onDrawerFragmentInteraction(MAP_DRAWER);
+            onDrawerFragmentInteraction(mapFragment);
         } else if (id == R.id.nav_list) {
-            onDrawerFragmentInteraction(LIST_DRAWER);
+            onDrawerFragmentInteraction(listFragment);
         } else if (id == R.id.nav_profile) {
-            onDrawerFragmentInteraction(PROFILE_DRAWER);
+            onDrawerFragmentInteraction(profileFragment);
         } else if (id == R.id.nav_favorites) {
-            onDrawerFragmentInteraction(FAVORITES_DRAWER);
+            onDrawerFragmentInteraction(favoritesFragment);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -179,25 +179,7 @@ public class MainActivity
         return true;
     }
 
-    private void onDrawerFragmentInteraction(int fragmentIndexToCall) {
-        Fragment fragmentToCall = null;
-        switch (fragmentIndexToCall) {
-            /****************************
-             * Drawer list management
-             ****************************/
-            case MAP_DRAWER:
-                fragmentToCall = mapFragment;
-                break;
-            case LIST_DRAWER:
-                fragmentToCall = listFragment;
-                break;
-            case PROFILE_DRAWER:
-                fragmentToCall = profileFragment;
-                break;
-            case FAVORITES_DRAWER:
-                fragmentToCall = favoritesFragment;
-                break;
-        }
+    private void onDrawerFragmentInteraction(Fragment fragmentToCall) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         // Replace whatever is in the fragment_container view with this listFragment,
         // and add the transaction to the back stack so the user can navigate back
