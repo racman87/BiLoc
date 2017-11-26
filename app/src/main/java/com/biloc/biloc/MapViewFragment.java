@@ -1,8 +1,13 @@
 package com.biloc.biloc;
 
+import android.*;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,13 +38,13 @@ import static android.content.ContentValues.TAG;
  * Use the {@link MapViewFragment#newInstance} factory method to
  * create an instance of this listFragment.
  */
-public class MapViewFragment extends Fragment implements OnMapReadyCallback  {
+public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     // TODO: Rename parameter arguments, choose names that match
     // the listFragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private Button mButton;
-   private static GoogleMap mMap;
+    private static GoogleMap mMap;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -111,7 +116,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback  {
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(int position) {
         if (mListener != null) {
-            mListener.onMapFragmentInteraction(position, MainActivity.MAP_FRAGMENT );
+            mListener.onMapFragmentInteraction(position, MainActivity.MAP_FRAGMENT);
         }
     }
 
@@ -136,7 +141,8 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback  {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Lausanne and move the camera
+        //mMap.setMyLocationEnabled(true);
+
 
         LatLng lausanne = new LatLng(46.523026, 6.610657);
         LatLng stImier = new LatLng(47.155150, 7.002794);
@@ -166,6 +172,55 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback  {
         // bounds
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(stImier, 13));
 
+        //Set the location pointer if permission accepted
+        if(checkPermission()) {
+            mMap.setMyLocationEnabled(true);
+            Log.i(TAG, "onMapReady: POSITION OK");
+            // Show zoon controls on the map layer
+            mMap.getUiSettings().setZoomControlsEnabled(true);
+            //Show My Location Button on the map
+            mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        }
+        else askPermission();
+
+    }
+
+    // Check for permission to access Location
+    private boolean checkPermission() {
+        Log.d(TAG, "checkPermission()");
+        // Ask for permission if it wasn't granted yet
+        return (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED );
+    }
+    // Asks for permission
+    private void askPermission() {
+        Log.d(TAG, "askPermission()");
+        ActivityCompat.requestPermissions(
+                getActivity(),
+                new String[] { android.Manifest.permission.ACCESS_FINE_LOCATION },
+                MainActivity.REQ_PERMISSION);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Log.d(TAG, "onRequestPermissionsResult()");
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch ( requestCode ) {
+            case MainActivity.REQ_PERMISSION: {
+                if ( grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED ){
+                    // Permission granted
+                    if(checkPermission())
+                        mMap.setMyLocationEnabled(true);
+
+                } else {
+                    // Permission denied
+
+                }
+                break;
+            }
+        }
     }
 
     public void setStationList(ArrayList<StationItem> stationList) {

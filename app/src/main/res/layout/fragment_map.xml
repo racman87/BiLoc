@@ -11,12 +11,12 @@ tools:context="com.biloc.biloc.ListFragment">
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <Button
+    <!--<Button
         android:id="@+id/fab"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:background="@mipmap/ic_myposition" />
+        android:background="@mipmap/ic_myposition" />-->
 
 </FrameLayout>

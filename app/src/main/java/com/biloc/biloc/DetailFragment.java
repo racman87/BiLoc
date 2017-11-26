@@ -80,7 +80,27 @@ public class DetailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(mListener != null){
-                    mListener.onDetailFragmentInteraction(currentStation);
+                    mListener.onDetailFragmentInteraction(currentStation,MainActivity.FAVORITES_BUTTON);
+                }
+            }
+        });
+
+        Button seeStationOnMap = myView.findViewById(R.id.mapButton);
+        seeStationOnMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mListener != null){
+                    mListener.onDetailFragmentInteraction(currentStation,MainActivity.MAP_BUTTON);
+                }
+            }
+        });
+
+        Button startNavigation = myView.findViewById(R.id.mapButton);
+        startNavigation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mListener != null){
+                    mListener.onDetailFragmentInteraction(currentStation,MainActivity.NAVIGATION_BUTTON);
                 }
             }
         });
@@ -149,6 +169,6 @@ public class DetailFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void onDetailFragmentInteraction(StationItem currentStation);
+        void onDetailFragmentInteraction(StationItem currentStation, int buttonPressed);
     }
 }

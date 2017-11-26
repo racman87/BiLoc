@@ -32,7 +32,7 @@ public class MainActivity
         ListFragment.OnFragmentInteractionListener,
         FavoritesFragment.OnFragmentInteractionListener,
         DetailFragment.OnFragmentInteractionListener,
-        OnMapReadyCallback{
+        OnMapReadyCallback {
     String TAG = "testBiloc";
     ListFragment listFragment;
     MapViewFragment mapFragment;
@@ -50,8 +50,15 @@ public class MainActivity
     public static final int FAVORITES_DRAWER = 4;
     public static final int MAP_FRAGMENT = 5;
     public static final int LIST_FRAGMENT = 6;
-    public static final int PROFILE_FRAGMENT = 7;   
+    public static final int PROFILE_FRAGMENT = 7;
     public static final int FAVORITES_FRAGMENT = 8;
+
+    public static final int FAVORITES_BUTTON = 1;
+    public static final int MAP_BUTTON = 2;
+    public static final int NAVIGATION_BUTTON = 3;
+
+    public static final int REQ_PERMISSION = 1;
+
 
     public static ArrayList<StationItem> getStationList() {
         return stationList;
@@ -66,8 +73,8 @@ public class MainActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(findViewById(fragment_container)!= null){
-            if(savedInstanceState != null){
+        if (findViewById(fragment_container) != null) {
+            if (savedInstanceState != null) {
                 return;
             }
             Log.i(TAG, "onCreate: findViewById");
@@ -79,9 +86,9 @@ public class MainActivity
             fragmentTransaction.add(R.id.fragment_container, mapFragment);
             fragmentTransaction.commit();
 
-            if(mapFragment == null){
+            if (mapFragment == null) {
                 Log.i(TAG, "onCreate: mapFragment == null");
-            } else{
+            } else {
                 Log.i(TAG, "onCreate: mapFragment != null");
             }
             listFragment = new ListFragment();
@@ -174,7 +181,7 @@ public class MainActivity
 
     private void onDrawerFragmentInteraction(int fragmentIndexToCall) {
         Fragment fragmentToCall = null;
-        switch (fragmentIndexToCall){
+        switch (fragmentIndexToCall) {
             /****************************
              * Drawer list management
              ****************************/
@@ -230,12 +237,24 @@ public class MainActivity
     }
 
     @Override
-    public void onDetailFragmentInteraction(StationItem station) {
-        if(!favoritesList.contains(station)) {
-            addStationToFavorites(station);
-        }
-        else{
-            removeStationFromFavorites(station);
+    public void onDetailFragmentInteraction(StationItem station, int buttonPressed) {
+        switch (buttonPressed) {
+            /****************************
+             * Drawer list management
+             ****************************/
+            case FAVORITES_BUTTON:
+                if (!favoritesList.contains(station)) {
+                    addStationToFavorites(station);
+                } else {
+                    removeStationFromFavorites(station);
+                }
+                break;
+            case MAP_BUTTON:
+                //TODO
+                break;
+            case NAVIGATION_BUTTON:
+                //TODO
+                break;
         }
     }
 
