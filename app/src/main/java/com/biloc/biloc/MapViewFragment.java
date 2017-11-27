@@ -43,7 +43,6 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     // the listFragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private Button mButton;
     private static GoogleMap mMap;
     StationItem currentStation;
 
@@ -51,9 +50,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     private String mParam1;
     private String mParam2;
 
-    LatLng currentStation_LatLng;
     boolean zoomOnStation=false;
-    int zoomMap=13;
 
     private OnFragmentInteractionListener mListener;
 
@@ -144,19 +141,23 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        LatLng currentStation_LatLng;
+        int zoomMap;
 
         //mMap.setMyLocationEnabled(true);
 
         if(!zoomOnStation)
         {
-            zoomMap=13;
             //LatLng lausanne = new LatLng(46.523026, 6.610657);
             LatLng stImier = new LatLng(47.155150, 7.002794);
             currentStation_LatLng= stImier;
+            zoomMap=13;
         }
         else
         {
+            currentStation_LatLng = currentStation.getCoordinates();
             zoomOnStation=false;
+            zoomMap=20;
         }
 
         for (StationItem station: stationList) {
@@ -177,7 +178,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         //mMap.addMarker(new MarkerOptions().position(lausanne).title("Lausanne HES-SO"));
         //mMap.addMarker(new MarkerOptions().position(stImier).title("PTSI"));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(stImier)); //ESSAI currentStation.getCoordinates()
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(currentStation_LatLng));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(currentStation_LatLng));
 
         // Create a LatLngBounds that includes Australia.
         //LatLngBounds SUISSE = new LatLngBounds(lausanne,stImier);
@@ -244,10 +245,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
 
     public void updateElement(StationItem itemAtPosition) {
         currentStation = itemAtPosition;
-        currentStation_LatLng = currentStation.getCoordinates();
         zoomOnStation=true;
-        zoomMap=20;
-
     }
 
     /**
