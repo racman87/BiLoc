@@ -20,6 +20,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="add_favorite">Add to favorites</string>
+    <string name="rem_favorite">Remove from favorites</string>
     <string name="show_map">Show Station on map</string>
     <string name="navigation">Navigation</string>
 
@@ -27,5 +28,10 @@
     <string name="list">List</string>
     <string name="profil">Profil</string>
     <string name="favorites">Favorites</string>
+    <string name="toolbarTitleFavorites">Favorites</string>
+    <string name="toolbarTitleProfile">Profile</string>
+    <string name="toolbarTitleList">Stations List</string>
+    <string name="toolbarTitleMap">Stations Map</string>
+    <string name="toolbarTitleDetail">Station Detail</string>
 
 </resources>

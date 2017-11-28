@@ -21,6 +21,7 @@
     <string name="hello_blank_fragment">Salut blank fragment</string>
 
     <string name="add_favorite">Ajouter aux favoris</string>
+    <string name="rem_favorite">Enlever des favoris</string>
     <string name="show_map">Montre la station sur la carte</string>
     <string name="navigation">Navigation</string>
 
