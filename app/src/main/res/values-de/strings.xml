@@ -21,6 +21,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="add_favorite">Zu Favoriten hinzufügen</string>
+    <string name="arem_favorite">Von den Favoriten entfernen</string>
     <string name="show_map">Auf der Karte zeigen</string>
     <string name="navigation">Navigation</string>
 
