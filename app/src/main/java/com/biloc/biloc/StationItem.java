@@ -68,11 +68,10 @@ public class StationItem {
         this.distance = distance;
     }
 
-    void setFavorite() {
-        favorite = true;
+    void setFavorite(boolean isFavorite) {
+        this.favorite = isFavorite;
     }
 
-    public void setUnFavorite() {
-        favorite = false;
-    }
+    boolean getFavorite() { return this.favorite; }
+
 }

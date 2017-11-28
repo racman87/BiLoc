@@ -40,7 +40,6 @@ public class MainActivity
     FavoritesFragment favoritesFragment;
     DetailFragment detailFragment;
     public static android.app.FragmentManager fragmentManager;
-    //Décalre et instanciation d une array list d'objet de type AndroidVersion
     private static ArrayList<StationItem> stationList = new ArrayList<StationItem>();
     private static ArrayList<StationItem> favoritesList = new ArrayList<StationItem>();
 
@@ -204,12 +203,12 @@ public class MainActivity
 
     private void addStationToFavorites(StationItem stationToAdd) {
         favoritesList.add(stationToAdd);
-        stationList.get(stationList.indexOf(stationToAdd)).setFavorite();
+        stationList.get(stationList.indexOf(stationToAdd)).setFavorite(true);
     }
 
     private void removeStationFromFavorites(StationItem stationToRemove) {
         favoritesList.remove(stationToRemove);
-        stationList.get(stationList.indexOf(stationToRemove)).setUnFavorite();
+        stationList.get(stationList.indexOf(stationToRemove)).setFavorite(false);
     }
 
     private void callDetailFragment(StationItem itemAtPosition) {
