@@ -1,6 +1,7 @@
 package com.biloc.biloc;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,6 +39,7 @@ public class DetailFragment extends Fragment {
     TextView distanceText;
     View myView;
     StationItem currentStation;
+    private Button addToFavorites;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -75,12 +77,14 @@ public class DetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         myView = inflater.inflate(R.layout.fragment_detail, container, false);
-        Button addToFavorites = myView.findViewById(R.id.addFavoritesButton);
+        addToFavorites = myView.findViewById(R.id.addFavoritesButton);
+        manageFavoriteState();
         addToFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(mListener != null){
                     mListener.onDetailFragmentInteraction(currentStation,MainActivity.FAVORITES_BUTTON);
+                    manageFavoriteState();
                 }
             }
         });
@@ -104,7 +108,6 @@ public class DetailFragment extends Fragment {
                 }
             }
         });
-        Log.i(TAG, "onCreateView: RUN");
 
 
         //myView = this.getView();
@@ -123,9 +126,16 @@ public class DetailFragment extends Fragment {
         return myView;
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            //mListener.onFragmentInteraction(uri);
+    private void manageFavoriteState() {
+        if(currentStation.getFavorite()){
+            Drawable favorite = getContext().getDrawable(R.mipmap.ic_favorite);
+            addToFavorites.setCompoundDrawablesRelativeWithIntrinsicBounds(favorite, null, null, null);
+            addToFavorites.setText(R.string.rem_favorite);
+        }
+        else{
+            Drawable unFavorite = getContext().getDrawable(R.mipmap.ic_favoriteblue);
+            addToFavorites.setCompoundDrawablesRelativeWithIntrinsicBounds(unFavorite, null, null, null);
+            addToFavorites.setText(R.string.add_favorite);
         }
     }
 
