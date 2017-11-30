@@ -40,8 +40,8 @@ public class MainActivity
     FavoritesFragment favoritesFragment;
     DetailFragment detailFragment;
     public static android.app.FragmentManager fragmentManager;
-    private static ArrayList<StationItem> stationList = new ArrayList<StationItem>();
-    private static ArrayList<StationItem> favoritesList = new ArrayList<StationItem>();
+    private static ArrayList<StationItem> stationList;
+    private static ArrayList<StationItem> favoritesList;
 
     public static final int MAP_DRAWER = 1;
     public static final int LIST_DRAWER = 2;
@@ -91,6 +91,8 @@ public class MainActivity
                 Log.i(TAG, "onCreate: mapFragment != null");
             }
             listFragment = new ListFragment();
+            favoritesList = new ArrayList<StationItem>();
+            stationList = new ArrayList<StationItem>();
             initStationList();
 
             profileFragment = new ProfileFragment();
@@ -99,6 +101,7 @@ public class MainActivity
 
             mapFragment.setStationList(stationList);
         }
+
 
         //-----------------------------------------------------------------------------------
         // Toolbar / drawer / floating action button
