@@ -163,11 +163,11 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         for (StationItem station: stationList) {
 
             float fColor = BitmapDescriptorFactory.HUE_RED;
-            int freeSlotNumnber = station.getFreeSlotNumber();
-            if(freeSlotNumnber>=3){
+            int freeSlotNumber = station.getFreeSlotNumber();
+            if(freeSlotNumber>=3){
                 fColor = BitmapDescriptorFactory.HUE_GREEN;
             }
-            else if(freeSlotNumnber >0 || freeSlotNumnber < 3){
+            else if(freeSlotNumber >0 && freeSlotNumber < 3){
                 fColor = BitmapDescriptorFactory.HUE_ORANGE;
             }
             BitmapDescriptor color = BitmapDescriptorFactory.defaultMarker(fColor);

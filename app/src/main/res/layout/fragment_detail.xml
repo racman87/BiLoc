@@ -34,8 +34,8 @@
             android:textStyle="bold" />
 
         <View
-            android:layout_width="320dp"
-            android:layout_height="5px"
+            android:layout_width="300dp"
+            android:layout_height="2px"
             android:layout_gravity="center_horizontal"
             android:background="@color/colorblack" />
 
@@ -71,7 +71,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="5px"
+            android:layout_height="2px"
             android:layout_gravity="center_horizontal"
             android:background="@color/colorblack" />
 
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:background="?android:attr/selectableItemBackground"
             android:drawableLeft="@mipmap/ic_favoriteblue"
-            android:gravity="center|center_vertical"
+            android:gravity="left|center_vertical|center"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:text="@string/add_favorite"
@@ -89,7 +89,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="5px"
+            android:layout_height="2px"
             android:layout_gravity="center_horizontal"
             android:background="@color/colorblack" />
 
@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             android:background="?android:attr/selectableItemBackground"
             android:drawableLeft="@mipmap/ic_mapblue"
-            android:gravity="center|center_vertical"
+            android:gravity="left|center_vertical|center"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:text="@string/show_map"
@@ -107,7 +107,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="5px"
+            android:layout_height="2px"
             android:layout_gravity="center_horizontal"
             android:background="@color/colorblack" />
 
@@ -117,7 +117,7 @@
             android:layout_height="wrap_content"
             android:background="?android:attr/selectableItemBackground"
             android:drawableLeft="@mipmap/ic_navigationblue"
-            android:gravity="center|center_vertical"
+            android:gravity="left|center_vertical|center"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:text="@string/navigation"
