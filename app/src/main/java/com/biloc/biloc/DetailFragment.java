@@ -128,7 +128,7 @@ public class DetailFragment extends Fragment {
 
     private void manageFavoriteState() {
         if(currentStation.getFavorite()){
-            Drawable favorite = getContext().getDrawable(R.mipmap.ic_favorite);
+            Drawable favorite = getContext().getDrawable(R.mipmap.ic_favorties2);
             addToFavorites.setCompoundDrawablesRelativeWithIntrinsicBounds(favorite, null, null, null);
             addToFavorites.setText(R.string.rem_favorite);
         }
