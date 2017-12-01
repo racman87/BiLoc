@@ -310,7 +310,7 @@ public class MainActivity
 
         StationItem station2 = new StationItem();
         station2.setNumberOfBike(3);
-        station2.setFreeSlotNumber(3);
+        station2.setFreeSlotNumber(2);
         station2.setDistance(8);
         station2.setStationName("Tech");
         station2.setStationCity("St-Imier");
