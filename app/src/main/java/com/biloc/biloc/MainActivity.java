@@ -93,8 +93,8 @@ public class MainActivity
                 Log.i(TAG, "onCreate: mapFragment != null");
             }
             listFragment = new ListFragment();
-            favoritesList = new ArrayList<StationItem>();
-            stationList = new ArrayList<StationItem>();
+            favoritesList = new ArrayList<>();
+            stationList = new ArrayList<>();
             initStationList();
 
             profileFragment = new ProfileFragment();
@@ -166,15 +166,8 @@ public class MainActivity
     }
 
     private void onDrawerFragmentInteraction(Fragment fragmentToCall, String toolBarTitle) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        // Replace whatever is in the fragment_container view with this listFragment,
-        // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(fragment_container, fragmentToCall);
+        callFragment(fragmentToCall);
         setTitle(toolBarTitle);
-        transaction.addToBackStack(null);
-        Log.i(TAG, "onCreate: addToBackStack");
-        // Commit the transaction
-        transaction.commit();
     }
 
     //----------------------------------------------------------------------
@@ -217,35 +210,28 @@ public class MainActivity
         stationList.get(stationList.indexOf(stationToRemove)).setFavorite(false);
     }
 
-    private void callDetailFragment(StationItem itemAtPosition) {
+    private void callFragment(Fragment fragmentToCall) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        detailFragment.updateElement(itemAtPosition);
-        setTitle(R.string.toolbarTitleDetail);
-        transaction.replace(fragment_container, detailFragment);
+        setTitle(R.string.toolbarTitleMap);
+        transaction.replace(fragment_container, fragmentToCall);
         transaction.addToBackStack(null);
         transaction.commit();
     }
 
-    private void callMapFragment(StationItem itemAtPosition) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        mapFragment.updateElement(itemAtPosition);
-        setTitle(R.string.toolbarTitleMap);
-        transaction.replace(fragment_container, mapFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
 
     //----------------------------------------------------------------------
     // Fragment Interaction's Listeners
     //----------------------------------------------------------------------
     @Override
     public void onListFragmentInteraction(StationItem itemAtPosition) {
-        callDetailFragment(itemAtPosition);
+        detailFragment.updateElement(itemAtPosition);
+        callFragment(detailFragment);
     }
 
     @Override
     public void onFavoritesFragmentInteraction(StationItem itemAtPosition) {
-        callDetailFragment(itemAtPosition);
+        detailFragment.updateElement(itemAtPosition);
+        callFragment(detailFragment);
     }
 
     @Override
@@ -263,9 +249,9 @@ public class MainActivity
                 }
                 break;
             case MAP_BUTTON:
-                //TODO
                 Log.i(TAG, "onDetailFragmentInteraction: SHOW STATION ON MAP ");
-                callMapFragment(station);
+                mapFragment.updateElement(station);
+                callFragment(mapFragment);
                 break;
             case NAVIGATION_BUTTON:
                 Log.i(TAG, "onDetailFragmentInteraction: NAVIGATION ");
