@@ -34,6 +34,7 @@ public class MainActivity
         ListFragment.OnFragmentInteractionListener,
         FavoritesFragment.OnFragmentInteractionListener,
         DetailFragment.OnFragmentInteractionListener,
+        SettingsFragment.OnFragmentInteractionListener,
         OnMapReadyCallback {
     String TAG = "testBiloc";
     ListFragment listFragment;
@@ -41,6 +42,7 @@ public class MainActivity
     ProfileFragment profileFragment;
     FavoritesFragment favoritesFragment;
     DetailFragment detailFragment;
+    SettingsFragment settingsFragment;
     public static android.app.FragmentManager fragmentManager;
     private static ArrayList<StationItem> stationList;
     private static ArrayList<StationItem> favoritesList;
@@ -93,14 +95,14 @@ public class MainActivity
                 Log.i(TAG, "onCreate: mapFragment != null");
             }
             listFragment = new ListFragment();
-            favoritesList = new ArrayList<>();
-            stationList = new ArrayList<>();
-            initStationList();
-
             profileFragment = new ProfileFragment();
             favoritesFragment = new FavoritesFragment();
             detailFragment = new DetailFragment();
+            settingsFragment = SettingsFragment.newInstance();
 
+            favoritesList = new ArrayList<>();
+            stationList = new ArrayList<>();
+            initStationList();
             mapFragment.setStationList(stationList);
         }
 
@@ -166,7 +168,7 @@ public class MainActivity
     }
 
     private void onDrawerFragmentInteraction(Fragment fragmentToCall, String toolBarTitle) {
-        callFragment(fragmentToCall);
+        callFragment(fragmentToCall, toolBarTitle);
         setTitle(toolBarTitle);
     }
 
@@ -190,6 +192,10 @@ public class MainActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            getFragmentManager().beginTransaction()
+                    .replace(android.R.id.content, settingsFragment)
+                    .commit();
+            //callFragment( settingsFragment, getString(R.string.toolbarTitleSettings));
             return true;
         }
 
@@ -210,14 +216,13 @@ public class MainActivity
         stationList.get(stationList.indexOf(stationToRemove)).setFavorite(false);
     }
 
-    private void callFragment(Fragment fragmentToCall) {
+    private void callFragment(Fragment fragmentToCall, String title) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        setTitle(R.string.toolbarTitleMap);
+        setTitle(title);
         transaction.replace(fragment_container, fragmentToCall);
         transaction.addToBackStack(null);
         transaction.commit();
     }
-
 
     //----------------------------------------------------------------------
     // Fragment Interaction's Listeners
@@ -225,13 +230,13 @@ public class MainActivity
     @Override
     public void onListFragmentInteraction(StationItem itemAtPosition) {
         detailFragment.updateElement(itemAtPosition);
-        callFragment(detailFragment);
+        callFragment(detailFragment, getString(R.string.toolbarTitleProfile));
     }
 
     @Override
     public void onFavoritesFragmentInteraction(StationItem itemAtPosition) {
         detailFragment.updateElement(itemAtPosition);
-        callFragment(detailFragment);
+        callFragment(detailFragment, getString(R.string.toolbarTitleProfile));
     }
 
     @Override
@@ -251,7 +256,7 @@ public class MainActivity
             case MAP_BUTTON:
                 Log.i(TAG, "onDetailFragmentInteraction: SHOW STATION ON MAP ");
                 mapFragment.updateElement(station);
-                callFragment(mapFragment);
+                callFragment(mapFragment, getString(R.string.toolbarTitleMap));
                 break;
             case NAVIGATION_BUTTON:
                 Log.i(TAG, "onDetailFragmentInteraction: NAVIGATION ");
@@ -280,6 +285,11 @@ public class MainActivity
 
     @Override
     public void onMapFragmentInteraction(int position, int fragmentCaller) {
+
+    }
+
+    @Override
+    public void onSettingsFragmentInteraction(Uri uri) {
 
     }
 
@@ -330,5 +340,6 @@ public class MainActivity
         addStationToFavorites(station1);
 
     }
+
 }
 

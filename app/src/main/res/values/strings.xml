@@ -30,8 +30,13 @@
     <string name="favorites">Favorites</string>
     <string name="toolbarTitleFavorites">Favorites</string>
     <string name="toolbarTitleProfile">Profile</string>
-    <string name="toolbarTitleList">Stations List</string>
-    <string name="toolbarTitleMap">Stations Map</string>
-    <string name="toolbarTitleDetail">Station Detail</string>
+    <string name="toolbarTitleList">Stations</string>
+    <string name="toolbarTitleMap">Map</string>
+    <string name="toolbarTitleDetail">Detail</string>
+    <string name="toolbarTitleSettings">Settings</string>
+    <string name="pref_sync">Synchronisation</string>
+    <string name="pref_sync_summ">Sync summary</string>
+    <string name="pref_syncConnectionType">Connection type</string>
+    <string name="pref_syncConnectionTypes_default">Cnnection type def</string>
 
 </resources>

@@ -29,5 +29,11 @@
     <string name="list">Liste</string>
     <string name="profil">Profil</string>
     <string name="favorites">Favoriten</string>
+    <string name="toolbarTitleSettings">Einstellungen</string>
+    <string name="toolbarTitleDetail">Detail</string>
+    <string name="toolbarTitleMap">Karte</string>
+    <string name="toolbarTitleProfile">Profil</string>
+    <string name="toolbarTitleFavorites">Faoriten</string>
+    <string name="rem_favorite">Von Fav. entfernen</string>
 
 </resources>
