@@ -15,7 +15,7 @@
             android:layout_height="339dp"
             android:layout_marginTop="8dp"
             android:cropToPadding="false"
-            android:src="@drawable/rsz_1pexels01"
+            android:src="@drawable/rsz_pexels02"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
             app:layout_constraintDimensionRatio="w,1:1"
             app:layout_constraintRight_toRightOf="parent"

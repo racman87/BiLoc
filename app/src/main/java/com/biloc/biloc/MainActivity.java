@@ -1,6 +1,9 @@
 package com.biloc.biloc;
 
+import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -230,13 +233,13 @@ public class MainActivity
     @Override
     public void onListFragmentInteraction(StationItem itemAtPosition) {
         detailFragment.updateElement(itemAtPosition);
-        callFragment(detailFragment, getString(R.string.toolbarTitleProfile));
+        callFragment(detailFragment, getString(R.string.toolbarTitleDetail));
     }
 
     @Override
     public void onFavoritesFragmentInteraction(StationItem itemAtPosition) {
         detailFragment.updateElement(itemAtPosition);
-        callFragment(detailFragment, getString(R.string.toolbarTitleProfile));
+        callFragment(detailFragment, getString(R.string.toolbarTitleDetail));
     }
 
     @Override
@@ -284,8 +287,9 @@ public class MainActivity
     }
 
     @Override
-    public void onMapFragmentInteraction(int position, int fragmentCaller) {
-
+    public void onMapFragmentInteraction(StationItem itemAtPosition) {
+        detailFragment.updateElement(itemAtPosition);
+        callFragment(detailFragment, getString(R.string.toolbarTitleDetail));
     }
 
     @Override
