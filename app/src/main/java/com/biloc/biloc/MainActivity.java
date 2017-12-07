@@ -1,15 +1,16 @@
 package com.biloc.biloc;
 
-import android.app.ActionBar;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,11 +20,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
 
@@ -49,6 +53,8 @@ public class MainActivity
     public static android.app.FragmentManager fragmentManager;
     private static ArrayList<StationItem> stationList;
     private static ArrayList<StationItem> favoritesList;
+
+    public static Location myLocation;
 
     public static final int MAP_DRAWER = 1;
     public static final int LIST_DRAWER = 2;
@@ -107,6 +113,7 @@ public class MainActivity
             stationList = new ArrayList<>();
             initStationList();
             mapFragment.setStationList(stationList);
+            ListFragment.setStationList(stationList);
         }
 
 
@@ -317,11 +324,12 @@ public class MainActivity
         StationItem station1 = new StationItem();
         station1.setNumberOfBike(7);
         station1.setFreeSlotNumber(5);
-        station1.setDistance(15);
         station1.setStationName("Coop");
         station1.setStationCity("St-Imier");
         station1.setCoordinates(new LatLng(47.153448, 7.000458));
         stationList.add(station1);
+
+        //station1.setDistance(MapViewFragment.getDistance(station1));
 
         StationItem station2 = new StationItem();
         station2.setNumberOfBike(3);
@@ -331,6 +339,7 @@ public class MainActivity
         station2.setStationCity("St-Imier");
         station2.setCoordinates(new LatLng(47.152615, 6.996265));
         stationList.add(station2);
+        //station2.setDistance(MapViewFragment.getDistance(station2));
 
         StationItem station3 = new StationItem();
         station3.setNumberOfBike(5);
@@ -340,6 +349,18 @@ public class MainActivity
         station3.setStationCity("St-Imier");
         station3.setCoordinates(new LatLng(47.151591, 6.999985));
         stationList.add(station3);
+
+        //station3.setDistance(MapViewFragment.getDistance(station3));
+
+
+        StationItem station4 = new StationItem();
+        station4.setNumberOfBike(5);
+        station4.setFreeSlotNumber(5);
+        station4.setDistance(1);
+        station4.setStationName("Vigie");
+        station4.setStationCity("Lausanne");
+        station4.setCoordinates(new LatLng(46.521367, 6.624278));
+        stationList.add(station4);
 
         addStationToFavorites(station1);
 
