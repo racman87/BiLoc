@@ -49,7 +49,7 @@ public class StationListAdapter extends ArrayAdapter<StationItem> {
                     res.getString(R.string.list_bike);
             number_Bike.setText(numberOfBike);
 
-            final String stationDistance = res.getString(R.string.list_distance) + " " + androidVersion.getDistance();
+            final String stationDistance = res.getString(R.string.list_distance) + " " + androidVersion.getDistance()+"km";
             distance.setText(stationDistance);
 
             final String stationName = res.getString(R.string.list_station) + " " + androidVersion.getStationName();

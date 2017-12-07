@@ -121,7 +121,7 @@ public class DetailFragment extends Fragment {
                 currentStation.getFreeSlotNumber(),
                 currentStation.getNumberOfBike()));
         distanceText = myView.findViewById(R.id.distanceText);
-        distanceText.setText(String.valueOf(currentStation.getDistance()));
+        distanceText.setText(String.valueOf(currentStation.getDistance())+"km");
 
         return myView;
     }
