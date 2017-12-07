@@ -1,6 +1,7 @@
 package com.biloc.biloc;
 
 import android.content.Context;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -35,6 +36,8 @@ public class ListFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private int position;
+
+    private static ArrayList<StationItem> stationList1;
 
     public ListFragment() {
         // Required empty public constructor
@@ -75,6 +78,11 @@ public class ListFragment extends Fragment {
         Log.i(TAG, "ListFragment onCreateView: ");
         View myView = inflater.inflate(R.layout.fragment_list, container, false);
 
+        //Calcul des distances
+        for (StationItem station: stationList1) {
+            station.setDistance(getDistance(station));
+        }
+
         //Création de la custom list
         final StationListAdapter adapter = new StationListAdapter(getContext(), R.layout.cellule_list, MainActivity.getStationList());
         final ListView list = myView.findViewById(R.id.customlistView);
@@ -89,6 +97,10 @@ public class ListFragment extends Fragment {
         return myView;
     }
 
+    public static void setStationList(ArrayList<StationItem> stationList) {
+        stationList1 = stationList;
+    }
+
     private void manageItem(StationItem itemAtPosition) {
         if (mListener != null) {
             mListener.onListFragmentInteraction(itemAtPosition);
@@ -100,6 +112,24 @@ public class ListFragment extends Fragment {
         if (mListener != null) {
             //mListener.onListFragmentInteraction(5);
         }
+    }
+
+
+    public static double getDistance(StationItem station) {
+        Location locationStation = new Location("Station");
+
+        locationStation.setLatitude(station.getCoordinates().latitude);
+        locationStation.setLongitude(station.getCoordinates().longitude);
+
+        Location myLoc = new Location("My Position");
+
+        myLoc.setLatitude(MainActivity.myLocation.getLatitude());
+        myLoc.setLongitude(MainActivity.myLocation.getLongitude());
+
+        float distance = locationStation.distanceTo(myLoc)/1000;
+
+        Log.i("testBiloc", "onCreateView: Distance ->"+distance);
+        return distance;
     }
 
     @Override
@@ -135,6 +165,8 @@ public class ListFragment extends Fragment {
 
         void onListFragmentInteraction(StationItem itemAtPosition);
     }
+
+
 
 
 

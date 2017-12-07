@@ -4,6 +4,7 @@ import android.*;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -16,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -28,6 +31,13 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+
+import com.android.volley.Request;
+import com.google.android.gms.tasks.OnSuccessListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -49,6 +59,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
     private static final String ARG_PARAM2 = "param2";
     private static GoogleMap mMap;
     StationItem currentStation;
+    private FusedLocationProviderClient mFusedLocationClient;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -61,6 +72,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
 
     String TAG = "testBiloc";
     private ArrayList<StationItem> stationList;
+
 
     public MapViewFragment() {
         // Required empty public constructor
@@ -91,6 +103,8 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
+
         Log.i(TAG, "onCreate: mapFragment");
     }
 
@@ -148,6 +162,30 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
         LatLng currentStation_LatLng;
         int zoomMap;
 
+        //Set the location pointer if permission accepted
+        if(checkPermission()) {
+            mMap.setMyLocationEnabled(true);
+            Log.i(TAG, "onMapReady: POSITION OK");
+            // Show zoom controls on the map layer
+            mMap.getUiSettings().setZoomControlsEnabled(true);
+            //Show My Location Button on the map
+            mMap.getUiSettings().setMyLocationButtonEnabled(true);
+
+            //Check position
+            mFusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                // Logic to handle location object
+                                MainActivity.myLocation=location;
+                            }
+                        }
+                    });
+        }
+        else askPermission();
+
         //mMap.setMyLocationEnabled(true);
 
         if(!zoomOnStation)
@@ -181,7 +219,9 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
             mMap.addMarker(new MarkerOptions()
                     .position(station.getCoordinates())
                     .title(marker)
+                    .alpha(0.8f)
                     .icon(color)).setTag(station);
+
         }
 
         //Add listener to the marker
@@ -219,16 +259,8 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(stImier, 13));//ESSAI
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentStation_LatLng, zoomMap));
 
-        //Set the location pointer if permission accepted
-        if(checkPermission()) {
-            mMap.setMyLocationEnabled(true);
-            Log.i(TAG, "onMapReady: POSITION OK");
-            // Show zoon controls on the map layer
-            mMap.getUiSettings().setZoomControlsEnabled(true);
-            //Show My Location Button on the map
-            mMap.getUiSettings().setMyLocationButtonEnabled(true);
-        }
-        else askPermission();
+
+
 
         //Ajouté pour changer le style de la carte
         try {
@@ -308,6 +340,26 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onMapFragmentInteraction(StationItem itemAtPosition);
+    }
+
+
+    private void processGETRequest(View v, String ressource) {
+        String server = "http://192.168.2.1:"; //5000
+        Utils.processRequest(v.getContext(),server, "5000", ressource, Request.Method.GET,  null,
+                new Utils.VolleyCallback() {
+
+                    @Override
+                    public void onSuccessResponse(JSONObject result) {
+                        try {
+                            Log.i(TAG, "onSuccessResponse -> result: "  +result);
+                            String response = result.getString("value");
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 
 }

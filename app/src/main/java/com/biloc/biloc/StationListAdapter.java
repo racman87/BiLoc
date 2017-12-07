@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -49,7 +50,8 @@ public class StationListAdapter extends ArrayAdapter<StationItem> {
                     res.getString(R.string.list_bike);
             number_Bike.setText(numberOfBike);
 
-            final String stationDistance = res.getString(R.string.list_distance) + " " + androidVersion.getDistance()+"km";
+            DecimalFormat df = new DecimalFormat("##.##");
+            final String stationDistance = res.getString(R.string.list_distance) + " " + df.format(androidVersion.getDistance())+"km";
             distance.setText(stationDistance);
 
             final String stationName = res.getString(R.string.list_station) + " " + androidVersion.getStationName();

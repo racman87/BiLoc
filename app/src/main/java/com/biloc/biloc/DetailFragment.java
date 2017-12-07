@@ -2,7 +2,7 @@ package com.biloc.biloc;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -11,6 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.android.gms.nearby.messages.Distance;
+
+import java.text.DecimalFormat;
 
 
 /**
@@ -27,6 +31,7 @@ public class DetailFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     String TAG = "testBiloc";
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -109,6 +114,20 @@ public class DetailFragment extends Fragment {
             }
         });
 
+        Location locationStation = new Location("Station");
+
+        locationStation.setLatitude(currentStation.getCoordinates().latitude);
+        locationStation.setLongitude(currentStation.getCoordinates().longitude);
+
+       Location myLoc = new Location("My Position");
+
+        myLoc.setLatitude(MainActivity.myLocation.getLatitude());
+        myLoc.setLongitude(MainActivity.myLocation.getLongitude());
+
+        float distance = locationStation.distanceTo(myLoc)/1000;
+
+        Log.i(TAG, "onCreateView: Distance ->"+distance);
+
 
         //myView = this.getView();
         assert myView != null;
@@ -121,7 +140,9 @@ public class DetailFragment extends Fragment {
                 currentStation.getFreeSlotNumber(),
                 currentStation.getNumberOfBike()));
         distanceText = myView.findViewById(R.id.distanceText);
-        distanceText.setText(String.valueOf(currentStation.getDistance())+"km");
+
+        DecimalFormat df = new DecimalFormat("##.##");
+        distanceText.setText(df.format(distance)+"km");
 
         return myView;
     }
