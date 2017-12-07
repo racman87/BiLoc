@@ -15,9 +15,6 @@ import android.widget.TextView;
 import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
 import com.google.android.gms.maps.StreetViewPanorama;
 import com.google.android.gms.maps.StreetViewPanoramaFragment;
-import com.google.android.gms.maps.model.LatLng;
-
-import com.google.android.gms.nearby.messages.Distance;
 
 import java.text.DecimalFormat;
 
@@ -155,7 +152,7 @@ public class DetailFragment extends Fragment implements OnStreetViewPanoramaRead
 
         streetViewPanoramaFragment =
                 (StreetViewPanoramaFragment) getActivity().getFragmentManager()
-                        .findFragmentById(R.id.streetviewpanorama);
+                        .findFragmentById(R.id.streetViewPanorama);
         streetViewPanoramaFragment.getStreetViewPanoramaAsync(this);
 
         return myView;

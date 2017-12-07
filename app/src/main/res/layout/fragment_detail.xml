@@ -17,7 +17,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
-            android:text="St-Imier"
             android:textColor="@color/colorblack"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -27,13 +26,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="PTSI"
             android:textColor="@color/colorblack"
             android:textSize="30sp"
             android:textStyle="bold" />
 
         <fragment
-            android:id="@+id/streetviewpanorama"
+            android:id="@+id/streetViewPanorama"
             android:name="com.google.android.gms.maps.StreetViewPanoramaFragment"
             android:layout_width="match_parent"
             android:layout_height="270dp"
@@ -55,8 +53,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Bikes"
-                    android:textAlignment="center" />
+                    android:text="@string/bikes"
+                    android:textAlignment="center"
+                    tools:ignore="NestedWeights" />
 
                 <TextView
                     android:id="@+id/numberBikeText"
@@ -64,7 +63,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
-                    android:text="8 / 12"
                     android:textColor="@color/colorblack"
                     android:textSize="30sp"
                     android:textStyle="bold" />
@@ -81,8 +79,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Distance"
-                    android:textAlignment="center" />
+                    android:text="@string/distance"
+                    android:textAlignment="center"
+                    tools:ignore="NestedWeights" />
 
                 <TextView
                     android:id="@+id/distanceText"
@@ -90,7 +89,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
-                    android:text="2 km"
                     android:textColor="@color/colorblack"
                     android:textSize="30sp"
                     android:textStyle="bold" />
@@ -100,7 +98,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2px"
+            android:layout_height="2dp"
             android:layout_gravity="center_horizontal"
             android:background="@color/colorblack" />
 
@@ -109,16 +107,17 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="?android:attr/selectableItemBackground"
-            android:drawableLeft="@mipmap/ic_favoriteblue"
+            android:drawableStart="@mipmap/ic_favoriteblue"
             android:gravity="left|center_vertical|center"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:text="@string/add_favorite"
-            android:textColor="@color/colorblack" />
+            android:textColor="@color/colorblack"
+            tools:ignore="RtlHardcoded" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2px"
+            android:layout_height="2dp"
             android:layout_gravity="center_horizontal"
             android:background="@color/colorblack" />
 
@@ -127,16 +126,17 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="?android:attr/selectableItemBackground"
-            android:drawableLeft="@mipmap/ic_mapblue"
+            android:drawableStart="@mipmap/ic_mapblue"
             android:gravity="left|center_vertical|center"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:text="@string/show_map"
-            android:textColor="@color/colorblack" />
+            android:textColor="@color/colorblack"
+            tools:ignore="RtlHardcoded" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2px"
+            android:layout_height="2dp"
             android:layout_gravity="center_horizontal"
             android:background="@color/colorblack" />
 
@@ -145,12 +145,13 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="?android:attr/selectableItemBackground"
-            android:drawableLeft="@mipmap/ic_navigationblue"
+            android:drawableStart="@mipmap/ic_navigationblue"
             android:gravity="left|center_vertical|center"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:text="@string/navigation"
-            android:textColor="@color/colorblack" />
+            android:textColor="@color/colorblack"
+            tools:ignore="RtlHardcoded" />
 
     </LinearLayout>
 

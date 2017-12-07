@@ -328,7 +328,6 @@ public class MainActivity
         station1.setStationCity("St-Imier");
         station1.setCoordinates(new LatLng(47.153448, 7.000458));
         stationList.add(station1);
-
         //station1.setDistance(MapViewFragment.getDistance(station1));
 
         StationItem station2 = new StationItem();

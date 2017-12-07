@@ -38,5 +38,7 @@
     <string name="pref_sync_summ">Sync summary</string>
     <string name="pref_syncConnectionType">Connection type</string>
     <string name="pref_syncConnectionTypes_default">Cnnection type def</string>
+    <string name="bikes">Bikes</string>
+    <string name="distance">Distance</string>
 
 </resources>
