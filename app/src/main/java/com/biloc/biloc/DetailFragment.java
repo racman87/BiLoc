@@ -12,6 +12,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
+import com.google.android.gms.maps.StreetViewPanorama;
+import com.google.android.gms.maps.StreetViewPanoramaFragment;
+import com.google.android.gms.maps.model.LatLng;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,7 +26,7 @@ import android.widget.TextView;
  * Use the {@link DetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DetailFragment extends Fragment {
+public class DetailFragment extends Fragment implements OnStreetViewPanoramaReadyCallback {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -40,6 +45,7 @@ public class DetailFragment extends Fragment {
     View myView;
     StationItem currentStation;
     private Button addToFavorites;
+    private StreetViewPanoramaFragment streetViewPanoramaFragment;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -76,7 +82,9 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        myView = inflater.inflate(R.layout.fragment_detail, container, false);
+        if(myView == null){
+            myView = inflater.inflate(R.layout.fragment_detail, container, false);
+        }
         addToFavorites = myView.findViewById(R.id.addFavoritesButton);
         manageFavoriteState();
         addToFavorites.setOnClickListener(new View.OnClickListener() {
@@ -123,6 +131,12 @@ public class DetailFragment extends Fragment {
         distanceText = myView.findViewById(R.id.distanceText);
         distanceText.setText(String.valueOf(currentStation.getDistance()));
 
+
+        streetViewPanoramaFragment =
+                (StreetViewPanoramaFragment) getActivity().getFragmentManager()
+                        .findFragmentById(R.id.streetviewpanorama);
+        streetViewPanoramaFragment.getStreetViewPanoramaAsync(this);
+
         return myView;
     }
 
@@ -166,6 +180,11 @@ public class DetailFragment extends Fragment {
             Log.i(TAG, "updateElement: itemAtPosition.getStationName()="+ itemAtPosition.getStationName());
             stationNameText.setText(itemAtPosition.getStationName());
         }*/
+    }
+
+    @Override
+    public void onStreetViewPanoramaReady(StreetViewPanorama streetViewPanorama) {
+        streetViewPanorama.setPosition(this.currentStation.getCoordinates());
     }
 
     /**

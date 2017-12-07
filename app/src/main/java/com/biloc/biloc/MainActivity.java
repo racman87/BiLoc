@@ -318,18 +318,18 @@ public class MainActivity
         station1.setNumberOfBike(7);
         station1.setFreeSlotNumber(5);
         station1.setDistance(15);
-        station1.setStationName("PTSI");
+        station1.setStationName("Coop");
         station1.setStationCity("St-Imier");
-        station1.setCoordinates(new LatLng(47.154794, 7.002895));
+        station1.setCoordinates(new LatLng(47.153448, 7.000458));
         stationList.add(station1);
 
         StationItem station2 = new StationItem();
         station2.setNumberOfBike(3);
         station2.setFreeSlotNumber(2);
         station2.setDistance(8);
-        station2.setStationName("Tech");
+        station2.setStationName("Place du marché");
         station2.setStationCity("St-Imier");
-        station2.setCoordinates(new LatLng(47.150236, 6.992532));
+        station2.setCoordinates(new LatLng(47.152615, 6.996265));
         stationList.add(station2);
 
         StationItem station3 = new StationItem();
@@ -338,7 +338,7 @@ public class MainActivity
         station3.setDistance(1);
         station3.setStationName("Place de la gare");
         station3.setStationCity("St-Imier");
-        station3.setCoordinates(new LatLng(47.151778, 7.000812));
+        station3.setCoordinates(new LatLng(47.151591, 6.999985));
         stationList.add(station3);
 
         addStationToFavorites(station1);
