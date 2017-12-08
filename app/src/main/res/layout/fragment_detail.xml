@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.biloc.biloc.DetailFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -11,31 +12,78 @@
         android:background="@color/colorWhite"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/cityText"
+        <LinearLayout
+            android:id="@+id/topView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center_horizontal"
-            android:textColor="@color/colorblack"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+            android:layout_marginBottom="60dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/stationNameText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:textColor="@color/colorblack"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/cityText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:textColor="@color/colorblack"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
-        <fragment
-            android:id="@+id/streetViewPanorama"
-            android:name="com.google.android.gms.maps.StreetViewPanoramaFragment"
-            android:layout_width="match_parent"
-            android:layout_height="270dp"
-            android:layout_gravity="center_horizontal" />
+            <TextView
+                android:id="@+id/stationNameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textColor="@color/colorblack"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <fragment
+                android:id="@+id/streetViewPanorama"
+                android:name="com.google.android.gms.maps.StreetViewPanoramaFragment"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+
+                android:layout_gravity="center_horizontal" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="-26dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginBottom="250dp"
+                    android:gravity="center_horizontal"
+                    tools:ignore="UselessParent">
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/addFavoritesButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:src="@mipmap/ic_favorite" />
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/mapButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:src="@mipmap/ic_map" />
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/navigationButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:src="@mipmap/ic_navigation" />
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,7 +94,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:ignore="NestedWeights">
 
                 <TextView
                     android:id="@+id/textView"
@@ -96,64 +145,8 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@color/colorblack" />
 
-        <Button
-            android:id="@+id/addFavoritesButton"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="?android:attr/selectableItemBackground"
-            android:drawableStart="@mipmap/ic_favoriteblue"
-            android:gravity="left|center_vertical|center"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:text="@string/add_favorite"
-            android:textColor="@color/colorblack"
-            tools:ignore="RtlHardcoded" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@color/colorblack" />
-
-        <Button
-            android:id="@+id/mapButton"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="?android:attr/selectableItemBackground"
-            android:drawableStart="@mipmap/ic_mapblue"
-            android:gravity="left|center_vertical|center"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:text="@string/show_map"
-            android:textColor="@color/colorblack"
-            tools:ignore="RtlHardcoded" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@color/colorblack" />
-
-        <Button
-            android:id="@+id/navigationButton"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="?android:attr/selectableItemBackground"
-            android:drawableStart="@mipmap/ic_navigationblue"
-            android:gravity="left|center_vertical|center"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:text="@string/navigation"
-            android:textColor="@color/colorblack"
-            tools:ignore="RtlHardcoded" />
 
     </LinearLayout>
-
 
 </FrameLayout>

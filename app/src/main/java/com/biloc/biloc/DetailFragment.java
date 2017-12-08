@@ -1,9 +1,11 @@
 package com.biloc.biloc;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -46,7 +48,9 @@ public class DetailFragment extends Fragment implements OnStreetViewPanoramaRead
     TextView distanceText;
     View myView;
     StationItem currentStation;
-    private Button addToFavorites;
+    private FloatingActionButton addToFavorites;
+    private FloatingActionButton seeStationOnMap;
+    private FloatingActionButton startNavigation;
     private StreetViewPanoramaFragment streetViewPanoramaFragment;
 
     public DetailFragment() {
@@ -99,7 +103,7 @@ public class DetailFragment extends Fragment implements OnStreetViewPanoramaRead
             }
         });
 
-        Button seeStationOnMap = myView.findViewById(R.id.mapButton);
+        seeStationOnMap = myView.findViewById(R.id.mapButton);
         seeStationOnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,7 +113,7 @@ public class DetailFragment extends Fragment implements OnStreetViewPanoramaRead
             }
         });
 
-        Button startNavigation = myView.findViewById(R.id.navigationButton);
+        startNavigation = myView.findViewById(R.id.navigationButton);
         startNavigation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -161,13 +165,15 @@ public class DetailFragment extends Fragment implements OnStreetViewPanoramaRead
     private void manageFavoriteState() {
         if(currentStation.getFavorite()){
             Drawable favorite = getContext().getDrawable(R.mipmap.ic_favorties2);
-            addToFavorites.setCompoundDrawablesRelativeWithIntrinsicBounds(favorite, null, null, null);
-            addToFavorites.setText(R.string.rem_favorite);
+            addToFavorites.setBackgroundColor(Color.RED);
+            //addToFavorites.setCompoundDrawablesRelativeWithIntrinsicBounds(favorite, null, null, null);
+            //addToFavorites.setText(R.string.rem_favorite);
         }
         else{
             Drawable unFavorite = getContext().getDrawable(R.mipmap.ic_favoriteblue);
-            addToFavorites.setCompoundDrawablesRelativeWithIntrinsicBounds(unFavorite, null, null, null);
-            addToFavorites.setText(R.string.add_favorite);
+            addToFavorites.setBackgroundColor(Color.GREEN);
+            //addToFavorites.setCompoundDrawablesRelativeWithIntrinsicBounds(unFavorite, null, null, null);
+            //addToFavorites.setText(R.string.add_favorite);
         }
     }
 
