@@ -77,7 +77,6 @@ public class ListFragment extends Fragment {
         // Inflate the layout for this listFragment
         Log.i(TAG, "ListFragment onCreateView: ");
         View myView = inflater.inflate(R.layout.fragment_list, container, false);
-
         //Calcul des distances
         for (StationItem station: stationList1) {
             station.setDistance(getDistance(station));

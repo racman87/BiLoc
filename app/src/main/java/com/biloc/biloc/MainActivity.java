@@ -19,7 +19,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.android.volley.Request;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -28,6 +30,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -51,8 +57,10 @@ public class MainActivity
     DetailFragment detailFragment;
     SettingsFragment settingsFragment;
     public static android.app.FragmentManager fragmentManager;
-    private static ArrayList<StationItem> stationList;
+    public static ArrayList<StationItem> stationList;
     private static ArrayList<StationItem> favoritesList;
+
+    private static boolean listInit=false;
 
     public static Location myLocation;
 
@@ -85,13 +93,18 @@ public class MainActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         if (findViewById(fragment_container) != null) {
             if (savedInstanceState != null) {
                 return;
             }
             Log.i(TAG, "onCreate: findViewById");
+            processGETRequest();
 
-            mapFragment = MapViewFragment.newInstance("TEST1", "TEST2");
+            favoritesList = new ArrayList<>();
+            stationList = new ArrayList<>();
+        }
+         /*   mapFragment = MapViewFragment.newInstance("TEST1", "TEST2");
 
             FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
@@ -111,10 +124,11 @@ public class MainActivity
 
             favoritesList = new ArrayList<>();
             stationList = new ArrayList<>();
-            initStationList();
+            //initStationList();
+            Log.i(TAG, "onCreate: INIT LIST**********************************************************");
             mapFragment.setStationList(stationList);
             ListFragment.setStationList(stationList);
-        }
+        }*/
 
 
         //-----------------------------------------------------------------------------------
@@ -320,7 +334,7 @@ public class MainActivity
     // Peuplage de la custom list
     // ON remplit l'array list d'androidVersion
     //----------------------------------------------------------------------
-    public void initStationList() {
+    /*public void initStationList() {
         StationItem station1 = new StationItem();
         station1.setNumberOfBike(7);
         station1.setFreeSlotNumber(5);
@@ -362,6 +376,89 @@ public class MainActivity
         stationList.add(station4);
 
         addStationToFavorites(station1);
+
+    }*/
+
+
+    private void processGETRequest() {
+        Utils.processRequest(this, Request.Method.GET,  null,
+                new Utils.VolleyCallback() {
+
+                    @Override
+                    public void onSuccessResponse(JSONObject result) {
+                        try {
+                            Log.i(TAG, "onSuccessResponse -> result: "  +result);
+                            JSONArray station = result.getJSONArray("station");
+                            //String response = result.getString("AllowedBike");
+                            Log.i(TAG, "onSuccessResponse -> response: "  +station);
+                            for(int k=0; k<station.length(); k++)
+                            {
+                                JSONObject StationK = station.getJSONObject(k);
+                                Log.i(TAG, "onSuccessResponse -> Sation"+k+": "  +StationK);
+
+                                initList(StationK,k);
+                            }
+                            startApp();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    private void initList(JSONObject stationK, int k) {
+
+        try {
+
+            int  AllowedBike = stationK.getInt("AllowedBike");
+            int  AvailableBike = stationK.getInt("AvailableBike");
+            double  LocationLat = stationK.getDouble("LocationLat");
+            double  LocationLng = stationK.getDouble("LocationLng");
+            String Locality = stationK.getString("Locality");
+            String StationName = stationK.getString("StationName");
+
+            Log.i(TAG, "onSuccessResponse -> Sation"+k+":\n AllowedBike: "+AllowedBike +"\n AvailableBike: "+AvailableBike +"\n LocationLat: "+LocationLat +  "\n LocationLng: "+LocationLng +  "\n Locality: "+Locality + "\n StationName: "+StationName);
+
+            StationItem station = new StationItem();
+
+            station.setNumberOfBike(AllowedBike);
+            station.setFreeSlotNumber(AvailableBike);
+            station.setStationName(StationName);
+            station.setStationCity(Locality);
+            station.setCoordinates(new LatLng(LocationLat, LocationLng));
+            stationList.add(station);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void startApp(){
+
+            mapFragment = MapViewFragment.newInstance("TEST1", "TEST2");
+
+            FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.add(R.id.fragment_container, mapFragment);
+            fragmentTransaction.commit();
+
+            if (mapFragment == null) {
+                Log.i(TAG, "onCreate: mapFragment == null");
+            } else {
+                Log.i(TAG, "onCreate: mapFragment != null");
+            }
+            listFragment = new ListFragment();
+            profileFragment = new ProfileFragment();
+            favoritesFragment = new FavoritesFragment();
+            detailFragment = new DetailFragment();
+            settingsFragment = SettingsFragment.newInstance();
+
+            Log.i(TAG, "onCreate: INIT LIST**********************************************************");
+            mapFragment.setStationList(stationList);
+            ListFragment.setStationList(stationList);
 
     }
 

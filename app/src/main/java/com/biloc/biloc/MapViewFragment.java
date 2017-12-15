@@ -4,6 +4,7 @@ import android.*;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.icu.math.BigDecimal;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -36,9 +37,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.android.volley.Request;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
@@ -117,18 +120,11 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
         View myView = inflater.inflate(R.layout.fragment_map, container, false);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 
+
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
 
-        //LatLng toto = new LatLng(30, 20);
-        //mMap.addMarker(new MarkerOptions().position(toto).title("PTSI"));
-        /*mButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onButtonPressed(3);
-            }
-        });*/
         return myView;
     }
 
@@ -246,14 +242,6 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
             }
 
         });
-        //mMap.addMarker(new MarkerOptions().position(lausanne).title("Lausanne HES-SO"));
-        //mMap.addMarker(new MarkerOptions().position(stImier).title("PTSI"));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(stImier)); //ESSAI currentStation.getCoordinates()
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(currentStation_LatLng));
-
-        // Create a LatLngBounds that includes Australia.
-        //LatLngBounds SUISSE = new LatLngBounds(lausanne,stImier);
-
         // Set the camera to the greatest possible zoom level that includes the
         // bounds
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(stImier, 13));//ESSAI
@@ -340,26 +328,6 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onMapFragmentInteraction(StationItem itemAtPosition);
-    }
-
-
-    private void processGETRequest(View v, String ressource) {
-        String server = "http://192.168.2.1:"; //5000
-        Utils.processRequest(v.getContext(),server, "5000", ressource, Request.Method.GET,  null,
-                new Utils.VolleyCallback() {
-
-                    @Override
-                    public void onSuccessResponse(JSONObject result) {
-                        try {
-                            Log.i(TAG, "onSuccessResponse -> result: "  +result);
-                            String response = result.getString("value");
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
     }
 
 }

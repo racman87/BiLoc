@@ -14,18 +14,16 @@ import com.android.volley.toolbox.JsonObjectRequest;
 
 class Utils {
 
-    private static final String TAG = "testResponse";
+    private static final String TAG = "testBiloc";
 
     public interface VolleyCallback{
         void onSuccessResponse(JSONObject result);
     }
 
-    static void processRequest(final Context ctxt, String server, String port , String ressource, int method,
+    static void processRequest(final Context ctxt, int method,
                                JSONObject jsonValue, final VolleyCallback callback){
 
-        String url = server + port + "/" + ressource;
-
-        String testurl = "https://postman-echo.com/get?test=123";
+        String url = "http://54.186.104.143/stations/v2";
 
         Log.i(TAG, "processRequest -> URL: "+url);
 
