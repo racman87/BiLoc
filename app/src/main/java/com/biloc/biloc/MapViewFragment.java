@@ -2,10 +2,12 @@ package com.biloc.biloc;
 
 import android.*;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.icu.math.BigDecimal;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -167,8 +169,40 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
             //Show My Location Button on the map
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
+
+            //Demande d'activation de la postion.
+            final LocationManager manager = (LocationManager) getActivity().getSystemService( Context.LOCATION_SERVICE );
+
+            if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+                Intent i = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+
+                startActivityForResult(i, 1);
+            }
+            else
+            {
+                //Check position
+                mFusedLocationClient.getLastLocation()
+                        .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                            @Override
+                            public void onSuccess(Location location) {
+                                // Got last known location. In some rare situations this can be null.
+                                if (location != null) {
+                                    // Logic to handle location object
+                                    MainActivity.myLocation=location;
+                                    MainActivity.gpsAtivate=true;
+                                }
+                                else
+                                {
+                                    Log.i(TAG, "onSuccess GPS: FAIL");
+                                    MainActivity.gpsAtivate=false;
+                                }
+                            }
+                        });
+            }
+            //ESSAI--------------------------------------------------------------------
+
             //Check position
-            mFusedLocationClient.getLastLocation()
+            /*mFusedLocationClient.getLastLocation()
                     .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location location) {
@@ -176,9 +210,15 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
                             if (location != null) {
                                 // Logic to handle location object
                                 MainActivity.myLocation=location;
+                                MainActivity.gpsAtivate=true;
+                            }
+                            else
+                            {
+                                Log.i(TAG, "onSuccess GPS: FAIL ------------------------------------- ");
+                                MainActivity.gpsAtivate=false;
                             }
                         }
-                    });
+                    });*/
         }
         else askPermission();
 
