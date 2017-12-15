@@ -78,9 +78,19 @@ public class ListFragment extends Fragment {
         Log.i(TAG, "ListFragment onCreateView: ");
         View myView = inflater.inflate(R.layout.fragment_list, container, false);
         //Calcul des distances
-        for (StationItem station: stationList1) {
-            station.setDistance(getDistance(station));
+        if(MainActivity.gpsAtivate==true)
+        {
+            for (StationItem station: stationList1) {
+                station.setDistance(getDistance(station));
+            }
         }
+        else
+        {
+            for (StationItem station: stationList1) {
+                station.setDistance(0.00);
+            }
+        }
+
 
         //Création de la custom list
         final StationListAdapter adapter = new StationListAdapter(getContext(), R.layout.cellule_list, MainActivity.getStationList());

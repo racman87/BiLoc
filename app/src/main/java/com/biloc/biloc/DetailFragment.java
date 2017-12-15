@@ -123,19 +123,30 @@ public class DetailFragment extends Fragment implements OnStreetViewPanoramaRead
             }
         });
 
-        Location locationStation = new Location("Station");
+        float distance;
 
-        locationStation.setLatitude(currentStation.getCoordinates().latitude);
-        locationStation.setLongitude(currentStation.getCoordinates().longitude);
+        if(MainActivity.gpsAtivate==true) {
 
-       Location myLoc = new Location("My Position");
+            Location locationStation = new Location("Station");
 
-        myLoc.setLatitude(MainActivity.myLocation.getLatitude());
-        myLoc.setLongitude(MainActivity.myLocation.getLongitude());
+            locationStation.setLatitude(currentStation.getCoordinates().latitude);
+            locationStation.setLongitude(currentStation.getCoordinates().longitude);
 
-        float distance = locationStation.distanceTo(myLoc)/1000;
+            Location myLoc = new Location("My Position");
 
-        Log.i(TAG, "onCreateView: Distance ->"+distance);
+            myLoc.setLatitude(MainActivity.myLocation.getLatitude());
+            myLoc.setLongitude(MainActivity.myLocation.getLongitude());
+
+            distance = locationStation.distanceTo(myLoc)/1000;
+            Log.i(TAG, "onCreateView: Distance ->"+distance);
+        }
+        else
+        {
+           distance=0;
+        }
+
+
+
 
 
         //myView = this.getView();

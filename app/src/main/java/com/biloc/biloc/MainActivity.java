@@ -79,6 +79,8 @@ public class MainActivity
 
     public static final int REQ_PERMISSION = 1;
 
+    public static boolean gpsAtivate=false;
+
 
     public static ArrayList<StationItem> getStationList() {
         return stationList;
