@@ -40,5 +40,6 @@
     <string name="pref_syncConnectionTypes_default">Cnnection type def</string>
     <string name="bikes">Bikes</string>
     <string name="distance">Distance</string>
+    <string name="internet">NEED TO ACTIVATE DATA MOBILE</string>
 
 </resources>

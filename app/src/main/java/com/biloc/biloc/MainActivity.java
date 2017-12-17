@@ -1,12 +1,25 @@
 package com.biloc.biloc;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -14,12 +27,17 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -35,7 +53,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
 import static com.biloc.biloc.R.id.fragment_container;
 
@@ -61,6 +83,11 @@ public class MainActivity
     private static ArrayList<StationItem> favoritesList;
 
     private static boolean listInit=false;
+    private static boolean noInternet=false;
+    private static Snackbar snackbar;
+    private AlertDialog.Builder builder1;
+    private AlertDialog alert11;
+    private boolean startApp=false;
 
     public static Location myLocation;
 
@@ -81,6 +108,8 @@ public class MainActivity
 
     public static boolean gpsAtivate=false;
 
+    private static TextView internetStatus;
+
 
     public static ArrayList<StationItem> getStationList() {
         return stationList;
@@ -95,13 +124,24 @@ public class MainActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         if (findViewById(fragment_container) != null) {
             if (savedInstanceState != null) {
                 return;
             }
             Log.i(TAG, "onCreate: findViewById");
-            processGETRequest();
+
+            //Snackbar
+            snackbar = Snackbar.make(findViewById(fragment_container), "No Internet Connection", Snackbar.LENGTH_INDEFINITE);
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+
+            //Internet connexion detection
+            //NE PAS OUBLIER DE DESENREGISTRER!!!!!!!!!!!!!!
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+            registerReceiver(new InternetConnector_Receiver(), intentFilter);
+
+            isNetworkAvailable();
 
             favoritesList = new ArrayList<>();
             stationList = new ArrayList<>();
@@ -139,15 +179,6 @@ public class MainActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /*FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -177,20 +208,32 @@ public class MainActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        if(startApp==true ) {
+            if(noInternet==true)
+            {
+                Toast.makeText(this, "NO INTERNET : Station is not up to date", Toast.LENGTH_LONG).show();
+            }
+            if (id == R.id.nav_map) {
+                onDrawerFragmentInteraction(mapFragment, getString(R.string.toolbarTitleMap));
+            } else if (id == R.id.nav_list) {
+                onDrawerFragmentInteraction(listFragment, getString(R.string.toolbarTitleList));
+            } else if (id == R.id.nav_profile) {
+                onDrawerFragmentInteraction(profileFragment, getString(R.string.toolbarTitleProfile));
+            } else if (id == R.id.nav_favorites) {
+                onDrawerFragmentInteraction(favoritesFragment, getString(R.string.toolbarTitleFavorites));
+            }
 
-        if (id == R.id.nav_map) {
-            onDrawerFragmentInteraction(mapFragment, getString(R.string.toolbarTitleMap));
-        } else if (id == R.id.nav_list) {
-            onDrawerFragmentInteraction(listFragment, getString(R.string.toolbarTitleList));
-        } else if (id == R.id.nav_profile) {
-            onDrawerFragmentInteraction(profileFragment, getString(R.string.toolbarTitleProfile));
-        } else if (id == R.id.nav_favorites) {
-            onDrawerFragmentInteraction(favoritesFragment, getString(R.string.toolbarTitleFavorites));
+            DrawerLayout drawer = findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+            return true;
+        }
+        else
+        {
+            Toast.makeText(this, "NO INTERNET: Activate to continue", Toast.LENGTH_LONG).show();
+            return true;
         }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+
     }
 
     private void onDrawerFragmentInteraction(Fragment fragmentToCall, String toolBarTitle) {
@@ -381,7 +424,6 @@ public class MainActivity
 
     }*/
 
-
     private void processGETRequest() {
         Utils.processRequest(this, Request.Method.GET,  null,
                 new Utils.VolleyCallback() {
@@ -393,6 +435,7 @@ public class MainActivity
                             JSONArray station = result.getJSONArray("station");
                             //String response = result.getString("AllowedBike");
                             Log.i(TAG, "onSuccessResponse -> response: "  +station);
+                            stationList.clear();
                             for(int k=0; k<station.length(); k++)
                             {
                                 JSONObject StationK = station.getJSONObject(k);
@@ -400,7 +443,10 @@ public class MainActivity
 
                                 initList(StationK,k);
                             }
-                            startApp();
+
+                            if(startApp==false) {
+                                startApp();
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -462,7 +508,58 @@ public class MainActivity
             mapFragment.setStationList(stationList);
             ListFragment.setStationList(stationList);
 
+            startApp=true;
+
+
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+        return activeNetworkInfo != null;
+
+    }
+
+
+    public class InternetConnector_Receiver extends BroadcastReceiver {
+
+        String TAG = "testBiloc";
+
+        public InternetConnector_Receiver() {
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            try {
+                // Check internet connection and accrding to state change the
+                // text of activity by calling method
+                if (isNetworkAvailable()==true) {
+                    Log.i(TAG, "onReceive: TRUE ");
+
+                    if(noInternet==true)
+                    {
+                        snackbar.setDuration(0);
+                        snackbar.show();
+                    }
+                    noInternet=false;
+                    processGETRequest();
+                } else {
+                    Log.i(TAG, "onReceive: FALSE");
+                    snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
+                    snackbar.show();
+                    noInternet = true;
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+
 }
+
 
