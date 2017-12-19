@@ -64,8 +64,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
+                        android:tint="@color/colorAccent"
                         android:src="@mipmap/ic_favoritegreen"
-                        app:backgroundTint="@color/colorblack" />
+                        app:backgroundTint="@color/colorPrimaryDark" />
 
                     <android.support.design.widget.FloatingActionButton
                         android:id="@+id/mapButton"
@@ -73,8 +74,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
+                        android:tint="@color/colorAccent"
                         android:src="@mipmap/ic_mapgreen"
-                        app:backgroundTint="@color/colorblack" />
+                        app:backgroundTint="@color/colorPrimaryDark" />
 
                     <android.support.design.widget.FloatingActionButton
                         android:id="@+id/navigationButton"
@@ -82,8 +84,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
+                        android:tint="@color/colorAccent"
                         android:src="@mipmap/ic_navigationgreen"
-                        app:backgroundTint="@color/colorblack" />
+                        app:backgroundTint="@color/colorPrimaryDark" />
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>

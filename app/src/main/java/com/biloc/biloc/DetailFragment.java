@@ -125,24 +125,24 @@ public class DetailFragment extends Fragment implements OnStreetViewPanoramaRead
 
         float distance;
 
-        if(MainActivity.gpsAtivate==true) {
+        String sDist = "--";
+
+        if(MainActivity.gpsAtivate==true &&
+                MainActivity.myLocation != null) {
 
             Location locationStation = new Location("Station");
-
             locationStation.setLatitude(currentStation.getCoordinates().latitude);
             locationStation.setLongitude(currentStation.getCoordinates().longitude);
 
             Location myLoc = new Location("My Position");
-
             myLoc.setLatitude(MainActivity.myLocation.getLatitude());
             myLoc.setLongitude(MainActivity.myLocation.getLongitude());
 
             distance = locationStation.distanceTo(myLoc)/1000;
             Log.i(TAG, "onCreateView: Distance ->"+distance);
-        }
-        else
-        {
-           distance=0;
+
+            DecimalFormat df = new DecimalFormat("##.##");
+            sDist = df.format(distance)+"km";
         }
 
 
@@ -161,8 +161,7 @@ public class DetailFragment extends Fragment implements OnStreetViewPanoramaRead
                 currentStation.getNumberOfBike()));
         distanceText = myView.findViewById(R.id.distanceText);
 
-        DecimalFormat df = new DecimalFormat("##.##");
-        distanceText.setText(df.format(distance)+"km");
+        distanceText.setText(sDist);
 
 
         streetViewPanoramaFragment =

@@ -1,16 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary2">#d2691e</color>
-    <color name="colorPrimaryDark2">#9B3C00</color>
-    <color name="colorAccent2">#E53300</color>
-    <color name="colorblack2">#212121</color>
-    <color name="colorWhite2">#ffffff</color>
+
+    <color name="colorPrimary2">#d1e96a</color>
+    <color name="colorPrimaryDark2">#7ba80a</color>
+    <color name="colorAccent2">#32789d</color>
+
+    <color name="colorPrimary3">#d2691e</color>
+    <color name="colorPrimaryDark3">#9B3C00</color>
+    <color name="colorAccent3">#E53300</color>
+
+    <color name="colorPrimary4">#00bcd4</color>
+    <color name="colorPrimaryDark4">#0097a7</color>
+    <color name="colorAccent4">#f2fe71</color>
+
+    <color name="colorPrimary5">#4EAC00</color>
+    <color name="colorPrimaryDark5">#3C8500</color>
+    <color name="colorAccent5">#F97946</color>
+
+    <color name="colorPrimary6">#79A362</color>
+    <color name="colorPrimaryDark6">#597D46</color>
+    <color name="colorAccent6">#FFF693</color>
+
+    <color name="colorPrimary">#90DD67</color>
+    <color name="colorPrimaryDark">#6FB649</color>
+    <color name="colorAccent">#7DD9D2</color>
 
 
-    <color name="colorPrimary">#d1e96a</color>
-    <color name="colorPrimaryDark">#7ba80a</color>
-    <color name="colorAccent">#32789d</color>
     <color name="colorblack">#212121</color>
     <color name="colorPrimaryLight">#eaf6b8</color>
     <color name="colorWhite">#ffffff</color>
+
+    <!-- firebase colors -->
+    <color name="bg_login">#26ae90</color>
+    <color name="bg_register">#2e3237</color>
+    <color name="bg_main">#428bca</color>
+    <color name="white">#ffffff</color>
+    <color name="input_login">#222222</color>
+    <color name="input_login_hint">#999999</color>
+    <color name="input_register">#888888</color>
+    <color name="input_register_bg">#3b4148</color>
+    <color name="input_register_hint">#5e6266</color>
+    <color name="btn_login">#26ae90</color>
+    <color name="btn_login_bg">#eceef1</color>
+    <color name="lbl_name">#333333</color>
+    <color name="btn_logut_bg">#ff6861</color>
 </resources>

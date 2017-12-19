@@ -57,6 +57,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.zip.Inflater;
 
 import static com.biloc.biloc.R.id.fragment_container;
@@ -109,6 +110,7 @@ public class MainActivity
     public static boolean gpsAtivate=false;
 
     private static TextView internetStatus;
+
 
 
     public static ArrayList<StationItem> getStationList() {
@@ -187,6 +189,7 @@ public class MainActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     //----------------------------------------------------------------------
@@ -221,7 +224,7 @@ public class MainActivity
                 onDrawerFragmentInteraction(profileFragment, getString(R.string.toolbarTitleProfile));
             } else if (id == R.id.nav_favorites) {
                 onDrawerFragmentInteraction(favoritesFragment, getString(R.string.toolbarTitleFavorites));
-            }
+            } else if (id == R.id.nav_signIn) startIntent(SignupActivity.class);
 
             DrawerLayout drawer = findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
@@ -234,6 +237,11 @@ public class MainActivity
         }
 
 
+    }
+
+    private void startIntent(Class<SignupActivity> activityClass) {
+        Intent intent = new Intent(this, activityClass);
+        startActivity(intent);
     }
 
     private void onDrawerFragmentInteraction(Fragment fragmentToCall, String toolBarTitle) {

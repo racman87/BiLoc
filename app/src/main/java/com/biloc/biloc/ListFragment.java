@@ -132,10 +132,14 @@ public class ListFragment extends Fragment {
 
         Location myLoc = new Location("My Position");
 
-        myLoc.setLatitude(MainActivity.myLocation.getLatitude());
-        myLoc.setLongitude(MainActivity.myLocation.getLongitude());
+        float distance = 0;
+        if(MainActivity.myLocation != null){
 
-        float distance = locationStation.distanceTo(myLoc)/1000;
+            myLoc.setLatitude(MainActivity.myLocation.getLatitude());
+            myLoc.setLongitude(MainActivity.myLocation.getLongitude());
+
+            distance = locationStation.distanceTo(myLoc)/1000;
+        }
 
         Log.i("testBiloc", "onCreateView: Distance ->"+distance);
         return distance;

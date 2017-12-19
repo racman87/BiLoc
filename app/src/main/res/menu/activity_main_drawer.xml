@@ -18,6 +18,10 @@
             android:id="@+id/nav_favorites"
             android:icon="@mipmap/ic_favorite"
             android:title="@string/favorites" />
+        <item
+            android:id="@+id/nav_signIn"
+            android:icon="@mipmap/ic_login"
+            android:title="@string/signIn" />
     </group>
 
     <!--
