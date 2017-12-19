@@ -26,7 +26,7 @@
 
     <string name="map">Map</string>
     <string name="list">List</string>
-    <string name="profil">Profil</string>
+    <string name="profile">Profil</string>
     <string name="favorites">Favorites</string>
     <string name="toolbarTitleFavorites">Favorites</string>
     <string name="toolbarTitleProfile">Profile</string>
@@ -72,5 +72,6 @@
     <string name="btn_sign_out">Sign Out</string>
     <string name="lbl_forgot_password">Forgot password?</string>
     <string name="forgot_password_msg">We just need your registered Email Id to sent you password reset instructions.</string>
+    <string name="signUp">Sign Up</string>
 
 </resources>

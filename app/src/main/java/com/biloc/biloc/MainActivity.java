@@ -48,6 +48,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -89,6 +91,9 @@ public class MainActivity
     private AlertDialog.Builder builder1;
     private AlertDialog alert11;
     private boolean startApp=false;
+    private FirebaseUser currentUser;
+    private FirebaseAuth mAuth;
+    private NavigationView navigationView;
 
     public static Location myLocation;
 
@@ -110,7 +115,7 @@ public class MainActivity
     public static boolean gpsAtivate=false;
 
     private static TextView internetStatus;
-
+    private boolean ui;
 
 
     public static ArrayList<StationItem> getStationList() {
@@ -123,6 +128,7 @@ public class MainActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("testBilocUser", "MainActivity.onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -148,6 +154,7 @@ public class MainActivity
             favoritesList = new ArrayList<>();
             stationList = new ArrayList<>();
         }
+
          /*   mapFragment = MapViewFragment.newInstance("TEST1", "TEST2");
 
             FragmentTransaction fragmentTransaction =
@@ -187,9 +194,35 @@ public class MainActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+    }
+
+    @Override
+    public void onStart() {
+
+        Log.i("testBilocUser", "MainActivity.onStart");
+        super.onStart();
+
+        // Login/user management
+        mAuth = FirebaseAuth.getInstance();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
+    private void updateUI(FirebaseUser currentUser) {
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Menu nav_Menu = navigationView.getMenu();
+
+        boolean uiSetter = currentUser != null;
+
+        nav_Menu.findItem(R.id.nav_profile).setVisible(uiSetter);
+        nav_Menu.findItem(R.id.nav_signOut).setVisible(uiSetter);
+        nav_Menu.findItem(R.id.nav_signIn).setVisible(!uiSetter);
+        nav_Menu.findItem(R.id.nav_signUp).setVisible(!uiSetter);
     }
 
     //----------------------------------------------------------------------
@@ -225,6 +258,7 @@ public class MainActivity
             } else if (id == R.id.nav_favorites) {
                 onDrawerFragmentInteraction(favoritesFragment, getString(R.string.toolbarTitleFavorites));
             } else if (id == R.id.nav_signIn) startIntent(SignupActivity.class);
+            else if (id == R.id.nav_signOut) signOut();
 
             DrawerLayout drawer = findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
@@ -235,8 +269,11 @@ public class MainActivity
             Toast.makeText(this, "NO INTERNET: Activate to continue", Toast.LENGTH_LONG).show();
             return true;
         }
+    }
 
-
+    private void signOut() {
+            mAuth.signOut();
+            this.onStart();
     }
 
     private void startIntent(Class<SignupActivity> activityClass) {
@@ -529,7 +566,6 @@ public class MainActivity
         return activeNetworkInfo != null;
 
     }
-
 
     public class InternetConnector_Receiver extends BroadcastReceiver {
 

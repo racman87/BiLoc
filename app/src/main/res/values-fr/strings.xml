@@ -27,7 +27,7 @@
 
     <string name="map">Carte</string>
     <string name="list">Liste</string>
-    <string name="profil">Profile</string>
+    <string name="profile">Profile</string>
     <string name="favorites">Favoris</string>
     <string name="toolbarTitleFavorites">Favoris</string>
     <string name="toolbarTitleProfile">Profil</string>
