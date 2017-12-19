@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "924365552861",
+    "firebase_url": "https://biloc-9e377.firebaseio.com",
+    "project_id": "biloc-9e377",
+    "storage_bucket": "biloc-9e377.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:924365552861:android:fb536b33954a6013",
+        "android_client_info": {
+          "package_name": "com.biloc.biloc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "924365552861-ps1dt999ivbjmgpgk05hk0tp279he994.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.biloc.biloc",
+            "certificate_hash": "3a1fb63739bbb778a751875c6b57a1f165706540"
+          }
+        },
+        {
+          "client_id": "924365552861-621n9de7dc6iarmb1on9h9ki9jthtv9s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUcP62ya4MFyIIEW1QeObvMuS7tYWt_cg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "924365552861-621n9de7dc6iarmb1on9h9ki9jthtv9s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
