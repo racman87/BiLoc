@@ -127,7 +127,7 @@ public class DetailFragment extends Fragment implements OnStreetViewPanoramaRead
 
         String sDist = "--";
 
-        if(MainActivity.gpsAtivate==true &&
+        if(MainActivity.gpsAtivate &&
                 MainActivity.myLocation != null) {
 
             Location locationStation = new Location("Station");

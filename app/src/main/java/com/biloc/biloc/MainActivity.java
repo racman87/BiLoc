@@ -304,14 +304,17 @@ public class MainActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+
+        /*
         if (id == R.id.action_settings) {
+
             getFragmentManager().beginTransaction()
                     .replace(android.R.id.content, settingsFragment)
                     .commit();
             //callFragment( settingsFragment, getString(R.string.toolbarTitleSettings));
             return true;
         }
+         */
 
         return super.onOptionsItemSelected(item);
     }
