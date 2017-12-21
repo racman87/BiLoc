@@ -151,10 +151,30 @@ public class MainActivity
             mContext=this;
             locationManager=(LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
             if(checkPermission()) {
+
+                //Check position //ESSAI
+                mFusedLocationClient.getLastLocation()
+                        .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                            @Override
+                            public void onSuccess(Location location) {
+                                // Got last known location. In some rare situations this can be null.
+                                if (location != null) {
+                                    // Logic to handle location object
+                                    Log.i(TAG, "onSuccess GPS: OK");
+                                    myLocation=location;
+                                    gpsAtivate=true;
+                                }
+                                else
+                                {
+                                    Log.i(TAG, "onSuccess GPS: FAIL");
+                                    gpsAtivate=false;
+                                }
+                            }
+                        });
+
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                         1000,
-                        0, locationListenerGPS);
-                //isLocationEnabled();
+                        5, locationListenerGPS);
                 if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
                     AlertDialog.Builder alertDialog=new AlertDialog.Builder(mContext);
                     alertDialog.setTitle("Enable Location");
@@ -173,8 +193,8 @@ public class MainActivity
                     AlertDialog alert=alertDialog.create();
                     alert.show();
                 }
-                else{
-                   /* AlertDialog.Builder alertDialog=new AlertDialog.Builder(getActivity());
+                /*else{
+                    AlertDialog.Builder alertDialog=new AlertDialog.Builder(getActivity());
                     alertDialog.setTitle("Confirm Location");
                     alertDialog.setMessage("Your Location is enabled, please enjoy");
                     alertDialog.setNegativeButton("Back to interface",new DialogInterface.OnClickListener(){
@@ -183,28 +203,10 @@ public class MainActivity
                         }
                     });
                     AlertDialog alert=alertDialog.create();
-                    alert.show();*/
+                    alert.show();
+                }*/
 
-                    //Check position
-                    mFusedLocationClient.getLastLocation()
-                            .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                                @Override
-                                public void onSuccess(Location location) {
-                                    // Got last known location. In some rare situations this can be null.
-                                    if (location != null) {
-                                        // Logic to handle location object
-                                        Log.i(TAG, "onSuccess GPS: OK");
-                                        MainActivity.myLocation=location;
-                                        MainActivity.gpsAtivate=true;
-                                    }
-                                    else
-                                    {
-                                        Log.i(TAG, "onSuccess GPS: FAIL");
-                                        MainActivity.gpsAtivate=false;
-                                    }
-                                }
-                            });
-                }
+
             }
             else askPermission();
 
@@ -631,8 +633,6 @@ public class MainActivity
             ListFragment.setStationList(stationList);
 
             startApp=true;
-
-
     }
 
     private boolean isNetworkAvailable() {
@@ -676,11 +676,8 @@ public class MainActivity
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
     }
-
-
 
     LocationListener locationListenerGPS=new LocationListener() {
         @Override
@@ -689,6 +686,10 @@ public class MainActivity
             double longitude=location.getLongitude();
             String msg="New Latitude: "+latitude + "New Longitude: "+longitude;
             Toast.makeText(mContext,msg,Toast.LENGTH_LONG).show();
+            myLocation=location;
+            for (StationItem station: stationList) {
+                station.setDistance(getDistance(station));
+            }
         }
 
         @Override
@@ -707,6 +708,26 @@ public class MainActivity
         }
     };
 
+    public static double getDistance(StationItem station) {
+        Location locationStation = new Location("Station");
+
+        locationStation.setLatitude(station.getCoordinates().latitude);
+        locationStation.setLongitude(station.getCoordinates().longitude);
+
+        Location myLoc = new Location("My Position");
+
+        float distance = 0;
+        if(MainActivity.myLocation != null){
+
+            myLoc.setLatitude(MainActivity.myLocation.getLatitude());
+            myLoc.setLongitude(MainActivity.myLocation.getLongitude());
+
+            distance = locationStation.distanceTo(myLoc)/1000;
+        }
+
+        Log.i("testBiloc", "onCreateView: Distance ->"+distance);
+        return distance;
+    }
 
     // Check for permission to access Location
     public boolean checkPermission() {

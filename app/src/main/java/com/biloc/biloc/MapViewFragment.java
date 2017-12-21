@@ -63,7 +63,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
     private static final String ARG_PARAM2 = "param2";
     private static GoogleMap mMap;
     StationItem currentStation;
-    //private FusedLocationProviderClient mFusedLocationClient;
+    private FusedLocationProviderClient mFusedLocationClient;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -109,7 +109,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        //mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
 
         Log.i(TAG, "onCreate: mapFragment");
     }
@@ -189,7 +189,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
             {*/
 
                 //Check position
-               /* mFusedLocationClient.getLastLocation()
+               /*mFusedLocationClient.getLastLocation()
                         .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
                             @Override
                             public void onSuccess(Location location) {

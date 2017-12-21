@@ -81,7 +81,7 @@ public class ListFragment extends Fragment {
         if(MainActivity.gpsAtivate==true)
         {
             for (StationItem station: stationList1) {
-                station.setDistance(getDistance(station));
+                station.setDistance(MainActivity.getDistance(station));
             }
         }
         else
@@ -124,7 +124,7 @@ public class ListFragment extends Fragment {
     }
 
 
-    public static double getDistance(StationItem station) {
+    /*public static double getDistance(StationItem station) {
         Location locationStation = new Location("Station");
 
         locationStation.setLatitude(station.getCoordinates().latitude);
@@ -143,7 +143,7 @@ public class ListFragment extends Fragment {
 
         Log.i("testBiloc", "onCreateView: Distance ->"+distance);
         return distance;
-    }
+    }*/
 
     @Override
     public void onAttach(Context context) {
