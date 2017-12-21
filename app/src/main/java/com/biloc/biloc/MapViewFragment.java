@@ -2,17 +2,22 @@ package com.biloc.biloc;
 
 import android.*;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.icu.math.BigDecimal;
+import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,19 +39,13 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-
-import com.android.volley.Request;
 import com.google.android.gms.tasks.OnSuccessListener;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.LOCATION_SERVICE;
 
 
 /**
@@ -64,13 +63,15 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
     private static final String ARG_PARAM2 = "param2";
     private static GoogleMap mMap;
     StationItem currentStation;
-    private FusedLocationProviderClient mFusedLocationClient;
+    //private FusedLocationProviderClient mFusedLocationClient;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     boolean zoomOnStation=false;
+    //LocationManager locationManager;
+    //Context mContext;
 
     private OnFragmentInteractionListener mListener;
 
@@ -108,7 +109,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
+        //mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
 
         Log.i(TAG, "onCreate: mapFragment");
     }
@@ -121,7 +122,15 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
         Log.i(TAG, "onCreateView: mapFragment");
         View myView = inflater.inflate(R.layout.fragment_map, container, false);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-
+        /*mContext=getActivity();
+        locationManager=(LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        if(checkPermission()) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                    2000,
+                    10, locationListenerGPS);
+            isLocationEnabled();
+        }
+        else askPermission();*/
 
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
@@ -170,24 +179,24 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
 
-            //Demande d'activation de la postion.
-            final LocationManager manager = (LocationManager) getActivity().getSystemService( Context.LOCATION_SERVICE );
 
-            if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+            /*if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
                 Intent i = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 
                 startActivityForResult(i, 1);
             }
             else
-            {
+            {*/
+
                 //Check position
-                mFusedLocationClient.getLastLocation()
+               /* mFusedLocationClient.getLastLocation()
                         .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
                             @Override
                             public void onSuccess(Location location) {
                                 // Got last known location. In some rare situations this can be null.
                                 if (location != null) {
                                     // Logic to handle location object
+                                    Log.i(TAG, "onSuccess GPS: OK");
                                     MainActivity.myLocation=location;
                                     MainActivity.gpsAtivate=true;
                                 }
@@ -197,39 +206,29 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
                                     MainActivity.gpsAtivate=false;
                                 }
                             }
-                        });
-            }
-            //ESSAI--------------------------------------------------------------------
+                        });*/
+            //}
 
-            //Check position
-            /*mFusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            // Got last known location. In some rare situations this can be null.
-                            if (location != null) {
-                                // Logic to handle location object
-                                MainActivity.myLocation=location;
-                                MainActivity.gpsAtivate=true;
-                            }
-                            else
-                            {
-                                Log.i(TAG, "onSuccess GPS: FAIL ------------------------------------- ");
-                                MainActivity.gpsAtivate=false;
-                            }
-                        }
-                    });*/
         }
         else askPermission();
 
-        //mMap.setMyLocationEnabled(true);
-
         if(!zoomOnStation)
         {
-            //LatLng lausanne = new LatLng(46.523026, 6.610657);
+            LatLng lausanne = new LatLng(46.523026, 6.610657);
             LatLng stImier = new LatLng(47.155150, 7.002794);
-            currentStation_LatLng= stImier;
-            zoomMap=13;
+            if(MainActivity.gpsAtivate==true)
+            {
+                LatLng myPos = new LatLng(MainActivity.myLocation.getLatitude(), MainActivity.myLocation.getLongitude());
+                currentStation_LatLng= myPos;
+                zoomMap=13;
+            }
+            else
+            {
+                currentStation_LatLng= lausanne;
+                zoomMap=8; //13
+            }
+
+
         }
         else
         {
@@ -309,14 +308,14 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
     }
 
     // Check for permission to access Location
-    private boolean checkPermission() {
+    public boolean checkPermission() {
         Log.d(TAG, "checkPermission()");
         // Ask for permission if it wasn't granted yet
         return (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED );
     }
     // Asks for permission
-    private void askPermission() {
+    public void askPermission() {
         Log.d(TAG, "askPermission()");
         ActivityCompat.requestPermissions(
                 getActivity(),
@@ -369,5 +368,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
         // TODO: Update argument type and name
         void onMapFragmentInteraction(StationItem itemAtPosition);
     }
+
+
 
 }

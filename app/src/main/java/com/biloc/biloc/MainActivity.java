@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -119,6 +120,11 @@ public class MainActivity
     private static TextView internetStatus;
     private boolean ui;
 
+    public static LocationManager locationManager;
+    public FusedLocationProviderClient mFusedLocationClient;
+    Context mContext;
+
+
 
     public static ArrayList<StationItem> getStationList() {
         return stationList;
@@ -140,6 +146,68 @@ public class MainActivity
             }
             Log.i(TAG, "onCreate: findViewById");
 
+            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+            mContext=this;
+            locationManager=(LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+            if(checkPermission()) {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                        1000,
+                        0, locationListenerGPS);
+                //isLocationEnabled();
+                if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                    AlertDialog.Builder alertDialog=new AlertDialog.Builder(mContext);
+                    alertDialog.setTitle("Enable Location");
+                    alertDialog.setMessage("Your locations setting is not enabled. Please enabled it in settings menu.");
+                    alertDialog.setPositiveButton("Location Settings", new DialogInterface.OnClickListener(){
+                        public void onClick(DialogInterface dialog, int which){
+                            Intent intent=new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            startActivity(intent);
+                        }
+                    });
+                    alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                        public void onClick(DialogInterface dialog, int which){
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alert=alertDialog.create();
+                    alert.show();
+                }
+                else{
+                   /* AlertDialog.Builder alertDialog=new AlertDialog.Builder(getActivity());
+                    alertDialog.setTitle("Confirm Location");
+                    alertDialog.setMessage("Your Location is enabled, please enjoy");
+                    alertDialog.setNegativeButton("Back to interface",new DialogInterface.OnClickListener(){
+                        public void onClick(DialogInterface dialog, int which){
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alert=alertDialog.create();
+                    alert.show();*/
+
+                    //Check position
+                    mFusedLocationClient.getLastLocation()
+                            .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                                @Override
+                                public void onSuccess(Location location) {
+                                    // Got last known location. In some rare situations this can be null.
+                                    if (location != null) {
+                                        // Logic to handle location object
+                                        Log.i(TAG, "onSuccess GPS: OK");
+                                        MainActivity.myLocation=location;
+                                        MainActivity.gpsAtivate=true;
+                                    }
+                                    else
+                                    {
+                                        Log.i(TAG, "onSuccess GPS: FAIL");
+                                        MainActivity.gpsAtivate=false;
+                                    }
+                                }
+                            });
+                }
+            }
+            else askPermission();
+
             //Snackbar
             snackbar = Snackbar.make(findViewById(fragment_container), "No Internet Connection", Snackbar.LENGTH_INDEFINITE);
             View sbView = snackbar.getView();
@@ -155,6 +223,7 @@ public class MainActivity
 
             favoritesList = new ArrayList<>();
             stationList = new ArrayList<>();
+
         }
 
          /*   mapFragment = MapViewFragment.newInstance("TEST1", "TEST2");
@@ -492,7 +561,7 @@ public class MainActivity
                             for(int k=0; k<station.length(); k++)
                             {
                                 JSONObject StationK = station.getJSONObject(k);
-                                Log.i(TAG, "onSuccessResponse -> Sation"+k+": "  +StationK);
+                                //Log.i(TAG, "onSuccessResponse -> Sation"+k+": "  +StationK);
 
                                 initList(StationK,k);
                             }
@@ -519,7 +588,7 @@ public class MainActivity
             String Locality = stationK.getString("Locality");
             String StationName = stationK.getString("StationName");
 
-            Log.i(TAG, "onSuccessResponse -> Sation"+k+":\n AllowedBike: "+AllowedBike +"\n AvailableBike: "+AvailableBike +"\n LocationLat: "+LocationLat +  "\n LocationLng: "+LocationLng +  "\n Locality: "+Locality + "\n StationName: "+StationName);
+            //Log.i(TAG, "onSuccessResponse -> Sation"+k+":\n AllowedBike: "+AllowedBike +"\n AvailableBike: "+AvailableBike +"\n LocationLat: "+LocationLat +  "\n LocationLng: "+LocationLng +  "\n Locality: "+Locality + "\n StationName: "+StationName);
 
             StationItem station = new StationItem();
 
@@ -611,6 +680,50 @@ public class MainActivity
         }
     }
 
+
+
+    LocationListener locationListenerGPS=new LocationListener() {
+        @Override
+        public void onLocationChanged(android.location.Location location) {
+            double latitude=location.getLatitude();
+            double longitude=location.getLongitude();
+            String msg="New Latitude: "+latitude + "New Longitude: "+longitude;
+            Toast.makeText(mContext,msg,Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    };
+
+
+    // Check for permission to access Location
+    public boolean checkPermission() {
+        Log.d(TAG, "checkPermission()");
+        // Ask for permission if it wasn't granted yet
+        return (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED );
+    }
+    // Asks for permission
+    public void askPermission() {
+        Log.d(TAG, "askPermission()");
+        ActivityCompat.requestPermissions(
+                this,
+                new String[] { android.Manifest.permission.ACCESS_FINE_LOCATION },
+                MainActivity.REQ_PERMISSION);
+
+    }
 
 }
 
