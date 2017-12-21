@@ -74,6 +74,7 @@ public class MainActivity
         DetailFragment.OnFragmentInteractionListener,
         SettingsFragment.OnFragmentInteractionListener,
         OnMapReadyCallback {
+    private FirebaseUser currentUser;
     String TAG = "testBiloc";
     ListFragment listFragment;
     MapViewFragment mapFragment;
@@ -91,7 +92,8 @@ public class MainActivity
     private AlertDialog.Builder builder1;
     private AlertDialog alert11;
     private boolean startApp=false;
-    private FirebaseUser currentUser;
+
+    //private FirebaseUser currentUser;
     private FirebaseAuth mAuth;
     private NavigationView navigationView;
 
@@ -222,7 +224,10 @@ public class MainActivity
         nav_Menu.findItem(R.id.nav_profile).setVisible(uiSetter);
         nav_Menu.findItem(R.id.nav_signOut).setVisible(uiSetter);
         nav_Menu.findItem(R.id.nav_signIn).setVisible(!uiSetter);
-        nav_Menu.findItem(R.id.nav_signUp).setVisible(!uiSetter);
+    }
+
+    public FirebaseUser getCurrentUser() {
+        return currentUser;
     }
 
     //----------------------------------------------------------------------
@@ -257,7 +262,7 @@ public class MainActivity
                 onDrawerFragmentInteraction(profileFragment, getString(R.string.toolbarTitleProfile));
             } else if (id == R.id.nav_favorites) {
                 onDrawerFragmentInteraction(favoritesFragment, getString(R.string.toolbarTitleFavorites));
-            } else if (id == R.id.nav_signIn) startIntent(SignupActivity.class);
+            } else if (id == R.id.nav_signIn) startIntent(SigninActivity.class);
             else if (id == R.id.nav_signOut) signOut();
 
             DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -276,7 +281,7 @@ public class MainActivity
             this.onStart();
     }
 
-    private void startIntent(Class<SignupActivity> activityClass) {
+    private void startIntent(Class<?> activityClass) {
         Intent intent = new Intent(this, activityClass);
         startActivity(intent);
     }

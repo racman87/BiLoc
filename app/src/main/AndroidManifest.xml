@@ -37,8 +37,9 @@
         <activity
             android:name=".SignupActivity"
             android:label="Sign Up" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".SigninActivity" />
         <activity android:name=".ResetPasswordActivity" />
+        <activity android:name=".EditProfileActivity"></activity>
     </application>
 
 </manifest>

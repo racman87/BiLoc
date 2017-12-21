@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseUser;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +29,7 @@ public class ProfileFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private FirebaseUser user;
     private OnFragmentInteractionListener mListener;
 
     public ProfileFragment() {
@@ -65,6 +68,12 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false);
+
+        // TODO: get the user
+        //user = MainActivity.getCurrentUser();
+
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

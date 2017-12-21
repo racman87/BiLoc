@@ -15,10 +15,6 @@
             android:icon="@mipmap/ic_favorite"
             android:title="@string/favorites" />
         <item
-            android:id="@+id/nav_signUp"
-            android:icon="@mipmap/ic_profile"
-            android:title="@string/signUp" />
-        <item
             android:id="@+id/nav_signIn"
             android:icon="@mipmap/ic_signin"
             android:title="@string/signIn" />
