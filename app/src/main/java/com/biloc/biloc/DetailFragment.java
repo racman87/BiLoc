@@ -7,6 +7,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -170,17 +171,22 @@ public class DetailFragment extends Fragment implements OnStreetViewPanoramaRead
     }
 
     private void manageFavoriteState() {
+        Log.i(TAG, "manageFavoriteState: *************"+currentStation.getFavorite());
         if(currentStation.getFavorite()){
-            Drawable favorite = getContext().getDrawable(R.mipmap.ic_favorties2);
-            addToFavorites.setBackgroundColor(Color.RED);
+            //Drawable favorite = getContext().getDrawable(R.mipmap.ic_favoritewhite);
+            //addToFavorites.setBackgroundColor(Color.RED);
             //addToFavorites.setCompoundDrawablesRelativeWithIntrinsicBounds(favorite, null, null, null);
             //addToFavorites.setText(R.string.rem_favorite);
+            addToFavorites.setImageResource(R.mipmap.ic_favoriteblue3);
         }
         else{
-            Drawable unFavorite = getContext().getDrawable(R.mipmap.ic_favoriteblue);
-            addToFavorites.setBackgroundColor(Color.GREEN);
+            //Drawable favorite = getContext().getDrawable(R.mipmap.ic_favorite);
+            //addToFavorites.setBackgroundColor(Color.GREEN);
+            //addToFavorites.setImageDrawable(favorite);
+            //addToFavorites.setBackgroundDrawable(favorite);
             //addToFavorites.setCompoundDrawablesRelativeWithIntrinsicBounds(unFavorite, null, null, null);
             //addToFavorites.setText(R.string.add_favorite);
+            addToFavorites.setImageResource(R.mipmap.ic_favoriteblue2);
         }
     }
 

@@ -188,8 +188,8 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
             else
             {*/
 
-                //Check position
-               /*mFusedLocationClient.getLastLocation()
+               //Check position
+               mFusedLocationClient.getLastLocation()
                         .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
                             @Override
                             public void onSuccess(Location location) {
@@ -206,7 +206,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
                                     MainActivity.gpsAtivate=false;
                                 }
                             }
-                        });*/
+                        });
             //}
 
         }
