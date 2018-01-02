@@ -173,7 +173,7 @@ public class MainActivity
                         });
 
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                        1000,
+                        10000,
                         5, locationListenerGPS);
                 if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
                     AlertDialog.Builder alertDialog=new AlertDialog.Builder(mContext);
@@ -685,7 +685,7 @@ public class MainActivity
             double latitude=location.getLatitude();
             double longitude=location.getLongitude();
             String msg="New Latitude: "+latitude + "New Longitude: "+longitude;
-            Toast.makeText(mContext,msg,Toast.LENGTH_LONG).show();
+            //Toast.makeText(mContext,msg,Toast.LENGTH_LONG).show();
             myLocation=location;
             for (StationItem station: stationList) {
                 station.setDistance(getDistance(station));
