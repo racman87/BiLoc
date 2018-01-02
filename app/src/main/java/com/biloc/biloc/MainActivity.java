@@ -177,15 +177,15 @@ public class MainActivity
                         5, locationListenerGPS);
                 if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
                     AlertDialog.Builder alertDialog=new AlertDialog.Builder(mContext);
-                    alertDialog.setTitle("Enable Location");
-                    alertDialog.setMessage("Your locations setting is not enabled. Please enabled it in settings menu.");
-                    alertDialog.setPositiveButton("Location Settings", new DialogInterface.OnClickListener(){
+                    alertDialog.setTitle(R.string.enable_location);
+                    alertDialog.setMessage(R.string.no_gps);
+                    alertDialog.setPositiveButton(R.string.location_settings, new DialogInterface.OnClickListener(){
                         public void onClick(DialogInterface dialog, int which){
                             Intent intent=new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                             startActivity(intent);
                         }
                     });
-                    alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                    alertDialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
                         public void onClick(DialogInterface dialog, int which){
                             dialog.cancel();
                         }
@@ -211,7 +211,7 @@ public class MainActivity
             else askPermission();
 
             //Snackbar
-            snackbar = Snackbar.make(findViewById(fragment_container), "No Internet Connection", Snackbar.LENGTH_INDEFINITE);
+            snackbar = Snackbar.make(findViewById(fragment_container), R.string.internet_con, Snackbar.LENGTH_INDEFINITE);
             View sbView = snackbar.getView();
             sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
 
@@ -323,7 +323,7 @@ public class MainActivity
         if(startApp==true ) {
             if(noInternet==true)
             {
-                Toast.makeText(this, "NO INTERNET : Station is not up to date", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.no_internet, Toast.LENGTH_LONG).show();
             }
             if (id == R.id.nav_map) {
                 onDrawerFragmentInteraction(mapFragment, getString(R.string.toolbarTitleMap));
@@ -342,7 +342,7 @@ public class MainActivity
         }
         else
         {
-            Toast.makeText(this, "NO INTERNET: Activate to continue", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.no_internet, Toast.LENGTH_LONG).show();
             return true;
         }
     }

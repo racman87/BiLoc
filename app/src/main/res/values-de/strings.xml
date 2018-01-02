@@ -36,4 +36,12 @@
     <string name="toolbarTitleFavorites">Faoriten</string>
     <string name="rem_favorite">Von Fav. entfernen</string>
 
+    <!-- check -->
+    <string name="no_gps">Ihre Standorteinstellung ist nicht aktiviert. Bitte aktivieren Sie es im Menü.</string>
+    <string name="enable_location">Standort aktivieren</string>
+    <string name="location_settings">Menü</string>
+    <string name="cancel">Stornieren</string>
+    <string name="internet_con">Keine Internetverbindung</string>
+    <string name="no_internet">KEIN INTERNET: Die Station ist nicht auf dem neuesten Stand</string>
+
 </resources>

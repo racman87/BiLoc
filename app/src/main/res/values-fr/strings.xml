@@ -30,11 +30,20 @@
     <string name="profile">Profile</string>
     <string name="favorites">Favoris</string>
     <string name="toolbarTitleFavorites">Favoris</string>
-    <string name="toolbarTitleProfile">Profil</string>
+    <string name="toolbarTitleProfile">Profile</string>
     <string name="toolbarTitleList">Stations</string>
     <string name="toolbarTitleMap">Carte</string>
     <string name="toolbarTitleDetail">Détail</string>
     <string name="toolbarTitleSettings">Réglages</string>
+
+
+    <!-- check -->
+    <string name="no_gps">Le GPS n est pas activé. SVP activez le dans les paramètres.</string>
+    <string name="enable_location">Activer le GPS</string>
+    <string name="location_settings">Paramètres</string>
+    <string name="cancel">Refusé</string>
+    <string name="internet_con">Pas de connexion Internet</string>
+    <string name="no_internet">PAS INTERNET : Les stations ne sont pas à-jour</string>
 
 
 </resources>

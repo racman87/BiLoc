@@ -12,7 +12,7 @@
     <string name="hello_from_favorites_fragment">Hello from favorites fragment</string>
     <string name="hello_from_profile_fragment">Hello from profile fragment</string>
 
-    <string name="list_bike">Bike</string>
+    <string name="list_bike">Bikes</string>
     <string name="list_station">Name:</string>
     <string name="list_distance">Distance:</string>
 
@@ -26,7 +26,7 @@
 
     <string name="map">Map</string>
     <string name="list">List</string>
-    <string name="profile">Profil</string>
+    <string name="profile">Profile</string>
     <string name="favorites">Favorites</string>
     <string name="toolbarTitleFavorites">Favorites</string>
     <string name="toolbarTitleProfile">Profile</string>
@@ -42,6 +42,15 @@
     <string name="distance">Distance</string>
     <string name="internet">NEED TO ACTIVATE DATA MOBILE</string>
     <string name="signIn">Signin / Signup</string>
+
+    <!-- check -->
+    <string name="no_gps">Your locations setting is not enabled. Please enabled it in settings menu.</string>
+    <string name="enable_location">Enable Location</string>
+    <string name="location_settings">Location Settings</string>
+    <string name="cancel">Cancel</string>
+    <string name="internet_con">No Internet Connection</string>
+    <string name="no_internet">NO INTERNET : Stations are not up to date</string>
+
 
     <!-- Firebase strings -->
     <string name="action_sign_in_short">Register</string>
