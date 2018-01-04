@@ -71,9 +71,6 @@ public class ProfileFragment extends Fragment {
 
         // TODO: get the user
         //user = MainActivity.getCurrentUser();
-
-
-
     }
 
     // TODO: Rename method, update argument and hook method into UI event

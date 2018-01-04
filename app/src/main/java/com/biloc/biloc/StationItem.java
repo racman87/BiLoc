@@ -2,10 +2,6 @@ package com.biloc.biloc;
 
 import com.google.android.gms.maps.model.LatLng;
 
-/**
- * Created by manon.racine1 on 05.11.2017.
- */
-
 public class StationItem {
     private String name;
     private String stationCity;

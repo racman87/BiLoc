@@ -23,7 +23,6 @@ import com.google.firebase.auth.FirebaseAuth;
 public class SignupActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private EditText inputEmail, inputPassword;
-    private Button btnSignIn, btnSignUp, btnResetPassword;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
 
@@ -35,12 +34,12 @@ public class SignupActivity extends AppCompatActivity implements NavigationView.
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-        btnSignIn = findViewById(R.id.sign_in_button);
-        btnSignUp = findViewById(R.id.sign_up_button);
+        Button btnSignIn = findViewById(R.id.sign_in_button);
+        Button btnSignUp = findViewById(R.id.sign_up_button);
         inputEmail = findViewById(R.id.email);
         inputPassword = findViewById(R.id.password);
         progressBar = findViewById(R.id.progressBar);
-        btnResetPassword = findViewById(R.id.btn_reset_password);
+        Button btnResetPassword = findViewById(R.id.btn_reset_password);
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -111,7 +110,6 @@ public class SignupActivity extends AppCompatActivity implements NavigationView.
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

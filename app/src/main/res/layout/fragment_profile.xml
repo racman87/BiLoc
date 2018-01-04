@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
                 android:paddingTop="25dp"
-                android:text="EMILY BERG"
+                android:text="JOHN BERG"
                 android:textAlignment="center"
                 android:textSize="24sp" />
 

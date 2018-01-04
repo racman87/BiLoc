@@ -15,17 +15,4 @@
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp" />
 
-    <!--<android.support.v7.widget.Toolbar
-        android:id="@+id/toolbardown"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:layout_alignParentBottom="true">
-
-    </android.support.v7.widget.Toolbar>-->
-
-
-
-
 </RelativeLayout>

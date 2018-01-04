@@ -1,11 +1,8 @@
 package com.biloc.biloc;
 
 import android.content.Context;
-import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +61,6 @@ public class ListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(TAG, "ListFragment onCreate: ");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -75,10 +71,9 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this listFragment
-        Log.i(TAG, "ListFragment onCreateView: ");
         View myView = inflater.inflate(R.layout.fragment_list, container, false);
         //Calcul des distances
-        if(MainActivity.gpsAtivate==true)
+        if(MainActivity.gpsAtivate)
         {
             for (StationItem station: stationList1) {
                 station.setDistance(MainActivity.getDistance(station));
@@ -115,35 +110,6 @@ public class ListFragment extends Fragment {
             mListener.onListFragmentInteraction(itemAtPosition);
         }
     }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            //mListener.onListFragmentInteraction(5);
-        }
-    }
-
-
-    /*public static double getDistance(StationItem station) {
-        Location locationStation = new Location("Station");
-
-        locationStation.setLatitude(station.getCoordinates().latitude);
-        locationStation.setLongitude(station.getCoordinates().longitude);
-
-        Location myLoc = new Location("My Position");
-
-        float distance = 0;
-        if(MainActivity.myLocation != null){
-
-            myLoc.setLatitude(MainActivity.myLocation.getLatitude());
-            myLoc.setLongitude(MainActivity.myLocation.getLongitude());
-
-            distance = locationStation.distanceTo(myLoc)/1000;
-        }
-
-        Log.i("testBiloc", "onCreateView: Distance ->"+distance);
-        return distance;
-    }*/
 
     @Override
     public void onAttach(Context context) {

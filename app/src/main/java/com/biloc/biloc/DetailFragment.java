@@ -1,18 +1,12 @@
 package com.biloc.biloc;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
@@ -35,7 +29,6 @@ public class DetailFragment extends Fragment implements OnStreetViewPanoramaRead
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    String TAG = "testBiloc";
 
 
     // TODO: Rename and change types of parameters
@@ -50,9 +43,6 @@ public class DetailFragment extends Fragment implements OnStreetViewPanoramaRead
     View myView;
     StationItem currentStation;
     private FloatingActionButton addToFavorites;
-    private FloatingActionButton seeStationOnMap;
-    private FloatingActionButton startNavigation;
-    private StreetViewPanoramaFragment streetViewPanoramaFragment;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -104,7 +94,7 @@ public class DetailFragment extends Fragment implements OnStreetViewPanoramaRead
             }
         });
 
-        seeStationOnMap = myView.findViewById(R.id.mapButton);
+        FloatingActionButton seeStationOnMap = myView.findViewById(R.id.mapButton);
         seeStationOnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,7 +104,7 @@ public class DetailFragment extends Fragment implements OnStreetViewPanoramaRead
             }
         });
 
-        startNavigation = myView.findViewById(R.id.navigationButton);
+        FloatingActionButton startNavigation = myView.findViewById(R.id.navigationButton);
         startNavigation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,16 +121,6 @@ public class DetailFragment extends Fragment implements OnStreetViewPanoramaRead
         if(MainActivity.gpsAtivate &&
                 MainActivity.myLocation != null) {
 
-            /*Location locationStation = new Location("Station");
-            locationStation.setLatitude(currentStation.getCoordinates().latitude);
-            locationStation.setLongitude(currentStation.getCoordinates().longitude);
-
-            Location myLoc = new Location("My Position");
-            myLoc.setLatitude(MainActivity.myLocation.getLatitude());
-            myLoc.setLongitude(MainActivity.myLocation.getLongitude());
-
-            distance = locationStation.distanceTo(myLoc)/1000;
-            Log.i(TAG, "onCreateView: Distance ->"+distance);*/
             distance=(float)currentStation.getDistance();
 
             DecimalFormat df = new DecimalFormat("##.##");
@@ -162,30 +142,18 @@ public class DetailFragment extends Fragment implements OnStreetViewPanoramaRead
         distanceText.setText(sDist);
 
 
-        streetViewPanoramaFragment =
-                (StreetViewPanoramaFragment) getActivity().getFragmentManager()
-                        .findFragmentById(R.id.streetViewPanorama);
+        StreetViewPanoramaFragment streetViewPanoramaFragment = (StreetViewPanoramaFragment) getActivity().getFragmentManager()
+                .findFragmentById(R.id.streetViewPanorama);
         streetViewPanoramaFragment.getStreetViewPanoramaAsync(this);
 
         return myView;
     }
 
     private void manageFavoriteState() {
-        Log.i(TAG, "manageFavoriteState: *************"+currentStation.getFavorite());
         if(currentStation.getFavorite()){
-            //Drawable favorite = getContext().getDrawable(R.mipmap.ic_favoritewhite);
-            //addToFavorites.setBackgroundColor(Color.RED);
-            //addToFavorites.setCompoundDrawablesRelativeWithIntrinsicBounds(favorite, null, null, null);
-            //addToFavorites.setText(R.string.rem_favorite);
             addToFavorites.setImageResource(R.mipmap.ic_favoriteblue3);
         }
         else{
-            //Drawable favorite = getContext().getDrawable(R.mipmap.ic_favorite);
-            //addToFavorites.setBackgroundColor(Color.GREEN);
-            //addToFavorites.setImageDrawable(favorite);
-            //addToFavorites.setBackgroundDrawable(favorite);
-            //addToFavorites.setCompoundDrawablesRelativeWithIntrinsicBounds(unFavorite, null, null, null);
-            //addToFavorites.setText(R.string.add_favorite);
             addToFavorites.setImageResource(R.mipmap.ic_favoriteblue2);
         }
     }
@@ -208,15 +176,7 @@ public class DetailFragment extends Fragment implements OnStreetViewPanoramaRead
     }
 
     public void updateElement(StationItem itemAtPosition) {
-        Log.i(TAG, "updateElement: new city=" + itemAtPosition.getStationCity());
-        Log.i(TAG, "updateElement: new name=" + itemAtPosition.getStationName());
         currentStation = itemAtPosition;
-        /*
-        if(myView != null) {
-            Log.i(TAG, "updateElement: view != null");
-            Log.i(TAG, "updateElement: itemAtPosition.getStationName()="+ itemAtPosition.getStationName());
-            stationNameText.setText(itemAtPosition.getStationName());
-        }*/
     }
 
     @Override

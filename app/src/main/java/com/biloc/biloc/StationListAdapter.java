@@ -11,10 +11,6 @@ import android.widget.TextView;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-/**
- * Created by manon.racine1 on 05.11.2017.
- */
-
 public class StationListAdapter extends ArrayAdapter<StationItem> {
     private ArrayList<StationItem> stationAdapterList;
     private Context context;

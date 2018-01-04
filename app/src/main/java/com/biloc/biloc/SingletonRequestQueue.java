@@ -5,10 +5,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-/**
- * Created by manon.racine1 on 05.12.2017.
- */
-
 public class SingletonRequestQueue {
     private static SingletonRequestQueue ourInstance;
     private RequestQueue mRequestQueue;

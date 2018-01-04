@@ -8,10 +8,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
-/**
- * Created by manon.racine1 on 05.12.2017.
- */
-
 class Utils {
 
     private static final String TAG = "testBiloc";

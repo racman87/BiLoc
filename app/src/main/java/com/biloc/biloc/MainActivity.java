@@ -1,21 +1,17 @@
 package com.biloc.biloc;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -35,9 +31,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -56,12 +49,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.zip.Inflater;
 
 import static com.biloc.biloc.R.id.fragment_container;
 
@@ -73,7 +61,6 @@ public class MainActivity
         ListFragment.OnFragmentInteractionListener,
         FavoritesFragment.OnFragmentInteractionListener,
         DetailFragment.OnFragmentInteractionListener,
-        SettingsFragment.OnFragmentInteractionListener,
         OnMapReadyCallback {
     private FirebaseUser currentUser;
     String TAG = "testBiloc";
@@ -82,61 +69,37 @@ public class MainActivity
     ProfileFragment profileFragment;
     FavoritesFragment favoritesFragment;
     DetailFragment detailFragment;
-    SettingsFragment settingsFragment;
-    public static android.app.FragmentManager fragmentManager;
     public static ArrayList<StationItem> stationList;
     private static ArrayList<StationItem> favoritesList;
 
-    private static boolean listInit=false;
     private static boolean noInternet=false;
     private static Snackbar snackbar;
-    private AlertDialog.Builder builder1;
-    private AlertDialog alert11;
     private boolean startApp=false;
-
-    //private FirebaseUser currentUser;
     private FirebaseAuth mAuth;
     private NavigationView navigationView;
 
     public static Location myLocation;
-
-    public static final int MAP_DRAWER = 1;
-    public static final int LIST_DRAWER = 2;
-    public static final int PROFILE_DRAWER = 3;
-    public static final int FAVORITES_DRAWER = 4;
-    public static final int MAP_FRAGMENT = 5;
-    public static final int LIST_FRAGMENT = 6;
     public static final int PROFILE_FRAGMENT = 7;
-    public static final int FAVORITES_FRAGMENT = 8;
-
     public static final int FAVORITES_BUTTON = 1;
     public static final int MAP_BUTTON = 2;
     public static final int NAVIGATION_BUTTON = 3;
-
     public static final int REQ_PERMISSION = 1;
-
     public static boolean gpsAtivate=false;
-
-    private static TextView internetStatus;
-    private boolean ui;
-
     public static LocationManager locationManager;
+
     public FusedLocationProviderClient mFusedLocationClient;
     Context mContext;
-
-
 
     public static ArrayList<StationItem> getStationList() {
         return stationList;
     }
-
     public static ArrayList<StationItem> getFavoritesList() {
         return favoritesList;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i("testBilocUser", "MainActivity.onCreate");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -144,7 +107,6 @@ public class MainActivity
             if (savedInstanceState != null) {
                 return;
             }
-            Log.i(TAG, "onCreate: findViewById");
 
             mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -160,13 +122,11 @@ public class MainActivity
                                 // Got last known location. In some rare situations this can be null.
                                 if (location != null) {
                                     // Logic to handle location object
-                                    Log.i(TAG, "onSuccess GPS: OK");
                                     myLocation=location;
                                     gpsAtivate=true;
                                 }
                                 else
                                 {
-                                    Log.i(TAG, "onSuccess GPS: FAIL");
                                     gpsAtivate=false;
                                 }
                             }
@@ -193,20 +153,6 @@ public class MainActivity
                     AlertDialog alert=alertDialog.create();
                     alert.show();
                 }
-                /*else{
-                    AlertDialog.Builder alertDialog=new AlertDialog.Builder(getActivity());
-                    alertDialog.setTitle("Confirm Location");
-                    alertDialog.setMessage("Your Location is enabled, please enjoy");
-                    alertDialog.setNegativeButton("Back to interface",new DialogInterface.OnClickListener(){
-                        public void onClick(DialogInterface dialog, int which){
-                            dialog.cancel();
-                        }
-                    });
-                    AlertDialog alert=alertDialog.create();
-                    alert.show();
-                }*/
-
-
             }
             else askPermission();
 
@@ -227,33 +173,6 @@ public class MainActivity
             stationList = new ArrayList<>();
 
         }
-
-         /*   mapFragment = MapViewFragment.newInstance("TEST1", "TEST2");
-
-            FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.add(R.id.fragment_container, mapFragment);
-            fragmentTransaction.commit();
-
-            if (mapFragment == null) {
-                Log.i(TAG, "onCreate: mapFragment == null");
-            } else {
-                Log.i(TAG, "onCreate: mapFragment != null");
-            }
-            listFragment = new ListFragment();
-            profileFragment = new ProfileFragment();
-            favoritesFragment = new FavoritesFragment();
-            detailFragment = new DetailFragment();
-            settingsFragment = SettingsFragment.newInstance();
-
-            favoritesList = new ArrayList<>();
-            stationList = new ArrayList<>();
-            //initStationList();
-            Log.i(TAG, "onCreate: INIT LIST**********************************************************");
-            mapFragment.setStationList(stationList);
-            ListFragment.setStationList(stationList);
-        }*/
-
 
         //-----------------------------------------------------------------------------------
         // Toolbar / drawer / floating action button
@@ -276,7 +195,6 @@ public class MainActivity
     @Override
     public void onStart() {
 
-        Log.i("testBilocUser", "MainActivity.onStart");
         super.onStart();
 
         // Login/user management
@@ -320,8 +238,8 @@ public class MainActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        if(startApp==true ) {
-            if(noInternet==true)
+        if(startApp) {
+            if(noInternet)
             {
                 Toast.makeText(this, R.string.no_internet, Toast.LENGTH_LONG).show();
             }
@@ -380,18 +298,6 @@ public class MainActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-
-        /*
-        if (id == R.id.action_settings) {
-
-            getFragmentManager().beginTransaction()
-                    .replace(android.R.id.content, settingsFragment)
-                    .commit();
-            //callFragment( settingsFragment, getString(R.string.toolbarTitleSettings));
-            return true;
-        }
-         */
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -439,7 +345,6 @@ public class MainActivity
              * DetailFragment button management
              ************************************/
             case FAVORITES_BUTTON:
-                Log.i(TAG, "onDetailFragmentInteraction: ADD TO FAVORITES ");
                 if (!favoritesList.contains(station)) {
                     addStationToFavorites(station);
                 } else {
@@ -447,13 +352,10 @@ public class MainActivity
                 }
                 break;
             case MAP_BUTTON:
-                Log.i(TAG, "onDetailFragmentInteraction: SHOW STATION ON MAP ");
                 mapFragment.updateElement(station);
                 callFragment(mapFragment, getString(R.string.toolbarTitleMap));
                 break;
             case NAVIGATION_BUTTON:
-                Log.i(TAG, "onDetailFragmentInteraction: NAVIGATION ");
-
                 // Create a Uri from an intent string. Use the result to create an Intent.
                 LatLng latLng=station.getCoordinates();
                 Uri gmmIntentUri = Uri.parse("google.navigation:q="+latLng.latitude+","+latLng.longitude+"&mode=b");
@@ -482,11 +384,6 @@ public class MainActivity
         callFragment(detailFragment, getString(R.string.toolbarTitleDetail));
     }
 
-    @Override
-    public void onSettingsFragmentInteraction(Uri uri) {
-
-    }
-
     //----------------------------------------------------------------------
     // Maps method
     //----------------------------------------------------------------------
@@ -499,55 +396,6 @@ public class MainActivity
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(lausanne));
     }
 
-    //----------------------------------------------------------------------
-    // Peuplage de la custom list
-    // ON remplit l'array list d'androidVersion
-    //----------------------------------------------------------------------
-    /*public void initStationList() {
-        StationItem station1 = new StationItem();
-        station1.setNumberOfBike(7);
-        station1.setFreeSlotNumber(5);
-        station1.setStationName("Coop");
-        station1.setStationCity("St-Imier");
-        station1.setCoordinates(new LatLng(47.153448, 7.000458));
-        stationList.add(station1);
-        //station1.setDistance(MapViewFragment.getDistance(station1));
-
-        StationItem station2 = new StationItem();
-        station2.setNumberOfBike(3);
-        station2.setFreeSlotNumber(2);
-        station2.setDistance(8);
-        station2.setStationName("Place du marché");
-        station2.setStationCity("St-Imier");
-        station2.setCoordinates(new LatLng(47.152615, 6.996265));
-        stationList.add(station2);
-        //station2.setDistance(MapViewFragment.getDistance(station2));
-
-        StationItem station3 = new StationItem();
-        station3.setNumberOfBike(5);
-        station3.setFreeSlotNumber(0);
-        station3.setDistance(1);
-        station3.setStationName("Place de la gare");
-        station3.setStationCity("St-Imier");
-        station3.setCoordinates(new LatLng(47.151591, 6.999985));
-        stationList.add(station3);
-
-        //station3.setDistance(MapViewFragment.getDistance(station3));
-
-
-        StationItem station4 = new StationItem();
-        station4.setNumberOfBike(5);
-        station4.setFreeSlotNumber(5);
-        station4.setDistance(1);
-        station4.setStationName("Vigie");
-        station4.setStationCity("Lausanne");
-        station4.setCoordinates(new LatLng(46.521367, 6.624278));
-        stationList.add(station4);
-
-        addStationToFavorites(station1);
-
-    }*/
-
     private void processGETRequest() {
         Utils.processRequest(this, Request.Method.GET,  null,
                 new Utils.VolleyCallback() {
@@ -555,20 +403,17 @@ public class MainActivity
                     @Override
                     public void onSuccessResponse(JSONObject result) {
                         try {
-                            Log.i(TAG, "onSuccessResponse -> result: "  +result);
                             JSONArray station = result.getJSONArray("station");
                             //String response = result.getString("AllowedBike");
-                            Log.i(TAG, "onSuccessResponse -> response: "  +station);
                             stationList.clear();
                             for(int k=0; k<station.length(); k++)
                             {
                                 JSONObject StationK = station.getJSONObject(k);
-                                //Log.i(TAG, "onSuccessResponse -> Sation"+k+": "  +StationK);
 
                                 initList(StationK,k);
                             }
 
-                            if(startApp==false) {
+                            if(!startApp) {
                                 startApp();
                             }
 
@@ -590,7 +435,6 @@ public class MainActivity
             String Locality = stationK.getString("Locality");
             String StationName = stationK.getString("StationName");
 
-            //Log.i(TAG, "onSuccessResponse -> Sation"+k+":\n AllowedBike: "+AllowedBike +"\n AvailableBike: "+AvailableBike +"\n LocationLat: "+LocationLat +  "\n LocationLng: "+LocationLng +  "\n Locality: "+Locality + "\n StationName: "+StationName);
 
             StationItem station = new StationItem();
 
@@ -617,18 +461,11 @@ public class MainActivity
             fragmentTransaction.add(R.id.fragment_container, mapFragment);
             fragmentTransaction.commit();
 
-            if (mapFragment == null) {
-                Log.i(TAG, "onCreate: mapFragment == null");
-            } else {
-                Log.i(TAG, "onCreate: mapFragment != null");
-            }
             listFragment = new ListFragment();
             profileFragment = new ProfileFragment();
             favoritesFragment = new FavoritesFragment();
             detailFragment = new DetailFragment();
-            settingsFragment = SettingsFragment.newInstance();
 
-            Log.i(TAG, "onCreate: INIT LIST**********************************************************");
             mapFragment.setStationList(stationList);
             ListFragment.setStationList(stationList);
 
@@ -656,10 +493,8 @@ public class MainActivity
             try {
                 // Check internet connection and accrding to state change the
                 // text of activity by calling method
-                if (isNetworkAvailable()==true) {
-                    Log.i(TAG, "onReceive: TRUE ");
-
-                    if(noInternet==true)
+                if (isNetworkAvailable()) {
+                    if(noInternet)
                     {
                         snackbar.setDuration(0);
                         snackbar.show();
@@ -667,7 +502,6 @@ public class MainActivity
                     noInternet=false;
                     processGETRequest();
                 } else {
-                    Log.i(TAG, "onReceive: FALSE");
                     snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
                     snackbar.show();
                     noInternet = true;
@@ -725,7 +559,6 @@ public class MainActivity
             distance = locationStation.distanceTo(myLoc)/1000;
         }
 
-        Log.i("testBiloc", "onCreateView: Distance ->"+distance);
         return distance;
     }
 
