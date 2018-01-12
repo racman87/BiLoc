@@ -8,6 +8,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 class Utils {
 
     private static final String TAG = "testBiloc";
@@ -18,10 +21,7 @@ class Utils {
 
     static void processRequest(final Context ctxt, int method,
                                JSONObject jsonValue, final VolleyCallback callback){
-
         String url = "http://54.186.104.143/stations/v2";
-
-        Log.i(TAG, "processRequest -> URL: "+url);
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (method, url, jsonValue, new Response.Listener<JSONObject>() {
@@ -38,8 +38,16 @@ class Utils {
                     }
                 });
 
-        // Access the RequestQueue through your singleton class.
         SingletonRequestQueue singletonRequestQueue = new SingletonRequestQueue(ctxt);
         SingletonRequestQueue.getInstance(ctxt).addToRequestQueue(jsObjRequest);
+    }
+
+
+    public static ArrayList<StationItem> orderStationList(ArrayList<StationItem> stationList) {
+
+        Log.i(TAG, "onLocationChanged: sort the list!");
+        Collections.sort(stationList);
+
+        return stationList;
     }
 }

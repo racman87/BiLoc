@@ -3,6 +3,7 @@ package com.biloc.biloc;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 /**
@@ -86,6 +88,9 @@ public class ListFragment extends Fragment {
             }
         }
 
+        stationList1 = Utils.orderStationList(stationList1);
+        Log.i(TAG, "onCreateView: Station sorted in Listfragment");
+
 
         //Création de la custom list
         final StationListAdapter adapter = new StationListAdapter(getContext(), R.layout.cellule_list, MainActivity.getStationList());
@@ -98,12 +103,14 @@ public class ListFragment extends Fragment {
                 manageItem((StationItem) adapterView.getItemAtPosition(position));
             }
         });
+
         return myView;
     }
 
     public static void setStationList(ArrayList<StationItem> stationList) {
         stationList1 = stationList;
     }
+
 
     private void manageItem(StationItem itemAtPosition) {
         if (mListener != null) {

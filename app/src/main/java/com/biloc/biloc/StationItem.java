@@ -1,8 +1,10 @@
 package com.biloc.biloc;
 
+import android.support.annotation.NonNull;
+
 import com.google.android.gms.maps.model.LatLng;
 
-public class StationItem {
+public class StationItem implements Comparable<StationItem> {
     private String name;
     private String stationCity;
     private LatLng coordinates;
@@ -70,4 +72,10 @@ public class StationItem {
 
     boolean getFavorite() { return this.favorite; }
 
+
+    @Override
+    public int compareTo(@NonNull StationItem s2) {
+
+        return (this.getDistance() < s2.getDistance() ? -1 :
+                (this.getDistance() == s2.getDistance() ? 0 : 1));    }
 }

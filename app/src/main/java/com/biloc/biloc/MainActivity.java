@@ -50,6 +50,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static com.biloc.biloc.R.id.fragment_container;
 
@@ -316,6 +317,7 @@ public class MainActivity
     }
 
     private void callFragment(Fragment fragmentToCall, String title) {
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         setTitle(title);
         transaction.replace(fragment_container, fragmentToCall);
@@ -328,6 +330,7 @@ public class MainActivity
     //----------------------------------------------------------------------
     @Override
     public void onListFragmentInteraction(StationItem itemAtPosition) {
+
         detailFragment.updateElement(itemAtPosition);
         callFragment(detailFragment, getString(R.string.toolbarTitleDetail));
     }
@@ -541,6 +544,8 @@ public class MainActivity
 
         }
     };
+
+
 
     public static double getDistance(StationItem station) {
         Location locationStation = new Location("Station");
