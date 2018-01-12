@@ -91,6 +91,7 @@ public class FavoritesFragment extends Fragment {
             }
         });
 
+
         return myView;
     }
 
