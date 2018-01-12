@@ -15,6 +15,9 @@ class Utils {
 
     private static final String TAG = "testBiloc";
 
+    //-----------------------------------------------------------------------------------
+    // Partie requête au serveur pour la récupération des stations
+    //-----------------------------------------------------------------------------------
     public interface VolleyCallback{
         void onSuccessResponse(JSONObject result);
     }
@@ -42,10 +45,11 @@ class Utils {
         SingletonRequestQueue.getInstance(ctxt).addToRequestQueue(jsObjRequest);
     }
 
-
+    //-----------------------------------------------------------------------------------
+    // Triage des stations selon
+    //-----------------------------------------------------------------------------------
     public static ArrayList<StationItem> orderStationList(ArrayList<StationItem> stationList) {
 
-        Log.i(TAG, "onLocationChanged: sort the list!");
         Collections.sort(stationList);
 
         return stationList;

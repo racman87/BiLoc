@@ -132,7 +132,9 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
         LatLng currentStation_LatLng;
         int zoomMap;
 
-        //Set the location pointer if permission accepted
+        //---------------------------------------------------------------------------------
+        // Afichage de  la postion utilisateur ainsi que des bouttons google map
+        //---------------------------------------------------------------------------------
         if(checkPermission()) {
             mMap.setMyLocationEnabled(true);
             // Show zoom controls on the map layer
@@ -161,6 +163,9 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
         }
         else askPermission();
 
+        //---------------------------------------------------------------------------------
+        // Positionnement de la caméra et du zoom
+        //---------------------------------------------------------------------------------
         if(!zoomOnStation)
         {
             LatLng lausanne = new LatLng(46.523026, 6.610657);
@@ -185,6 +190,9 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
             zoomMap=17;
         }
 
+        //---------------------------------------------------------------------------------
+        // Affichage des marqueurs pour chaque station
+        //---------------------------------------------------------------------------------
         for (StationItem station: stationList) {
 
             float fColor = BitmapDescriptorFactory.HUE_RED;
@@ -207,7 +215,10 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
 
         }
 
-        //Add listener to the marker
+        //---------------------------------------------------------------------------------
+        // Ajout d'un listener sur les maqueurs pour détecter un clique et pouvoir ouvrir
+        // la page détail correspondante
+        //---------------------------------------------------------------------------------
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener()
         {
 
@@ -235,7 +246,9 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
 
 
 
-        //Ajouté pour changer le style de la carte
+        //---------------------------------------------------------------------------------
+        // Changement du style de la carte
+        //---------------------------------------------------------------------------------
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.

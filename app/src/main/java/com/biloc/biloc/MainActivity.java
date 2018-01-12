@@ -50,7 +50,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import static com.biloc.biloc.R.id.fragment_container;
 
@@ -88,6 +87,8 @@ public class MainActivity
     public static boolean gpsAtivate=false;
     public static LocationManager locationManager;
 
+    BroadcastReceiver mybroadcast = new InternetConnector_Receiver();
+
     public FusedLocationProviderClient mFusedLocationClient;
     Context mContext;
 
@@ -109,13 +110,15 @@ public class MainActivity
                 return;
             }
 
+            //Service concernant le GPS et la localisation
             mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
             mContext=this;
             locationManager=(LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
             if(checkPermission()) {
 
-                //Check position //ESSAI
+                //---------------------------------------------------------------------------------
+                // Récupération de la dernière position connue
+                //---------------------------------------------------------------------------------
                 mFusedLocationClient.getLastLocation()
                         .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                             @Override
@@ -133,9 +136,19 @@ public class MainActivity
                             }
                         });
 
+
+                //---------------------------------------------------------------------------------
+                // Indiqué à quelle moment la mise à  jour de la position doit être faite
+                // soit toute les 10sec soit tous les 5m.
+                //---------------------------------------------------------------------------------
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                         10000,
                         5, locationListenerGPS);
+
+                //---------------------------------------------------------------------------------
+                // Contrôle de l'activation du GPS avec demande à l'utilisateur de l'activer si
+                // ce n'est pas le cas.
+                //---------------------------------------------------------------------------------
                 if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
                     AlertDialog.Builder alertDialog=new AlertDialog.Builder(mContext);
                     alertDialog.setTitle(R.string.enable_location);
@@ -157,16 +170,20 @@ public class MainActivity
             }
             else askPermission();
 
-            //Snackbar
+            //---------------------------------------------------------------------------------
+            // Création de la snackbar qui sera utilisée pour informer l'utilisateur qu'il
+            // n'y a pas de connexion internet.
+            //---------------------------------------------------------------------------------
             snackbar = Snackbar.make(findViewById(fragment_container), R.string.internet_con, Snackbar.LENGTH_INDEFINITE);
             View sbView = snackbar.getView();
             sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
 
-            //Internet connexion detection
-            //NE PAS OUBLIER DE DESENREGISTRER!!!!!!!!!!!!!!
+            //---------------------------------------------------------------------------------
+            // Détection de la connexion internet à travers un broadcast
+            //---------------------------------------------------------------------------------
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-            registerReceiver(new InternetConnector_Receiver(), intentFilter);
+            registerReceiver(mybroadcast, intentFilter);
 
             isNetworkAvailable();
 
@@ -176,7 +193,7 @@ public class MainActivity
         }
 
         //-----------------------------------------------------------------------------------
-        // Toolbar / drawer / floating action button
+        // Toolbar / drawer
         //-----------------------------------------------------------------------------------
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -205,6 +222,9 @@ public class MainActivity
         updateUI(currentUser);
     }
 
+    //---------------------------------------------------------------------------------
+    // Firebase
+    //---------------------------------------------------------------------------------
     private void updateUI(FirebaseUser currentUser) {
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         Menu nav_Menu = navigationView.getMenu();
@@ -223,7 +243,6 @@ public class MainActivity
     //----------------------------------------------------------------------
     // Drawer methods
     //----------------------------------------------------------------------
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -399,6 +418,9 @@ public class MainActivity
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(lausanne));
     }
 
+    //---------------------------------------------------------------------------------
+    // Récupération et parsing du JSON des station preovenant du serveur
+    //---------------------------------------------------------------------------------
     private void processGETRequest() {
         Utils.processRequest(this, Request.Method.GET,  null,
                 new Utils.VolleyCallback() {
@@ -427,6 +449,9 @@ public class MainActivity
                 });
     }
 
+    //---------------------------------------------------------------------------------
+    // Initialisation de la liste
+    //---------------------------------------------------------------------------------
     private void initList(JSONObject stationK, int k) {
 
         try {
@@ -455,6 +480,10 @@ public class MainActivity
 
     }
 
+    //---------------------------------------------------------------------------------
+    // Démarrage de l'application si la connexion au serveur est ok sinon rien ne
+    // s'affiche
+    //---------------------------------------------------------------------------------
     private void startApp(){
 
             mapFragment = MapViewFragment.newInstance("TEST1", "TEST2");
@@ -475,6 +504,9 @@ public class MainActivity
             startApp=true;
     }
 
+    //---------------------------------------------------------------------------------
+    // Check de la connection internet
+    //---------------------------------------------------------------------------------
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -484,6 +516,9 @@ public class MainActivity
 
     }
 
+    //---------------------------------------------------------------------------------
+    // Boradcast qui check lorsqu'il y a un changement sur la connecitivé
+    //---------------------------------------------------------------------------------
     public class InternetConnector_Receiver extends BroadcastReceiver {
 
         String TAG = "testBiloc";
@@ -516,6 +551,10 @@ public class MainActivity
         }
     }
 
+
+    //---------------------------------------------------------------------------------
+    // Fonction mettant à jour la position de l'utilisateur (10sec ou 5mètres)
+    //---------------------------------------------------------------------------------
     LocationListener locationListenerGPS=new LocationListener() {
         @Override
         public void onLocationChanged(android.location.Location location) {
@@ -547,6 +586,9 @@ public class MainActivity
 
 
 
+    //---------------------------------------------------------------------------------
+    // Calcul de la distance
+    //---------------------------------------------------------------------------------
     public static double getDistance(StationItem station) {
         Location locationStation = new Location("Station");
 
@@ -582,6 +624,13 @@ public class MainActivity
                 new String[] { android.Manifest.permission.ACCESS_FINE_LOCATION },
                 MainActivity.REQ_PERMISSION);
 
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        unregisterReceiver(mybroadcast);
     }
 
 }

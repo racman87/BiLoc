@@ -77,6 +77,9 @@ public class FavoritesFragment extends Fragment {
 
         }
         list.setAdapter(adapter);
+        //-----------------------------------------------------------------------------------
+        // Ajout d'un listener sur la liste des favoris
+        //-----------------------------------------------------------------------------------
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

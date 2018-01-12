@@ -82,6 +82,10 @@ public class DetailFragment extends Fragment implements OnStreetViewPanoramaRead
         if(myView == null){
             myView = inflater.inflate(R.layout.fragment_detail, container, false);
         }
+
+        //-----------------------------------------------------------------------------------
+        // Ajout des listeners sur les trois floatting buttons
+        //-----------------------------------------------------------------------------------
         addToFavorites = myView.findViewById(R.id.addFavoritesButton);
         manageFavoriteState();
         addToFavorites.setOnClickListener(new View.OnClickListener() {
@@ -114,6 +118,10 @@ public class DetailFragment extends Fragment implements OnStreetViewPanoramaRead
             }
         });
 
+
+        //-----------------------------------------------------------------------------------
+        // Récupération de l'information de distance de la station
+        //-----------------------------------------------------------------------------------
         float distance;
 
         String sDist = "--";
@@ -127,7 +135,10 @@ public class DetailFragment extends Fragment implements OnStreetViewPanoramaRead
             sDist = df.format(distance)+"km";
         }
 
-        //myView = this.getView();
+
+        //-----------------------------------------------------------------------------------
+        // Remplissage des champs avec les informations de la station
+        //-----------------------------------------------------------------------------------
         assert myView != null;
         cityText = myView.findViewById(R.id.cityText);
         cityText.setText(currentStation.getStationCity());
@@ -142,6 +153,9 @@ public class DetailFragment extends Fragment implements OnStreetViewPanoramaRead
         distanceText.setText(sDist);
 
 
+        //-----------------------------------------------------------------------------------
+        // Image street view
+        //-----------------------------------------------------------------------------------
         StreetViewPanoramaFragment streetViewPanoramaFragment = (StreetViewPanoramaFragment) getActivity().getFragmentManager()
                 .findFragmentById(R.id.streetViewPanorama);
         streetViewPanoramaFragment.getStreetViewPanoramaAsync(this);
@@ -149,6 +163,9 @@ public class DetailFragment extends Fragment implements OnStreetViewPanoramaRead
         return myView;
     }
 
+    //-----------------------------------------------------------------------------------
+    // Modification du bouton addToFavorite en fonction de son état
+    //-----------------------------------------------------------------------------------
     private void manageFavoriteState() {
         if(currentStation.getFavorite()){
             addToFavorites.setImageResource(R.mipmap.ic_favoriteblue3);

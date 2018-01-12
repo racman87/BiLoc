@@ -74,7 +74,10 @@ public class ListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this listFragment
         View myView = inflater.inflate(R.layout.fragment_list, container, false);
-        //Calcul des distances
+
+        //-----------------------------------------------------------------------------------
+        // Calcul des distance
+        //-----------------------------------------------------------------------------------
         if(MainActivity.gpsAtivate)
         {
             for (StationItem station: stationList1) {
@@ -88,14 +91,16 @@ public class ListFragment extends Fragment {
             }
         }
 
+        //Mettre les stations dans l'odre des distances
         stationList1 = Utils.orderStationList(stationList1);
-        Log.i(TAG, "onCreateView: Station sorted in Listfragment");
-
 
         //Création de la custom list
         final StationListAdapter adapter = new StationListAdapter(getContext(), R.layout.cellule_list, MainActivity.getStationList());
         final ListView list = myView.findViewById(R.id.customlistView);
         list.setAdapter(adapter);
+        //-----------------------------------------------------------------------------------
+        // Ajout d'un listener sur la liste lorsque l'utilisateur clique sur un champ
+        //-----------------------------------------------------------------------------------
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
