@@ -36,25 +36,13 @@ import java.util.ArrayList;
  * Activities that contain this listFragment must implement the
  * {@link MapViewFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link MapViewFragment#newInstance} factory method to
- * create an instance of this listFragment.
  */
 public class MapViewFragment extends Fragment implements OnMapReadyCallback{
-    // TODO: Rename parameter arguments, choose names that match
-    // the listFragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private static GoogleMap mMap;
     StationItem currentStation;
     private FusedLocationProviderClient mFusedLocationClient;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     boolean zoomOnStation=false;
-    //LocationManager locationManager;
-    //Context mContext;
 
     private OnFragmentInteractionListener mListener;
 
@@ -67,31 +55,9 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this listFragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of listFragment MapViewFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MapViewFragment newInstance(String param1, String param2) {
-        MapViewFragment fragment = new MapViewFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
     }
 
