@@ -1,0 +1,224 @@
+{
+  "station": [
+    {
+      "id": "Station0000",
+      "type": "Station",
+      "Locality": "St-Imier",
+      "StationName": "Coop",
+      "AvailableBike": 7,
+      "AllowedBike": 9,
+      "LocationLat": 47.153448,
+      "LocationLng": 7.000458
+    },
+    {
+      "id": "Station0001",
+      "type": "Station",
+      "Locality": "St-Imier",
+      "StationName": "Place du marche",
+      "AvailableBike": 0,
+      "AllowedBike": 3,
+      "LocationLat": 47.152615,
+      "LocationLng": 6.996265
+    },
+    {
+      "id": "Station0002",
+      "type": "Station",
+      "Locality": "St-Imier",
+      "StationName": "Place de la gare",
+      "AvailableBike": 2,
+      "AllowedBike": 8,
+      "LocationLat": 47.151591,
+      "LocationLng": 6.999985
+    },
+    {
+      "id": "Station0003",
+      "type": "Station",
+      "Locality": "St-Imier",
+      "StationName": "CEFF industrie",
+      "AvailableBike": 5,
+      "AllowedBike": 5,
+      "LocationLat": 47.149989,
+      "LocationLng": 6.991834
+    },
+    {
+      "id": "Station0004",
+      "type": "Station",
+      "Locality": "St-Imier",
+      "StationName": "BEKB-BCBE",
+      "AvailableBike": 3,
+      "AllowedBike": 6,
+      "LocationLat": 47.152123,
+      "LocationLng": 6.997199
+    },
+    {
+      "id": "Station0005",
+      "type": "Station",
+      "Locality": "St-Imier",
+      "StationName": "Patinoire",
+      "AvailableBike": 12,
+      "AllowedBike": 15,
+      "LocationLat": 47.148248,
+      "LocationLng": 6.994574
+    },
+    {
+      "id": "Station0006",
+      "type": "Station",
+      "Locality": "St-Imier",
+      "StationName": "Straumann",
+      "AvailableBike": 2,
+      "AllowedBike": 15,
+      "LocationLat": 47.154126,
+      "LocationLng": 7.012429
+    },
+    {
+      "id": "Station0007",
+      "type": "Station",
+      "Locality": "St-Imier",
+      "StationName": "Terrain de Foot",
+      "AvailableBike": 4,
+      "AllowedBike": 4,
+      "LocationLat": 47.154452,
+      "LocationLng": 7.006615
+    },
+    {
+      "id": "Station0100",
+      "type": "Station",
+      "Locality": "Lausanne",
+      "StationName": "Vigie",
+      "AvailableBike": 20,
+      "AllowedBike": 25,
+      "LocationLat": 46.521367,
+      "LocationLng": 6.624278
+    },
+    {
+      "id": "Station0101",
+      "type": "Station",
+      "Locality": "Lausanne",
+      "StationName": "HES-SO Master",
+      "AvailableBike": 20,
+      "AllowedBike": 25,
+      "LocationLat": 46.523019,
+      "LocationLng": 6.610356
+    },
+    {
+      "id": "Station0102",
+      "type": "Station",
+      "Locality": "Lausanne",
+      "StationName": "Flon",
+      "AvailableBike": 0,
+      "AllowedBike": 15,
+      "LocationLat": 46.520512,
+      "LocationLng": 6.630385
+    },
+    {
+      "id": "Station0103",
+      "type": "Station",
+      "Locality": "Lausanne",
+      "StationName": "Parc de Milan",
+      "AvailableBike": 5,
+      "AllowedBike": 14,
+      "LocationLat": 46.515258,
+      "LocationLng": 6.620391
+    },
+    {
+      "id": "Station0104",
+      "type": "Station",
+      "Locality": "Lausanne",
+      "StationName": "Ouchy",
+      "AvailableBike": 2,
+      "AllowedBike": 8,
+      "LocationLat": 46.508468,
+      "LocationLng": 6.622858
+    },
+    {
+      "id": "Station0105",
+      "type": "Station",
+      "Locality": "Lausanne",
+      "StationName": "Camping Vichy",
+      "AvailableBike": 6,
+      "AllowedBike": 20,
+      "LocationLat": 46.517299,
+      "LocationLng": 6.597924
+    },
+    {
+      "id": "Station0106",
+      "type": "Station",
+      "Locality": "Lausanne",
+      "StationName": "EPFL",
+      "AvailableBike": 2,
+      "AllowedBike": 30,
+      "LocationLat": 46.520137,
+      "LocationLng": 6.568401
+    },
+    {
+      "id": "Station0107",
+      "type": "Station",
+      "Locality": "Lausanne",
+      "StationName": "Stade Olympique",
+      "AvailableBike": 4,
+      "AllowedBike": 7,
+      "LocationLat": 46.534369,
+      "LocationLng": 6.625778
+    },
+    {
+      "id": "Station0108",
+      "type": "Station",
+      "Locality": "Lausanne",
+      "StationName": "Parc Mon-Repos",
+      "AvailableBike": 2,
+      "AllowedBike": 8,
+      "LocationLat": 46.518254,
+      "LocationLng": 6.642557
+    },
+    {
+      "id": "Station0200",
+      "type": "Station",
+      "Locality": "Neuchatel",
+      "StationName": "Place Pury",
+      "AvailableBike": 2,
+      "AllowedBike": 8,
+      "LocationLat": 46.989996,
+      "LocationLng": 6.929502
+    },
+    {
+      "id": "Station0201",
+      "type": "Station",
+      "Locality": "Neuchatel",
+      "StationName": "Cinepel les Arcades",
+      "AvailableBike": 7,
+      "AllowedBike": 10,
+      "LocationLat": 46.992272,
+      "LocationLng": 6.931991
+    },
+    {
+      "id": "Station0202",
+      "type": "Station",
+      "Locality": "Neuchatel",
+      "StationName": "Musee art et histoire",
+      "AvailableBike": 0,
+      "AllowedBike": 6,
+      "LocationLat": 46.991643,
+      "LocationLng": 6.936336
+    },
+    {
+      "id": "Station0203",
+      "type": "Station",
+      "Locality": "Neuchatel",
+      "StationName": "Maladiere",
+      "AvailableBike": 3,
+      "AllowedBike": 7,
+      "LocationLat": 46.995053,
+      "LocationLng": 6.945917
+    },
+    {
+      "id": "Station0204",
+      "type": "Station",
+      "Locality": "Neuchatel",
+      "StationName": "HE-ARC",
+      "AvailableBike": 10,
+      "AllowedBike": 10,
+      "LocationLat": 46.997552,
+      "LocationLng": 6.938900
+    }
+  ]
+}
