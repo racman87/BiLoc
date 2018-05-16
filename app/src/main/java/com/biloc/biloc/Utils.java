@@ -20,6 +20,7 @@ class Utils {
     //-----------------------------------------------------------------------------------
     public interface VolleyCallback{
         void onSuccessResponse(JSONObject result);
+        void onErrorResponse(VolleyError error);
     }
 
     static void processRequest(final Context ctxt, int method,
@@ -38,6 +39,7 @@ class Utils {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.i(TAG, "error: " + error);
+                        callback.onErrorResponse(error);
                     }
                 });
 

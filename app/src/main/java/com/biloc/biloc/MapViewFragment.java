@@ -55,6 +55,11 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
         // Required empty public constructor
     }
 
+    public static MapViewFragment newInstance(String param1, String param2) {
+        MapViewFragment fragment = new MapViewFragment();
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

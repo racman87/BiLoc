@@ -33,7 +33,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -49,6 +52,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import static com.biloc.biloc.R.id.fragment_container;
@@ -206,8 +211,6 @@ public class MainActivity
 
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-
     }
 
     @Override
@@ -226,7 +229,7 @@ public class MainActivity
     // Firebase
     //---------------------------------------------------------------------------------
     private void updateUI(FirebaseUser currentUser) {
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         Menu nav_Menu = navigationView.getMenu();
 
         boolean uiSetter = currentUser != null;
@@ -259,10 +262,10 @@ public class MainActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if(startApp) {
-            if(noInternet)
+            /*if(noInternet)
             {
                 Toast.makeText(this, R.string.no_internet, Toast.LENGTH_LONG).show();
-            }
+            }*/
             if (id == R.id.nav_map) {
                 onDrawerFragmentInteraction(mapFragment, getString(R.string.toolbarTitleMap));
             } else if (id == R.id.nav_list) {
@@ -363,9 +366,6 @@ public class MainActivity
     @Override
     public void onDetailFragmentInteraction(StationItem station, int buttonPressed) {
         switch (buttonPressed) {
-            /************************************
-             * DetailFragment button management
-             ************************************/
             case FAVORITES_BUTTON:
                 if (!favoritesList.contains(station)) {
                     addStationToFavorites(station);
@@ -390,7 +390,6 @@ public class MainActivity
                 // Attempt to start an activity that can handle the Intent
                 startActivity(mapIntent);
 
-                //TODO
                 break;
         }
     }
@@ -422,7 +421,10 @@ public class MainActivity
     // Récupération et parsing du JSON des station preovenant du serveur
     //---------------------------------------------------------------------------------
     private void processGETRequest() {
-        Utils.processRequest(this, Request.Method.GET,  null,
+
+        Boolean serverUp = false;
+
+        if(serverUp) Utils.processRequest(this, Request.Method.GET, null,
                 new Utils.VolleyCallback() {
 
                     @Override
@@ -430,23 +432,80 @@ public class MainActivity
                         try {
                             JSONArray station = result.getJSONArray("station");
                             //String response = result.getString("AllowedBike");
-                            stationList.clear();
-                            for(int k=0; k<station.length(); k++)
-                            {
-                                JSONObject StationK = station.getJSONObject(k);
-
-                                initList(StationK,k);
-                            }
-
-                            if(!startApp) {
-                                startApp();
-                            }
+                            parseStationsJSON(station);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
-                });
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                            Toast.makeText(mContext, mContext.getString(R.string.error_network_timeout),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                        getStationFromJsonFile();
+
+
+                    }
+                }
+        );
+        else getStationFromJsonFile();
+    }
+
+    private void getStationFromJsonFile() {
+        // Get the stations from json file instead of REST service
+        // if there was an error returned from the request
+        JSONArray station = null;
+        try {
+            station = new JSONObject(loadJSONFromAsset(mContext)).getJSONArray("station");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            assert station != null;
+            parseStationsJSON(station);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    String loadJSONFromAsset(Context mContext) {
+        String json;
+        try {
+            InputStream is = mContext.getAssets().open("stations.json");
+
+            int size = is.available();
+
+            byte[] buffer = new byte[size];
+
+            is.read(buffer);
+
+            is.close();
+
+            json = new String(buffer, "UTF-8");
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+
+        return json;
+    }
+
+    private void parseStationsJSON(JSONArray station) throws JSONException {
+        stationList.clear();
+        for (int k = 0; k < station.length(); k++) {
+            JSONObject StationK = station.getJSONObject(k);
+
+            initList(StationK, k);
+        }
+
+        if (!startApp) {
+            startApp();
+        }
     }
 
     //---------------------------------------------------------------------------------
@@ -455,14 +514,12 @@ public class MainActivity
     private void initList(JSONObject stationK, int k) {
 
         try {
-
             int  AllowedBike = stationK.getInt("AllowedBike");
             int  AvailableBike = stationK.getInt("AvailableBike");
             double  LocationLat = stationK.getDouble("LocationLat");
             double  LocationLng = stationK.getDouble("LocationLng");
             String Locality = stationK.getString("Locality");
             String StationName = stationK.getString("StationName");
-
 
             StationItem station = new StationItem();
 
@@ -472,7 +529,6 @@ public class MainActivity
             station.setStationCity(Locality);
             station.setCoordinates(new LatLng(LocationLat, LocationLng));
             stationList.add(station);
-
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -485,7 +541,6 @@ public class MainActivity
     // s'affiche
     //---------------------------------------------------------------------------------
     private void startApp(){
-
             mapFragment = MapViewFragment.newInstance("TEST1", "TEST2");
 
             FragmentTransaction fragmentTransaction =
@@ -522,6 +577,7 @@ public class MainActivity
     public class InternetConnector_Receiver extends BroadcastReceiver {
 
         String TAG = "testBiloc";
+
 
         public InternetConnector_Receiver() {
         }

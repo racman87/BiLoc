@@ -84,5 +84,6 @@
     <string name="signUp">Sign Up</string>
     <string name="rented_bikes">Rented Bikes</string>
     <string name="stations_visited">Stations Visited</string>
+    <string name="error_network_timeout">Network Timeout</string>
 
 </resources>
